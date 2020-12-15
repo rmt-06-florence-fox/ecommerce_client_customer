@@ -7,12 +7,16 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    status: ''
+    status: '',
+    products: []
   },
   mutations: {
     setStatus (state, payload) {
       console.log(payload)
       state.status = payload
+    },
+    setProducts (state, payload) {
+      state.products = payload
     }
   },
   actions: {
@@ -48,6 +52,19 @@ export default new Vuex.Store({
         })
         .catch(err => {
           console.log(err)
+        })
+    },
+    fetch (context, payload) {
+      axios({
+        url: '/products',
+        method: 'get'
+      })
+        .then(({ data }) => {
+          console.log(data)
+          context.commit('setProducts', data.products)
+        })
+        .catch(error => {
+          console.log(error)
         })
     }
   },
