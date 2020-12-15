@@ -6,7 +6,7 @@
         <b-nav-item v-if="status === 'loggedIn'">
           <b-icon icon="minecart-loaded"></b-icon>
         </b-nav-item>
-        <b-nav-item v-if="status === 'loggedIn'">
+        <b-nav-item v-if="status === 'loggedIn'" @click.prevent="doLogOut">
           <b-icon icon="box-arrow-in-right"></b-icon> logout
         </b-nav-item>
         <b-nav-item v-if="status === 'loggedOut'" @click.prevent="showLoginModal">
@@ -14,7 +14,7 @@
         </b-nav-item>
       </b-navbar-nav>
     </b-navbar>
-    <LoginModal :show="true"></LoginModal>
+    <LoginModal></LoginModal>
   </div>
 </template>
 
@@ -34,6 +34,10 @@ export default {
     showLoginModal () {
       console.log('ke klik')
       this.$bvModal.show('modal-login')
+    },
+    doLogOut () {
+      this.$store.commit('setStatus', 'loggedOut')
+      localStorage.clear()
     }
   }
 }

@@ -34,11 +34,11 @@ export default {
   data () {
     return {
       email: '',
-      password: ''
-      // show: true
+      password: '',
+      show: true
     }
   },
-  props: ['show'],
+  props: [],
   methods: {
     doLogin () {
       const payload = {
@@ -48,9 +48,15 @@ export default {
       this.$store.dispatch('login', payload)
     },
     goToRegister () {
-      this.show = false
-      this.$router.push('/register')
+      // console.log(this.$route.path)
+      this.$bvModal.hide('modal-login')
+      if (this.$route.path !== '/register') {
+        this.$router.push('/register')
+      }
     }
+  },
+  created () {
+    this.show = true
   }
 }
 </script>

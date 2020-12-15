@@ -23,6 +23,7 @@
                 <b-form-input
                   v-model="password"
                   type="password"
+                  placeholder="at least 6 characters"
                 ></b-form-input>
               </b-form-group>
               <b-button type="submit" variant="primary" @click.prevent="doRegister">Register</b-button>
@@ -49,7 +50,8 @@ export default {
         email: this.email,
         password: this.password
       }
-      console.log(payload)
+      // console.log(payload)
+      this.$store.dispatch('register', payload)
     }
   }
 }
