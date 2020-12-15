@@ -2,11 +2,7 @@
   <div>
     <TopBar />
     <div class="d-flex flex-column justify-content-start w-75">
-      <CartCard />
-      <CartCard />
-      <CartCard />
-      <CartCard />
-      <CartCard />
+      <CartCard v-for="product in products" :key="product.id" :product="product" />
     </div>
   </div>
 </template>
@@ -19,6 +15,19 @@ export default {
   components: {
     TopBar,
     CartCard
+  },
+  computed: {
+    products () {
+      return this.$store.state.products
+    }
+  },
+  methods: {
+    fetchProducts () {
+      this.$store.dispatch('fetchProducts')
+    }
+  },
+  created () {
+    this.fetchProducts()
   }
 }
 </script>

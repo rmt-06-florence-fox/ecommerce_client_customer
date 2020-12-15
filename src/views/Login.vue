@@ -5,7 +5,7 @@
         <h3>Welcome to heroes station</h3>
         <h4>A place where we are able to get our heroes</h4>
      </div>
-      <b-form class="d-flex flex-column justify-content-center">
+      <b-form class="d-flex flex-column justify-content-center" @submit.prevent="onLogin">
         <b-form-group
           id="input-group-1"
           label="Email address:"
@@ -14,6 +14,7 @@
           <b-form-input
             id="input-1"
             type="email"
+            v-model="email"
             placeholder="Enter email"
             required
           ></b-form-input>
@@ -22,6 +23,7 @@
         <b-form-group id="input-group-2" label="Your Password:" label-for="input-2">
           <b-form-input
             id="input-2"
+            v-model="password"
             type="password"
             placeholder="Enter password"
             required
@@ -39,7 +41,19 @@
 
 <script>
 export default {
-  name: 'Login'
+  name: 'Login',
+  data () {
+    return {
+      email: '',
+      password: ''
+    }
+  },
+  methods: {
+    onLogin () {
+      const { email, password } = this
+      this.$store.dispatch('login', { email, password })
+    }
+  }
 }
 </script>
 
