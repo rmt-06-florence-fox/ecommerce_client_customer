@@ -99,10 +99,6 @@ export default {
       border: 1px solid #000;
       background-color: transparent;
       color: #000; }
-  .login-card .forgot-password-link {
-    font-size: 14px;
-    color: #919aa3;
-    margin-bottom: 12px; }
   .login-card-footer-text {
     font-size: 16px;
     color: #0d2366;
