@@ -1,12 +1,23 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+    <NavBar></NavBar>
     <router-view/>
   </div>
 </template>
+
+<script>
+import NavBar from './components/NavBar'
+export default {
+  components: {
+    NavBar
+  },
+  created () {
+    if (localStorage.getItem('access_token')) {
+      this.$store.commit('setStatus', 'loggedIn')
+    } else this.$store.commit('setStatus', 'loggedOut')
+  }
+}
+</script>
 
 <style>
 #app {
