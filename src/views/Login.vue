@@ -45,6 +45,6 @@ export default {
 
 <style>
 #form-container {
-  background: linear-gradient(to top, #f4f4f4, #222831);
+  background: linear-gradient(to top, #f4f4f4, #91d18b);
 }
 </style>

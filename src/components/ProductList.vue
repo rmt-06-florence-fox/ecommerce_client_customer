@@ -1,5 +1,5 @@
 <template>
-  <div class="row">
+  <div class="row justify-content-end mr-3">
     <ProductCard class="col-4 m-3"/>
     <ProductCard class="col-4 m-3"/>
     <ProductCard class="col-4 m-3"/>
