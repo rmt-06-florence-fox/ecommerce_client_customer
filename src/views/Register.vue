@@ -136,7 +136,11 @@ body {
   -o-object-position: left;
   object-position: left;}
   .container{
-      margin-bottom: 100px;
+    margin-bottom: 100px;
+    border: 0;
+    border-radius: 27.5px;
+    box-shadow: 0 10px 30px 0 rgba(172, 168, 168, 0.43);
+    overflow: hidden;
   }
 
 /*# sourceMappingURL=register.css.map */
