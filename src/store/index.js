@@ -7,8 +7,16 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    products: [],
+    isLogin: false
   },
   mutations: {
+    setProducts (state, payload) {
+      state.products = payload
+    },
+    checkLogin (state, payload) {
+      state.isLogin = payload
+    }
   },
   actions: {
     register (context, payload) {
@@ -52,6 +60,16 @@ export default new Vuex.Store({
           // console.log(err.response.data.message)
           Vue.toasted.error(err.response.data.message)
         })
+    },
+    fetchData (context) {
+      axios({
+        method: 'GET',
+        url: '/products'
+      })
+        .then(({ data }) => {
+          context.commit('setProducts', data.result)
+        })
+        .catch(err => console.log(err))
     }
   },
   modules: {

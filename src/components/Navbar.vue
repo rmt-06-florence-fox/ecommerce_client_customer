@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="dark" class="navbar-color">
-      <b-navbar-brand>L's Bookstore</b-navbar-brand>
+      <b-navbar-brand class="btn" @click.prevent="toHome">L's Bookstore</b-navbar-brand>
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ml-auto">
@@ -38,7 +38,11 @@ export default {
     },
     logout () {
       localStorage.removeItem('access_token')
+      this.$store.commit('checkLogin', false)
       this.checkLogin()
+    },
+    toHome () {
+      this.$router.push('/')
     }
   },
   created () {

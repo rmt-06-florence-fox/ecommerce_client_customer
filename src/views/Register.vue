@@ -8,10 +8,10 @@
             <h1>Register</h1>
             <b-form class="m-3" @submit.prevent="onRegist">
               <b-form-group label="Email">
-                <b-form-input placeholder="Enter your email" type="email" v-model="payload.email"></b-form-input>
+                <b-form-input placeholder="e.g. example@mail.com" type="email" v-model="payload.email"></b-form-input>
               </b-form-group>
               <b-form-group label="Password">
-                <b-form-input placeholder="Enter your password" type="password" v-model="payload.password"></b-form-input>
+                <b-form-input placeholder="at least minimum 6 characters" type="password" v-model="payload.password"></b-form-input>
               </b-form-group>
               <b-button type="submit" class="btn-regist"> Sign Up</b-button>
             </b-form>
