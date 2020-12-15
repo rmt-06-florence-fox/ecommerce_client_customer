@@ -12,7 +12,7 @@ Vue.use(IconsPlugin)
 Vue.use(Toasted, {
   position: 'top-right',
   duration: 2000,
-  iconPack: 'material'
+  iconPack: 'fontawesome'
 })
 
 Vue.config.productionTip = false
