@@ -9,7 +9,8 @@ export default new Vuex.Store({
   state: {
     products: [],
     isLogin: false,
-    carts: []
+    carts: [],
+    histories: []
   },
   mutations: {
     setProducts (state, payload) {
@@ -20,6 +21,9 @@ export default new Vuex.Store({
     },
     setCarts (state, payload) {
       state.carts = payload
+    },
+    setHistories (state, payload) {
+      state.histories = payload
     }
   },
   actions: {
@@ -131,6 +135,20 @@ export default new Vuex.Store({
         .then(({ data }) => {
           console.log(data)
           context.dispatch('fetchCarts')
+        })
+        .catch(err => console.log(err))
+    },
+    fetchHistories (context) {
+      axios({
+        method: 'GET',
+        url: '/carts/histories',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .then(({ data }) => {
+          console.log(data)
+          context.commit('setHistories', data)
         })
         .catch(err => console.log(err))
     }

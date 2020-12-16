@@ -10,7 +10,7 @@
             <div class="card-headers mt-3">
               <h3>Your Carts</h3>
             </div>
-            <div class="card-body">
+            <div class="card-body" v-if="carts.length">
               <!-- Looping Product Card -->
               <Cart v-for="cart in carts" :key="cart.id" :cart="cart"></Cart>
             </div>
@@ -21,7 +21,7 @@
             <div class="card-headers mt-3 mb-1">
               <h3>Your Transaction</h3>
             </div>
-            <div class="card-body">
+            <div class="card-body" v-if="$store.getters.totalPrice.length">
               <table class="table">
                 <tr>
                   <th>Total Transactions</th>

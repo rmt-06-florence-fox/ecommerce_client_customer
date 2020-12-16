@@ -10,7 +10,7 @@
         <p class="card-text fas fa-money-bill ml-auto"> <small> Rp </small>{{ convertRupiah }},00</p>
       </div>
       <button @click.prevent="addCart" v-if="isLogin && product.stock !== 0" class="btn btn-add-cart m-2 mx-auto"><b-icon icon="bag-plus"></b-icon> Add To Cart</button>
-      <button v-if="isLogin && product.stock === 0" class="btn btn-add-cart m-2 mx-auto" disabled><b-icon icon="x-circle"></b-icon> Stock Not Enough</button>
+      <button v-if="isLogin && product.stock === 0" class="btn m-2 mx-auto" disabled><b-icon icon="x-circle"></b-icon> Stock Not Enough</button>
     </div>
   </div>
 </template>
