@@ -1,7 +1,6 @@
 <template>
   <div class="home">
-    <h1>ini home</h1>
-    <b-container>
+    <b-container class="mt-5">
       <b-row>
         <ProductCard v-for="product in products" :key="product.id" :product="product"></ProductCard>
       </b-row>

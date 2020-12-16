@@ -117,7 +117,7 @@ export default new Vuex.Store({
         })
     },
     deleteCart (context, payload) {
-      console.log(payload)
+      // console.log(payload)
       axios({
         url: '/carts',
         method: 'delete',
@@ -128,13 +128,14 @@ export default new Vuex.Store({
       })
         .then(_ => {
           context.dispatch('fetchCart')
+          Vue.toasted.success('deleted')
         })
         .catch(err => {
           console.log(err)
         })
     },
     checkout (context, payload) {
-      console.log('hit')
+      // console.log('hit')
       axios({
         url: '/carts',
         method: 'put',
