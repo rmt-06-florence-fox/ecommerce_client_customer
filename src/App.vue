@@ -19,12 +19,10 @@ export default {
   },
   watch: {
     errors () {
-      if (this.errors.length > 0) {
-        this.$bvModal.show('errors-modal')
-        setTimeout(() => {
-          this.$bvModal.hide('errors-modal')
-        }, 2300)
-      }
+      this.$bvModal.show('errors-modal')
+      setTimeout(() => {
+        this.$bvModal.hide('errors-modal')
+      }, 2500)
     }
   }
 }

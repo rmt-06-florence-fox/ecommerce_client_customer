@@ -15,8 +15,8 @@
       <b-card-text> Stock available : {{product.Stock}} </b-card-text>
     </b-card-body>
 
-    <b-card-body>
-      <a href="#" class="card-link">Add to cart</a>
+    <b-card-body class="row justify-content-center">
+      <a class="card-link btn btn-success" @click="addCart">Add to cart</a>
     </b-card-body>
 
   </b-card>
@@ -37,6 +37,9 @@ export default {
         return el
       })
       return 'Rp. ' + array.reverse().join('')
+    },
+    addCart () {
+      this.$store.dispatch('addCart', this.product.id)
     }
   }
 }

@@ -2,7 +2,7 @@
   <div>
     <TopBar />
     <div class="d-flex flex-column justify-content-start w-75">
-      <CartCard v-for="product in products" :key="product.id" :product="product" />
+      <CartCard v-for="cart in carts" :key="cart.id" :cart="cart" />
     </div>
   </div>
 </template>
@@ -17,17 +17,17 @@ export default {
     CartCard
   },
   computed: {
-    products () {
-      return this.$store.state.products
+    carts () {
+      return this.$store.state.carts
     }
   },
   methods: {
-    fetchProducts () {
-      this.$store.dispatch('fetchProducts')
+    fetchCarts () {
+      this.$store.dispatch('fetchMyCarts')
     }
   },
   created () {
-    this.fetchProducts()
+    this.fetchCarts()
   }
 }
 </script>

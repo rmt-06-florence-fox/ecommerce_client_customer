@@ -1,6 +1,6 @@
 <template>
   <ul>
-    <li class="text-danger" v-for="(error, idx) in errors" :key="idx">
+    <li class="text-danger h5" v-for="(error, idx) in errors" :key="idx">
       {{error}}
     </li>
   </ul>

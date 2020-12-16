@@ -4,13 +4,14 @@
      <div class="mb-3 text-center">
         <h3>Hello, please submit form below to register</h3>
      </div>
-      <b-form class="d-flex flex-column justify-content-center">
+      <b-form class="d-flex flex-column justify-content-center" @submit.prevent="onRegister">
         <b-form-group
           label="Full Name"
           label-for="fullName"
         >
           <b-form-input
             id="fullName"
+            v-model="fullName"
             placeholder="Enter full name here"
             required
           ></b-form-input>
@@ -22,6 +23,7 @@
         >
           <b-form-input
             id="userName"
+            v-model="userName"
             placeholder="Enter user name here"
             required
           ></b-form-input>
@@ -33,6 +35,7 @@
         >
           <b-form-input
             id="email"
+            v-model="email"
             type="email"
             placeholder="Enter email"
             required
@@ -44,6 +47,7 @@
           label-for="password">
           <b-form-input
             id="password"
+            v-model="password"
             type="password"
             placeholder="Enter password"
             required
@@ -61,7 +65,21 @@
 
 <script>
 export default {
-  name: 'Register'
+  name: 'Register',
+  data () {
+    return {
+      fullName: '',
+      userName: '',
+      email: '',
+      password: ''
+    }
+  },
+  methods: {
+    onRegister () {
+      const { fullName, userName, email, password } = this
+      this.$store.dispatch('register', { fullName, userName, email, password })
+    }
+  }
 }
 </script>
 
