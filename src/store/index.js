@@ -15,7 +15,7 @@ export default new Vuex.Store({
   },
   mutations: {
     setStatus (state, payload) {
-      console.log(payload)
+      // console.log(payload)
       state.status = payload
     },
     setProducts (state, payload) {
@@ -33,14 +33,14 @@ export default new Vuex.Store({
   },
   actions: {
     login (context, payload) {
-      console.log(payload)
+      // console.log(payload)
       axios({
         url: '/logincustomer',
         method: 'post',
         data: payload
       })
         .then(({ data }) => {
-          console.log(data)
+          // console.log(data)
           localStorage.setItem('access_token', data.access_token)
           context.commit('setStatus', 'loggedIn')
           Vue.toasted.success('welcome ' + payload.email.split('@')[0], { icon: 'crown' })
@@ -49,23 +49,23 @@ export default new Vuex.Store({
           }
         })
         .catch(err => {
-          console.log(err.response.data.message)
+          // console.log(err.response.data.message)
           Vue.toasted.error(err.response.data.message)
         })
     },
     register (context, payload) {
-      console.log(payload)
+      // console.log(payload)
       axios({
         url: '/register',
         method: 'post',
         data: payload
       })
         .then(({ data }) => {
-          console.log(data)
+          // console.log(data)
           router.push('/')
         })
-        .catch(err => {
-          console.log(err)
+        .catch(_ => {
+          // console.log(err)
         })
     },
     fetch (context, payload) {
@@ -74,11 +74,11 @@ export default new Vuex.Store({
         method: 'get'
       })
         .then(({ data }) => {
-          console.log(data)
+          // console.log(data)
           context.commit('setProducts', data.products)
         })
-        .catch(error => {
-          console.log(error)
+        .catch(_ => {
+          // console.log(error)
         })
     },
     fetchCart (context, payload) {
@@ -91,16 +91,16 @@ export default new Vuex.Store({
       })
         .then(({ data }) => {
           const { carts, totalPrice } = data
-          console.log(carts, totalPrice)
+          // console.log(carts, totalPrice)
           context.commit('setCarts', carts)
           context.commit('setTotalPrice', totalPrice)
         })
-        .catch(err => {
-          console.log(err)
+        .catch(_ => {
+          // console.log(err)
         })
     },
     changeQuantity (context, payload) {
-      console.log(payload)
+      // console.log(payload)
       axios({
         url: '/carts',
         method: 'post',
@@ -112,8 +112,8 @@ export default new Vuex.Store({
         .then(_ => {
           context.dispatch('fetchCart')
         })
-        .catch(err => {
-          console.log(err.response.data)
+        .catch(_ => {
+          // console.log(err.response.data)
         })
     },
     deleteCart (context, payload) {
@@ -130,8 +130,8 @@ export default new Vuex.Store({
           context.dispatch('fetchCart')
           Vue.toasted.success('deleted')
         })
-        .catch(err => {
-          console.log(err)
+        .catch(_ => {
+          // console.log(err)
         })
     },
     checkout (context, payload) {
@@ -147,9 +147,9 @@ export default new Vuex.Store({
           context.dispatch('fetchCart')
           Vue.toasted.success('success')
         })
-        .catch(err => {
+        .catch(_ => {
           context.dispatch('fetchCart')
-          console.log(err)
+          // console.log(err)
           Vue.toasted.error('something went wrong')
         })
     },
@@ -162,11 +162,11 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
-          console.log(data)
+          // console.log(data)
           context.commit('setHistories', data)
         })
-        .catch(error => {
-          console.log(error)
+        .catch(_ => {
+          // console.log(error)
         })
     }
   },
