@@ -10,9 +10,10 @@ export default new Vuex.Store({
     errors: [],
     products: [],
     product: {},
-    banners: [],
     successMessage: '',
-    carts: []
+    carts: [],
+    banners: [],
+    filter: ''
   },
   mutations: {
     setProducts (state, array) {
@@ -32,6 +33,9 @@ export default new Vuex.Store({
     },
     setCarts (state, array) {
       state.carts = array
+    },
+    setFilter (state, string) {
+      state.filter = string
     }
   },
   actions: {
@@ -42,19 +46,6 @@ export default new Vuex.Store({
         headers: { access_token: localStorage.getItem('access_token') }
       }).then(({ data }) => {
         context.commit('setProducts', data)
-        // context.commit('setErrors', [])
-      }).catch(err => {
-        // console.log(err, '<<<< error from fetch Prods')
-        context.commit('setErrors', err.response.data.messages)
-      })
-    },
-    fetchBanners (context) {
-      axios({
-        url: '/banners',
-        method: 'GET',
-        headers: { access_token: localStorage.getItem('access_token') }
-      }).then(({ data }) => {
-        context.commit('setBanners', data)
         // context.commit('setErrors', [])
       }).catch(err => {
         // console.log(err, '<<<< error from fetch Prods')
@@ -78,6 +69,7 @@ export default new Vuex.Store({
           setTimeout(() => {
             context.dispatch('fetchProducts')
             context.dispatch('fetchMyCarts')
+            context.dispatch('fetchBanners')
             router.push('/')
           }, 500)
         }
@@ -167,6 +159,38 @@ export default new Vuex.Store({
       } catch (err) {
         context.commit('setErrors', err.response.data.messages)
       }
+    },
+    async fetchBanners (context) {
+      try {
+        const { data } = await axios({
+          url: '/banners',
+          method: 'GET',
+          headers: { access_token: localStorage.getItem('access_token') }
+        })
+        context.commit('setBanners', data)
+      } catch (err) {
+        context.commit('setErrors', err.response.data.messages)
+      }
+    }
+  },
+  getters: {
+    categories (state) {
+      const products = state.products
+      const categories = []
+      products.forEach(p => {
+        if (!categories.includes(p.category)) {
+          categories.push(p.category)
+        }
+      })
+      return categories
+    },
+    getProductsBasedOnCategory: (state) => (category) => {
+      const products = state.products
+      return products.filter(p => {
+        if (p.category === category) {
+          return p
+        }
+      })
     }
   },
   modules: {

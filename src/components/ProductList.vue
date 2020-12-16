@@ -13,7 +13,11 @@ export default {
   },
   computed: {
     products () {
-      return this.$store.state.products
+      const filter = this.$store.state.filter
+      if (filter === '') {
+        return this.$store.state.products
+      }
+      return this.$store.getters.getProductsBasedOnCategory(filter)
     }
   },
   methods: {

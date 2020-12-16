@@ -1,5 +1,5 @@
 <template>
- <div class="sticky-top">
+  <div class="sticky-top">
   <b-navbar toggleable="lg" type="dark" variant="success">
     <b-navbar-brand><router-link to="/" class="text-white h2">Heroes Station</router-link></b-navbar-brand>
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -21,7 +21,7 @@
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
-</div>
+  </div>
 </template>
 
 <script>
@@ -31,6 +31,9 @@ export default {
     logout () {
       localStorage.removeItem('access_token')
       this.$router.push('/login')
+    },
+    fetchCarts () {
+      this.$store.dispatch('fetchMyCarts')
     }
   },
   computed: {
@@ -44,6 +47,9 @@ export default {
       })
       return count
     }
+  },
+  created () {
+    this.fetchCarts()
   }
 }
 </script>
