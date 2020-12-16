@@ -8,7 +8,7 @@
         </div>
         <div class="col-lg-6 mb-4 justify-content-start d-flex">
           <div class="col-9">
-            <form @submit="login" id="formlogin" class="container card-body mt-4 mr-4 mb-4">
+            <form @submit.prevent="login" id="formlogin" class="container card-body mt-4 mr-4 mb-4">
               <div class="form-group">
                 <label for="emaillog"><h3 class="">Email address</h3></label>
                 <input type="email" class="form-control" placeholder="Your Email Here"  v-model="email_input"/>
@@ -32,8 +32,23 @@ import Navbar from '../components/Navbar'
 
 export default {
   name: 'Login',
+  data () {
+    return {
+      email_input: '',
+      password_input: ''
+    }
+  },
   components: {
     Navbar
+  },
+  methods: {
+    login () {
+      const payload = {
+        email: this.email_input,
+        password: this.password_input
+      }
+      this.$store.dispatch('login', payload)
+    }
   }
 }
 </script>

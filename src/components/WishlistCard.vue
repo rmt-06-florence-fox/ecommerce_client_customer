@@ -1,38 +1,36 @@
 <template>
-  <!-- 1 Product -->
-  <div class="col-3" style="">
-    <div class="card m-2 border-0 border-radius shadow">
+  <div class="col-3 wishlistCard">
+    <div class="card m-2 border-primary">
       <div class="hovereffect">
-        <img :src="product.image_url" class="card-img-top product-img" :alt="product.name">
+        <img class="card-img-top product-img" :src="wishlist.Product.image_url" alt="Card image cap">
         <div class="overlay">
-          <a @click="addToCart(product.id)" class="info border-secondary bg-success" href="#">Add to Cart</a>
+          <a @click.prevent="removeFromWishlists(wishlist.id)" class="info bg-warning border-danger" href="#">Remove from your Wishlists</a>
+          <button @click="addToCarts(wishlist.Product.id)" class="btn btn-success mt-4">Add to Your Cart</button>
         </div>
       </div>
-      <div class="card-body d-flex flex-column p-1">
-        <img @click="addToWishlist(product.id)" src="../assets/heart2.svg" alt="" class="bottom-left-icon">
-        <p class="bottom-left text-white">Stocks : {{product.stock}}</p>
-        <h4 class="ml-2 card-text allign-left">{{product.name}}</h4>
-        <h6 class="ml-2 mb-2 card-text allign-left">{{product.price}}</h6>
+      <div class="card-body">
+        <h5 class="card-title">{{wishlist.Product.name}}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">Stock : {{wishlist.Product.stock}}</h6>
+        <p class="card-text">{{wishlist.Product.price}}</p>
       </div>
     </div>
   </div>
-  <!-- 1 Product -->
 </template>
 
 <script>
 import Swal from 'sweetalert2'
 
 export default {
-  name: 'ProductCard',
-  props: ['product'],
+  name: 'WishlistCard',
+  props: ['wishlist'],
   methods: {
-    addToWishlist (productId) {
-      this.$store.dispatch('addToWishlists', productId)
+    removeFromWishlists (wishlistId) {
+      this.$store.dispatch('removeFromWishlists', wishlistId)
         .then(({ data }) => {
           Swal.fire({
             icon: 'success',
             title: 'Success !',
-            text: 'This item is added to Your Wishlist'
+            text: 'This item has Removed from Your Wishlist'
           })
           this.$store.dispatch('fetchWishlists')
         })
@@ -45,7 +43,7 @@ export default {
           console.log(err)
         })
     },
-    addToCart (productId) {
+    addToCarts (productId) {
       this.$store.dispatch('addToCarts', productId)
         .then(({ data }) => {
           Swal.fire({
