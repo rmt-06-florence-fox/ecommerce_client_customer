@@ -1,12 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from '../axios/axios'
-// import router from '../router'
+import VueSweetalert2 from 'vue-sweetalert2'
+import 'sweetalert2/dist/sweetalert2.min.css'
+Vue.use(VueSweetalert2)
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    userDetail: {
+    userData: {
       email: localStorage.email
     },
     products: [],
@@ -18,8 +20,8 @@ export default new Vuex.Store({
     transHistory: []
   },
   mutations: {
-    setUserDetail (state, payload) {
-      state.userDetail = payload
+    setUserData (state, payload) {
+      state.userData = payload
     },
     setProducts (state, payload) {
       state.products = payload
@@ -58,9 +60,15 @@ export default new Vuex.Store({
           // Vue.swal('Login Success')
           localStorage.setItem('access_token', data.access_token)
           localStorage.setItem('email', data.email)
+          this.$store.dispatch('fetchCart')
+          this.$route.push('/')
         })
-        .catch(err => {
-          console.log(err)
+        .catch(({ err }) => {
+          // const message = response.data.message
+          // console.log(response.data.message)
+          if (err) {
+            Vue.swal('Failed to Login', `${err.response.data.message}`, 'error')
+          }
           // Vue.swal('Failed to Login', `${err.response.data.message}`, 'error')
         })
     },
@@ -117,25 +125,48 @@ export default new Vuex.Store({
       commit('setLandscape', landscape)
       commit('setPotrait', potrait)
     },
-    fetchCart ({ commit }) {
-      axios.get('/carts', {
+    fetchCart (context) {
+      const token = localStorage.getItem('access_token')
+      axios({
+        url: '/carts',
+        method: 'GET',
         headers: {
-          access_token: localStorage.access_token
+          access_token: token
         }
       })
         .then(({ data }) => {
-          if (data.Products.length > 0) {
-            const cart = data.Products.filter(el => !el.Cart.status)
-            const history = data.Products.filter(el => el.Cart.status)
-            commit('setCart', cart)
-            commit('setTrans', history)
+          console.log(data)
+          if (data.length > 0) {
+            const cart = data.filter(el => !el.status)
+            const history = data.filter(el => el.status)
+            context.commit('setCart', cart)
+            context.commit('setTrans', history)
           }
         })
         .catch(({ response }) => {
           console.log(response.data)
         })
+      // axios.get('/carts', {
+      //   headers: {
+      //     access_token: localStorage.access_token
+      //   }
+      // })
+      //   .then(({ data }) => {
+      //     console.log('difetct cart')
+      //     console.log(data)
+      //     if (data.Products.length > 0) {
+      //       const cart = data.Products.filter(el => !el.Cart.status)
+      //       const history = data.Products.filter(el => el.Cart.status)
+      //       commit('setCart', cart)
+      //       commit('setTrans', history)
+      //     }
+      //   })
+      //   .catch(({ response }) => {
+      //     console.log(response)
+      //   })
     },
     addToCart (con, payload) {
+      console.log(payload)
       return axios.post('/carts', payload, {
         headers: {
           access_token: localStorage.access_token
@@ -155,6 +186,18 @@ export default new Vuex.Store({
           access_token: localStorage.access_token
         }
       })
+        .then(() => {
+          this.fetchCart()
+          this.$route.go('/')
+          if (this.state.cart.length === 0) {
+            this.$route.push('/')
+          }
+        })
+        .catch(({ err }) => {
+          if (err) {
+            Vue.swal('Failed to delete', `${err.response.data.message}`, 'error')
+          }
+        })
     },
     checkoutCart (con) {
       return axios.patch('/carts/checkout', null, {
@@ -198,16 +241,9 @@ export default new Vuex.Store({
       return state.transHistory.sort((a, b) => new Date(b.Cart.updatedAt) - new Date(a.Cart.updatedAt))
     },
     formatPrice: () => (price) => {
-      const arr = []
-      const arrStr = price.toString().split('').reverse()
-      arrStr.forEach((el, i) => {
-        if ((i - 2) % 3 === 0 && i !== arrStr.length - 1 && i) {
-          arr.push(el, '.')
-        } else {
-          arr.push(el)
-        }
-      })
-      return arr.reverse().join('')
+      return new Intl.NumberFormat('id-ID',
+        { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }
+      ).format(price)
     }
   }
 })

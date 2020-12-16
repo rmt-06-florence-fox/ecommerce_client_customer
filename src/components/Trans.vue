@@ -8,12 +8,13 @@
               <mdb-tbl
               v-if="trans.length > 0"
               responsive>
-                <mdb-tbl-head color="dark" textWhite>
+                <mdb-tbl-head color="#rgba(76, 175, 80, 0.7) rgba-green-strong" textWhite>
                   <tr>
                     <th>Date</th>
                     <th>Product</th>
                     <th>Total</th>
                   </tr>
+                  <!-- {{trans}} -->
                 </mdb-tbl-head>
                 <mdb-tbl-body>
                   <tr
@@ -21,14 +22,14 @@
                   :key="product.id">
                   <th
                   scope="row">
-                    {{ new Date(product.Cart.updatedAt).toDateString() }}
+                    {{ new Date(product.updatedAt).toDateString() }}
                   </th>
                   <td>
                   <span class="row">
-                    {{ product.name }} x {{ product.Cart.amount }} pcs
+                    {{ product.Product.name }} x {{ product.amount }} pcs
                   </span>
                   </td>
-                  <td>Rp. {{ formatPrice(product.price * product.Cart.amount) }}</td>
+                  <td>Rp. {{ formatPrice(product.Product.price * product.amount) }}</td>
                   </tr>
                 </mdb-tbl-body>
               </mdb-tbl>

@@ -8,9 +8,11 @@ import store from './store'
 import * as mdbvue from 'mdbvue'
 import Gravatar from 'vue-gravatar'
 import VueToastify from 'vue-toastify'
+import randomAvatar from 'random-avatar'
 
 Vue.config.productionTip = false
 Vue.component('v-gravatar', Gravatar)
+Vue.component('random-avatar', randomAvatar)
 Vue.use(VueToastify, {
   errorDuration: 4000,
   successDuration: 2000,

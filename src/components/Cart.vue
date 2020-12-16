@@ -8,7 +8,7 @@
               <mdb-tbl
               v-if="cart.length > 0"
               responsive>
-                <mdb-tbl-head color="dark" textWhite>
+                <mdb-tbl-head color="#c0ca33 lime darken-1" textWhite>
                   <tr>
                     <th colspan="2">Product</th>
                     <th>Price</th>
@@ -17,42 +17,42 @@
                     <th></th>
                   </tr>
                 </mdb-tbl-head>
-                {{cart}}
+                <!-- {{cart}} -->
                 <mdb-tbl-body>
                   <tr
-                  v-for="product in cart"
-                  :key="product.id"
+                  v-for="cart in cart"
+                  :key="cart.id"
                   scope="row">
                   <th scope="row">
-                  <img :src="product.image_url" :alt="product.name" class="img-thumbnail" style="width: 200px">
+                  <img :src="cart.Product.image_url" :alt="cart.Product.name" class="img-thumbnail" style="width: 200px">
                   </th>
-                  <td>{{ product.name }}</td>
-                  <td>Rp. {{ formatPrice(product.price) }}</td>
+                  <td>{{ cart.Product.name }}</td>
+                  <td>Rp. {{ formatPrice(cart.Product.price) }}</td>
                   <td>
                   <div class="d-flex justify-content-around">
                     <span class="d-flex flex-column justify-content-center">
-                  {{product.Cart.amount}}
+                  {{cart.amount}}
                     </span>
                     <span class="d-flex flex-column justify-content-center">
                   <mdb-btn
-                  @click.native="plusAmount(product.id, product.Cart.amount, product.stock)"
-                  color="indigo" size="sm" class="my-2 mx-0"><mdb-icon icon="plus-square" /></mdb-btn>
+                  @click.native="plusAmount(cart.ProductId, cart.amount, cart.Product.stock)"
+                  color="#ff6e40 deep-orange darken-2" size="sm" class="my-2 mx-0"><mdb-icon icon="plus-square" /></mdb-btn>
                   <mdb-btn
-                  @click.native="minusAmount(product.id, product.Cart.amount)"
-                  color="indigo" size="sm" class="my-2 mx-0"><mdb-icon icon="minus-square" /></mdb-btn>
+                  @click.native="minusAmount(cart.ProductId, cart.amount)"
+                 color="#558b2f light-green darken-3" size="sm" class="my-2 mx-0"><mdb-icon icon="minus-square" /></mdb-btn>
                     </span>
                   </div>
                   </td>
-                  <td>Rp. {{ formatPrice(product.price * product.Cart.amount) }}</td>
+                  <td> {{ formatPrice(cart.Product.price * cart.amount) }}</td>
                   <td>
                   <mdb-btn
-                  @click.native="deleteProd(product.id)"
+                  @click.native="deleteProd(cart.ProductId)"
                   color="danger" size="sm" class="m-0"><mdb-icon icon="trash" /></mdb-btn>
                   </td>
                   </tr>
                 </mdb-tbl-body>
               </mdb-tbl>
-            </div>
+            </div><br> <h1 style= "align-content: flex-end "> TOTAL ALL : {{totalPrice}}</h1>
           <mdb-btn
           v-if="cart.length > 0"
           @click.native="checkout"
@@ -74,10 +74,19 @@ export default {
   computed: {
     cart () {
       return this.$store.state.cart
+    },
+    totalPrice () {
+      let totalPrice = 0
+      const carts = this.cart
+      for (let i = 0; i < carts.length; i++) {
+        totalPrice += carts[i].total
+      }
+      return totalPrice
     }
   },
   methods: {
     plusAmount (ProductId, amount, stock) {
+      console.log(ProductId, amount, stock)
       amount++
       if (amount <= stock) {
         const payload = {
@@ -131,8 +140,9 @@ export default {
               ProductId
             }
             this.$store.dispatch('deleteCart', payload)
-              .then(_ => this.$store.dispatch('fetchCart'))
-              .catch(({ response }) => console.log(response.data.error))
+          }
+          if (this.cart.length === 0) {
+            this.$route.push('/cart')
           }
         })
     },

@@ -1,10 +1,10 @@
 <template>
   <div ref="home" class="home-page">
-    <mdb-navbar style="z-index: 1000" color="mdb-color" dark class="row">
+    <mdb-navbar style="z-index: 5000" color="#bf360c deep-orange darken-4" dark class="row">
       <mdb-navbar-toggler class="col-4">
         <mdb-navbar-nav>
-          <mdb-nav-item
-          @click.native.prevent="goHome"
+          <mdb-nav-item class="pink-text"
+          @click.native.prevent="home"
           href="#" active>Home</mdb-nav-item>
           <mdb-nav-item
           @click.native.prevent="goToAll"
@@ -13,24 +13,27 @@
       </mdb-navbar-toggler>
       <mdb-navbar-toggler class="col-4 justify-content-center">
         <mdb-navbar-brand>
-          <img src="" height="50" alt="logo">
+        your <img src="../assets/logi.png" height="40" alt="logo"> shop
         </mdb-navbar-brand>
       </mdb-navbar-toggler>
       <mdb-navbar-toggler class="col-4 justify-content-end">
         <span
-        v-if="userDetail.email"
+        v-if="userData.email"
         class="align-items-center d-flex">
           <div>
             <mdb-dropdown
             btn-group
             >
-              <mdb-dropdown-toggle size="sm" slot="toggle" color="deep-purple" class="m-0 px-3">
-              <v-gravatar
-                class="rounded-circle" :email="userDetail.email" :size="30">
-              </v-gravatar>
+              <mdb-dropdown-toggle size="sm" slot="toggle" color="#ffccbc deep-orange lighten-4" class="m-0 px-3">
+              <avatar
+                :seed="this.username"
+                :colors="['#e9d758', '#297373', '#ff8552', '#e6e6e6', '#39393a']"
+                :epsilon="0.1"
+                :max-divisions="3"
+              />
               <span
               class="mx-2 navbar-text white-text">
-              {{ userDetail.email }}
+              {{ this.email }}
               </span>
               </mdb-dropdown-toggle>
               <mdb-dropdown-menu>
@@ -55,12 +58,12 @@
         </span>
         <mdb-btn
         v-else
-        color="default" size="md" @click.native="register = true">Sign Up</mdb-btn>
+        color="#ffab00 amber accent-4" size="md" @click.native="register = true">Sign Up</mdb-btn>
       </mdb-navbar-toggler>
     </mdb-navbar>
     <div
     v-if="this.$route.path === '/'">
-    <mdb-carousel class="mdb-color row" style="z-index: 20" :interval="8000" :items="carousel.length" multi controlls slide indicators>
+    <mdb-carousel color="rgba(121, 85, 72, 0.7) rgba-brown-strong" class="mdb-color row" style="z-index: 20" :interval="8000" :items="carousel.length" multi controlls slide indicators>
       <template
       v-for="(banner, i) in carousel"
       :slot="i + 1"
@@ -75,6 +78,7 @@
         v-for="i in catRows"
         :key="i"
         class="mt-5 row">
+        <!-- {{cat}} -->
           <mdb-card
           v-for="cat in perCol(i)"
           :key="cat.id">
@@ -85,7 +89,7 @@
               </a>
             </mdb-view>
             <mdb-card-body>
-              <mdb-card-title class="text-capitalize">{{ name }}</mdb-card-title>
+              <mdb-card-title class="text-capitalize">{{ cat.name }}</mdb-card-title>
               <mdb-btn
               @click="goToCategory(cat.id)"
               color="primary"><mdb-icon icon="shopping-bag"/> Shop Now</mdb-btn>
@@ -149,20 +153,24 @@
 </template>
 
 <script>
+// import { component } from 'vue/types/umd'
+import avatar from 'vue-random-avatar'
 export default {
   name: 'Home',
+  components: { avatar },
   data () {
     return {
       register: false,
       tabs: false,
       name: '',
       email: '',
-      password: ''
+      password: '',
+      username: 'Byteslicer'
     }
   },
   computed: {
-    userDetail () {
-      return this.$store.state.userDetail
+    userData () {
+      return this.$store.state.userData
     },
     carousel () {
       return this.$store.state.landscapeBanners
@@ -178,7 +186,7 @@ export default {
     }
   },
   methods: {
-    goHome () {
+    home () {
       this.$router.push('/', () => {})
     },
     signUp () {
@@ -191,7 +199,7 @@ export default {
           this.$vToastify.success('Thank you for registering. Happy shopping!')
         })
         .catch(({ response }) => {
-          this.$vToastify.error(response.data.error)
+          this.$vToastify.error('error registration,make sure you input email adn password')
         })
     },
     signIn () {
@@ -200,7 +208,7 @@ export default {
         password: this.password
       }
       this.$store.dispatch('login', user)
-      this.sign = false
+      
     },
     signOut () {
       this.email = ''
@@ -212,7 +220,8 @@ export default {
           if (val) {
             localStorage.removeItem('access_token')
             localStorage.removeItem('email')
-            this.$store.commit('setUserDetail', this.email)
+            this.$store.commit('setUserData', this.email)
+            this.$store.dispatch('fetchCart')
           }
         })
     },

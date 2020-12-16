@@ -22,14 +22,14 @@
                 <mdb-card-title class="text-left">{{ prod.name }}</mdb-card-title>
                 <mdb-card-text
                 class="text-left">
-                  Rp. {{ formatPrice(prod.price) }}
+                  {{ formatPrice(prod.price) }}
                 </mdb-card-text>
                 <mdb-card-text
                 v-if="prod.stock === 0"
                 class="text-left text-danger">No stock available</mdb-card-text>
                 <mdb-card-text
                 v-else-if="prod.stock < 10"
-                class="text-left text-danger">{{ prod.stock }} stock left!</mdb-card-text>
+                class="text-left text-danger"> {{ prod.stock }} stock left!</mdb-card-text>
                 <mdb-card-text
                 v-else
                 class="text-left">Available stock : {{ prod.stock }}</mdb-card-text>
