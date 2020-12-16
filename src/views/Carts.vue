@@ -30,7 +30,7 @@
               </table>
             </div>
             <div class="card-footer">
-              <button class="btn btn-checkout">Checkout</button>
+              <button @click.prevent="checkout" class="btn btn-checkout">Checkout</button>
             </div>
           </div>
         </div>
@@ -51,6 +51,9 @@ export default {
   methods: {
     fetchCart () {
       this.$store.dispatch('fetchCarts')
+    },
+    checkout () {
+      this.$store.dispatch('checkout')
     }
   },
   computed: {
