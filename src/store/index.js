@@ -10,7 +10,10 @@ export default new Vuex.Store({
     products: [],
     categories: [],
     editData: null,
-    cart: null
+    carts: [],
+    totalPrice: 0,
+    alert: false,
+    errMessage: ''
   },
   mutations: {
     setProducts (state, payload) {
@@ -19,8 +22,17 @@ export default new Vuex.Store({
     setCategories (state, payload) {
       state.categories = payload
     },
-    setCart (state, payload) {
-      state.cart = payload
+    setCarts (state, payload) {
+      state.carts = payload
+    },
+    setTotalPrice (state, payload) {
+      state.totalPrice = payload
+    },
+    changeAlert (state, condition) {
+      state.alert = condition
+    },
+    errMessage (state, message) {
+      state.errMessage = message
     }
   },
   actions: {
@@ -33,8 +45,19 @@ export default new Vuex.Store({
         .then(({ data }) => {
           router.push({ name: 'Login' })
         })
-        .catch(err => {
-          console.log(err)
+        .catch((err) => {
+          context.commit('changeAlert', true)
+          if (err.response) {
+            console.log(err.response.data)
+            context.commit('errMessage', err.response.data)
+          } else if (err.request) {
+            console.log(err.request)
+            context.commit('errMessage', err.request)
+          } else {
+            console.log(err.message)
+            context.commit('errMessage', err.message)
+          }
+          context.dispatch('changeAlert')
         })
     },
     login (context, payload) {
@@ -44,12 +67,28 @@ export default new Vuex.Store({
         data: payload
       })
         .then(({ data }) => {
+          localStorage.setItem('user', JSON.stringify(data.user))
           localStorage.setItem('access_token', data.access_token)
           router.push({ name: 'Home' })
         })
-        .catch(err => {
-          console.log(err)
+        .catch((err) => {
+          context.commit('changeAlert', true)
+          if (err.response) {
+            console.log(err.response.data)
+            context.commit('errMessage', err.response.data)
+          } else if (err.request) {
+            console.log(err.request)
+            context.commit('errMessage', err.request)
+          } else {
+            console.log(err.message)
+            context.commit('errMessage', err.message)
+          }
+          context.dispatch('changeAlert')
         })
+    },
+    logout () {
+      localStorage.clear()
+      router.push({ name: 'Home' })
     },
     getProducts (context) {
       axios({
@@ -72,6 +111,77 @@ export default new Vuex.Store({
           context.commit('setCategories', data)
         })
         .catch((err) => {
+          console.log(err)
+        })
+    },
+    changeAlert (context) {
+      setTimeout(() => {
+        context.commit('changeAlert', false)
+      }, 3000)
+    },
+    // CART
+    addToCart (context, payload) {
+      axios({
+        method: 'POST',
+        url: '/carts',
+        data: payload,
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .then(({ data }) => {
+          console.log('Success added item to cart')
+          context.dispatch('getCart')
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    getCart (context) {
+      const id = JSON.parse(localStorage.getItem('user')).id
+
+      axios({
+        method: 'GET',
+        url: `/carts/${id}`,
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .then(({ data }) => {
+          context.commit('setCarts', data.payload.Carts)
+          context.commit('setTotalPrice', data.total)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    minusCart (context, id) {
+      axios({
+        method: 'PATCH',
+        url: `/carts/minus/${id}`,
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .then(({ data }) => {
+          context.dispatch('getCart')
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    plusCart (context, id) {
+      axios({
+        method: 'PATCH',
+        url: `/carts/plus/${id}`,
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .then(({ data }) => {
+          context.dispatch('getCart')
+        })
+        .catch(err => {
           console.log(err)
         })
     }

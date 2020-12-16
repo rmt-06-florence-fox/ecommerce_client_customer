@@ -2,11 +2,11 @@
   <v-container fluid fill-height>
       <v-layout align-center justify-center>
         <v-flex xs12 sm8 md4>
-          <v-form @submit.prevent="login">
+          <v-form @submit.prevent="register">
             <v-card>
               <v-card-title>
-                <v-container justify-center>
-                  Login to Ecommerce CMS
+                <v-container justify-text-center>
+                  Register New Account Now
                 </v-container>
               </v-card-title>
               <v-card-text>
@@ -56,7 +56,7 @@
                     <v-btn
                       color="blue"
                       dark
-                      type="submit">Login</v-btn>
+                      type="submit">Register</v-btn>
                   </v-layout>
                 </v-container>
               </v-card-actions>
@@ -69,7 +69,29 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
+  data () {
+    return {
+      email: '',
+      password: ''
+    }
+  },
+  methods: {
+    register () {
+      const payload = {
+        email: this.email,
+        password: this.password
+      }
+
+      this.$store.dispatch('register', payload)
+    },
+    changeAlert () {
+      this.$store.commit('changeAlert', false)
+    }
+  },
+  computed: mapState(['alert', 'errMessage'])
 }
 </script>
 

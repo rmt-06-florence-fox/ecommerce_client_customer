@@ -28,12 +28,12 @@ const routes = [
   },
   {
     path: '/register',
-    name: 'register',
+    name: 'Register',
     component: Register
   },
   {
     path: '/cart',
-    name: 'cart',
+    name: 'Cart',
     component: Cart
   }
 ]
@@ -42,6 +42,17 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = localStorage.getItem('access_token')
+  if ((to.name === 'Login' || to.name === 'Register') && isAuthenticated) {
+    next({ name: 'Home' })
+  } else if (to.name === 'Cart' && !isAuthenticated) {
+    next({ name: 'Login' })
+  } else {
+    next()
+  }
 })
 
 export default router

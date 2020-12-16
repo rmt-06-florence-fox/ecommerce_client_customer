@@ -32,45 +32,15 @@
             <v-col cols="12" sm="8" class="pl-6 pt-6">
               <small>Showing 1-12 of 200 products</small>
             </v-col>
-            <v-col cols="12" sm="4">
-              <v-select class="pa-0" style="margin-bottom: -20px;" outlined dense></v-select>
-            </v-col>
           </v-row>
           <v-divider></v-divider>
 
           <div class="row text-center">
             <div class="col-md-3 col-sm-6 col-xs-12" v-for="product in products" :key="product.id">
-              <v-hover v-slot:default="{ hover }">
-                <v-card
-                  class="mx-auto"
-                  color="grey lighten-4"
-                  max-width="600"
-                >
-                  <v-img
-                    :src="product.image_url"
-                    class="blue--text align-end"
-                    aspect-ratio="16/9"
-                    height="200px"
-                  >
-                    <v-card-title>{{ product.Category.name }}</v-card-title>
-                    <v-expand-transition>
-                      <div
-                        v-if="hover"
-                        class="d-flex transition-fast-in-fast-out white darken-2 v-card--reveal display-3 white--text"
-                        style="height: 100%;"
-                      >
-                        <v-btn v-if="hover" href="/product" class="" outlined><v-icon>mdi-cart-plus</v-icon></v-btn>
-                      </div>
-
-                    </v-expand-transition>
-                  </v-img>
-                  <v-card-text class="text--primary">
-                    <div><a href="/product" style="text-decoration: none">{{product.name}}</a></div>
-                    <div>Rp. {{product.price}}</div>
-                    <div>Stock: {{product.stock}}</div>
-                  </v-card-text>
-                </v-card>
-              </v-hover>
+              <ProductCard
+                :product="product"
+              >
+              </ProductCard>
             </div>
           </div>
         </div>
@@ -86,23 +56,15 @@
 
 <script>
 import { mapState } from 'vuex'
+import ProductCard from '../components/ProductCard'
 // @ is an alias to /src
 export default {
   name: 'Home',
   components: {
+    ProductCard
   },
   data () {
     return {
-      items: [
-        {
-          id: 2,
-          name: 'Mouse'
-        },
-        {
-          id: 1,
-          name: 'Keyboard'
-        }
-      ]
     }
   },
   created () {

@@ -8,21 +8,15 @@
               <v-container justify-center>
                 <v-img
                   alt="Bukatoko Logo"
-                  class="shrink mr-2"
+                  class="shrink mr-2 align-center"
                   contain
                   src="../assets/BT-LOGO.png"
                   transition="scale-transition"
                   width="40"
                 />
-
-                <h2
-                  class="shrink mt-1 hidden-sm-and-down justify-text-center"
-                >
-                Bukatoko
-                </h2>
               </v-container>
               <v-container justify-center>
-                Login to Ecommerce CMS
+                Welcome, Please Sign In
               </v-container>
             </v-card-title>
             <v-card-text>
@@ -85,7 +79,29 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
+  data () {
+    return {
+      email: '',
+      password: ''
+    }
+  },
+  methods: {
+    login () {
+      const payload = {
+        email: this.email,
+        password: this.password
+      }
+
+      this.$store.dispatch('login', payload)
+    },
+    changeAlert () {
+      this.$store.commit('changeAlert', false)
+    }
+  },
+  computed: mapState(['alert', 'errMessage'])
 }
 </script>
 

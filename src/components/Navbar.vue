@@ -56,12 +56,14 @@
       </v-btn>
     </router-link>
 
-    <router-link to='/login'>
+    <router-link to='/login'
+      v-if="!token"
+    >
       <v-btn
         class="ma-2 white--text"
         color="secondary"
       >
-        login
+        Login
         <v-icon
           right
           dark
@@ -70,6 +72,21 @@
         </v-icon>
       </v-btn>
     </router-link>
+
+      <v-btn
+        class="ma-2 white--text"
+        color="secondary"
+        v-if="token"
+        @click="logout"
+      >
+        Logout
+        <v-icon
+          right
+          dark
+        >
+          mdi-logout
+        </v-icon>
+      </v-btn>
 
     <router-link to='/register'>
       <v-btn
@@ -90,5 +107,15 @@
 
 <script>
 export default {
+  data () {
+    return {
+      token: localStorage.getItem('access_token')
+    }
+  },
+  methods: {
+    logout () {
+      this.$store.dispatch('logout')
+    }
+  }
 }
 </script>
