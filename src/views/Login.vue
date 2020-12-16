@@ -65,7 +65,7 @@ export default {
               title: 'Welcome',
               icon: 'success'
             })
-            localStorage.setItem('access_token', value)
+            localStorage.setItem('access_token', value.data)
             this.$router.push('/')
           })
           .catch(err => {
