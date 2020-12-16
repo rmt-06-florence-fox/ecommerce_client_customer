@@ -5,7 +5,19 @@
       @click='goMainPage'>
       <i class="fas fa-book"></i>
     </button>
-    <a class="navbar-brand font-weight-bold">Welcome to my humble bookshop</a>
+    <div class="dropdown mr-auto">
+      <button class="btn btn-sm btn-outline-primary rounded-pill font-weight-bold text-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Filter
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <FilterList
+          v-for="data in listCategories"
+          :key="data.id"
+          :data="data"
+        ></FilterList>
+      </div>
+    </div>
+    <a class="navbar-brand font-weight-bold mr-auto">Welcome to my humble bookshop</a>
     <div class="mr-2">
       <button class="btn btn-sm btn-outline-primary rounded-pill font-weight-bold text-dark mr-2"
         v-if="!isLogin"
@@ -41,8 +53,12 @@
 </template>
 
 <script>
+import FilterList from '../components/FilterList'
 export default {
   name: 'Navbar',
+  components: {
+    FilterList
+  },
   methods: {
     goMainPage () {
       this.$router.push('/')
@@ -67,7 +83,13 @@ export default {
   computed: {
     isLogin () {
       return this.$store.state.isLogin
+    },
+    listCategories () {
+      return this.$store.state.listCategories
     }
+  },
+  created () {
+    this.$store.dispatch('fetchCategories')
   }
 }
 </script>

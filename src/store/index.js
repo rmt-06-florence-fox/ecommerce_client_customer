@@ -28,6 +28,9 @@ export default new Vuex.Store({
     },
     setIsLogin (state, payload) {
       state.isLogin = payload
+    },
+    setFilter (state, payload) {
+      state.listProducts = payload
     }
   },
   actions: {
@@ -75,7 +78,6 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
-          console.log(data)
           context.commit('setListTransactions', data)
         })
         .catch(e => Vue.$vToastify.error(`${e.response.data.message}`))
@@ -229,6 +231,10 @@ export default new Vuex.Store({
         total += (state.listCarts[i].quantity * state.listCarts[i].Product.price)
       }
       return total
+    },
+    getCategoryById: (state) => (id) => {
+      console.log(state.listProducts.data.filter(product => product.Categories[0].id === id))
+      return state.listProducts.data.filter(product => product.Categories[0].id === id)
     }
   }
 })
