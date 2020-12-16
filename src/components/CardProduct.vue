@@ -3,7 +3,7 @@
         <img :src="product.image_url" class="card-img-top" alt="" id="img-product">
         <div class="card-body">
             <h5 class="card-title">{{ product.name }}</h5>
-            <p class="card-text">Stock: {{ product.Stock }}</p>
+            <p class="card-text">Stock: {{ product.stock }}</p>
             <h5 class="card-text">{{ convertMoney() }}</h5>
             <div class="spinner-border text-primary " role="status" v-if="isLoading">
                 <span class="visually-hidden"></span>

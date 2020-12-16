@@ -12,7 +12,7 @@
                         <router-link to="/" class="nav-link">Home</router-link>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/">List Barang</a>
+                        <router-link to="/cart" class="nav-link">Cart</router-link>
                     </li>
                     <li class="nav-item dropdown">
                         <p class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -5,7 +5,7 @@
           <lottie-player src="https://assets4.lottiefiles.com/animated_stickers/lf_tgs_g7ve4rc8.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;" loop  autoplay></lottie-player>
         </center>
       </div>
-    <div class="container-fluid" v-else>
+    <div class="container-fluid container-md" v-else>
       <div class="row">
         <div class="col-sm-6 register-section-wrapper">
           <div class="brand-wrapper">

@@ -7,11 +7,19 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     author: 'Arul Abdul Aziz',
-    products: []
+    products: [],
+    carts: [],
+    totelPrice: 0
   },
   mutations: {
     set_product (state, payload) {
       state.products = payload
+    },
+    set_carts (state, payload) {
+      state.carts = payload
+    },
+    set_totalPrice (state, payload) {
+      state.totelPrice = payload
     }
   },
   actions: {
@@ -47,6 +55,19 @@ export default new Vuex.Store({
         },
         data: payload
       })
+    },
+    fetchCart (context) {
+      return axios({
+        url: '/cart',
+        method: 'GET',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+    },
+    getTotalPrice (context) {
+      const carts = this.carts
+      context.commit('set_totalPrice', carts)
     }
   },
   modules: {
