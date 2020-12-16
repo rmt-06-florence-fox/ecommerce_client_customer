@@ -1,13 +1,13 @@
 <template>
   <div>
     <b-navbar type="dark" variant="dark">
-      <b-navbar-brand>Pasar Terang</b-navbar-brand>
+      <b-navbar-brand @click.prevent="goToMainPage">Pasar Terang</b-navbar-brand>
       <b-navbar-nav class="ml-auto">
         <b-nav-item v-if="status === 'loggedIn'">
           <b-icon icon="cart-check-fill"></b-icon> history
         </b-nav-item>
-        <b-nav-item v-if="status === 'loggedIn'">
-          <b-icon icon="minecart-loaded" @click.prevent="gotToCart"></b-icon> cart
+        <b-nav-item v-if="status === 'loggedIn'" @click.prevent="gotToCart">
+          <b-icon icon="minecart-loaded" ></b-icon> cart
         </b-nav-item>
         <b-nav-item v-if="status === 'loggedIn'" @click.prevent="doLogOut">
           <b-icon icon="box-arrow-in-right"></b-icon> logout
@@ -43,7 +43,16 @@ export default {
       localStorage.clear()
     },
     gotToCart () {
-      this.$router.push('/carts')
+      if (this.$router.history.current.path !== '/carts') {
+        this.$router.push('/carts')
+      }
+      // this.$router.push('/carts')
+    },
+    goToMainPage () {
+      if (this.$router.history.current.path !== '/') {
+        this.$router.push('/')
+      }
+      // console.log()
     }
   }
 }

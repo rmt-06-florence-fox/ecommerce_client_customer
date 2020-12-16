@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="card">
+    <div class="card mb-1">
       <div class="row">
         <div class="col-4">
           <img :src="cart.Product.image_url" alt="">
@@ -12,9 +12,9 @@
             <li>{{ cart.Product.price }}</li>
           </ul>
           <div class="text-end m-1">
-            <button class="btn"><b-icon-file-plus></b-icon-file-plus></button>
+            <button class="btn" @click.prevent="changeQuantitiy(1)"><b-icon-file-plus></b-icon-file-plus></button>
             {{ cart.quantity }}
-            <button class="btn"><b-icon-file-minus></b-icon-file-minus></button>
+            <button class="btn" @click.prevent="changeQuantitiy(-1)"><b-icon-file-minus></b-icon-file-minus></button>
           </div>
         </div>
       </div>
@@ -25,7 +25,16 @@
 <script>
 export default {
   name: 'CartCard',
-  props: ['cart']
+  props: ['cart'],
+  methods: {
+    changeQuantitiy (number) {
+      const payload = {
+        productId: this.cart.Product.id,
+        quantity: number
+      }
+      this.$store.dispatch('changeQuantity', payload)
+    }
+  }
 }
 </script>
 
