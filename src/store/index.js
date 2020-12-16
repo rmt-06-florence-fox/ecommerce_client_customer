@@ -43,12 +43,14 @@ export default new Vuex.Store({
           console.log(data)
           localStorage.setItem('access_token', data.access_token)
           context.commit('setStatus', 'loggedIn')
+          Vue.toasted.success('welcome ' + payload.email.split('@')[0], { icon: 'crown' })
           if (router.history.current.name !== 'Home') {
             router.push('/')
           }
         })
         .catch(err => {
-          console.log(err)
+          console.log(err.response.data.message)
+          Vue.toasted.error(err.response.data.message)
         })
     },
     register (context, payload) {
@@ -142,10 +144,12 @@ export default new Vuex.Store({
       })
         .then(_ => {
           context.dispatch('fetchCart')
+          Vue.toasted.success('success')
         })
         .catch(err => {
           context.dispatch('fetchCart')
           console.log(err)
+          Vue.toasted.error('something went wrong')
         })
     },
     fetchHistories (context, payload) {
