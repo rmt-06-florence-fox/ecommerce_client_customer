@@ -5,7 +5,7 @@
       <div class="hovereffect">
         <img :src="product.image_url" class="card-img-top product-img" :alt="product.name">
         <div class="overlay">
-          <a @click="addToCart(product.id)" class="info border-secondary bg-success" href="#">Add to Cart</a>
+          <a @click.prevent="addToCart(product.id)" class="info border-secondary bg-success" href="#">Add to Cart</a>
         </div>
       </div>
       <div class="card-body d-flex flex-column p-1">
@@ -27,42 +27,60 @@ export default {
   props: ['product'],
   methods: {
     addToWishlist (productId) {
-      this.$store.dispatch('addToWishlists', productId)
-        .then(({ data }) => {
-          Swal.fire({
-            icon: 'success',
-            title: 'Success !',
-            text: 'This item is added to Your Wishlist'
+      if (localStorage.access_token) {
+        this.$store.dispatch('addToWishlists', productId)
+          .then(({ data }) => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Success !',
+              text: 'This item is added to Your Wishlist'
+            })
+            this.$store.dispatch('fetchWishlists')
           })
-          this.$store.dispatch('fetchWishlists')
-        })
-        .catch((err) => {
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: err.response.data.message
+          .catch((err) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: err.response.data.message
+            })
+            console.log(err)
           })
-          console.log(err)
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'You have to Login for adding products to your Wishlists'
         })
+        this.$router.push('/login')
+      }
     },
     addToCart (productId) {
-      this.$store.dispatch('addToCarts', productId)
-        .then(({ data }) => {
-          Swal.fire({
-            icon: 'success',
-            title: 'Success !',
-            text: 'This item is added to Your Cart'
+      if (localStorage.access_token) {
+        this.$store.dispatch('addToCarts', productId)
+          .then(({ data }) => {
+            Swal.fire({
+              icon: 'success',
+              title: 'Success !',
+              text: 'This item is added to Your Cart'
+            })
+            this.$store.dispatch('fetchCarts')
           })
-          this.$store.dispatch('fetchCarts')
-        })
-        .catch((err) => {
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: err.response.data.message
+          .catch((err) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: err.response.data.message
+            })
+            console.log(err)
           })
-          console.log(err)
+      } else {
+        Swal.fire({
+          icon: 'error',
+          title: 'Oops...',
+          text: 'You have to Login for adding products to Your Cart'
         })
+        this.$router.push('/login')
+      }
     }
   }
 }
