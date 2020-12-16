@@ -75,11 +75,11 @@ export default new Vuex.Store({
         })
         .catch(err => console.log(err))
     },
-    addCart (context, productId) {
+    addCart (context, payload) {
       axios({
         method: 'POST',
-        url: '/carts/' + productId,
-        data: { quantity: 1 },
+        url: '/carts/' + payload.productId,
+        data: { quantity: payload.quantity },
         headers: {
           access_token: localStorage.getItem('access_token')
         }

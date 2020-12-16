@@ -6,6 +6,9 @@
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="ml-auto">
           <b-nav-item v-if="isLogin" active>
+            <b-icon icon="clock-history"></b-icon>
+          </b-nav-item>
+          <b-nav-item @click.prevent="toCart" v-if="isLogin" active>
             <b-icon icon="cart-2"></b-icon> {{ carts.length - 1 }}
           </b-nav-item>
           <b-nav-item @click.prevent="login" v-if="!isLogin" active>
@@ -46,6 +49,9 @@ export default {
     },
     fetchCart () {
       this.$store.dispatch('fetchCarts')
+    },
+    toCart () {
+      this.$router.push('/carts')
     }
   },
   computed: {
