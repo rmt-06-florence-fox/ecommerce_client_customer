@@ -9,7 +9,7 @@
             <b-icon icon="clock-history"></b-icon>
           </b-nav-item>
           <b-nav-item @click.prevent="toCart" v-if="isLogin" active>
-            <b-icon icon="cart-2"></b-icon> {{ carts.length - 1 }}
+            <b-icon icon="cart-2"></b-icon> {{ carts.length }}
           </b-nav-item>
           <b-nav-item @click.prevent="login" v-if="!isLogin" active>
             <b-icon icon="box-arrow-in-right"></b-icon> Login
@@ -40,9 +40,27 @@ export default {
       this.$router.push('/login')
     },
     logout () {
-      localStorage.removeItem('access_token')
-      this.$store.commit('checkLogin', false)
-      this.checkLogin()
+      this.$toasted.show('Are you sure ?', {
+        action: [
+          {
+            text: 'Yes',
+            onClick: (e, toastObject) => {
+              toastObject.goAway(0)
+              this.$toasted.success('Success logout ! Byeee !!!', { icon: 'check' })
+              localStorage.removeItem('access_token')
+              this.$store.commit('checkLogin', false)
+              if (this.$router.history.current.name !== 'Home') this.$router.push('/')
+              this.checkLogin()
+            }
+          },
+          {
+            text: 'No',
+            onClick: (e, toastObject) => {
+              toastObject.goAway(0)
+            }
+          }
+        ]
+      })
     },
     toHome () {
       this.$router.push('/')

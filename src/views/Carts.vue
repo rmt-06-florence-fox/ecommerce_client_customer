@@ -1,8 +1,6 @@
 <template>
   <div>
     <Navbar></Navbar>
-    <!-- {{ totalPrice }}
-    {{ carts }} -->
     <div class="container">
       <div class="row">
         <div class="col-md-7 col-sm-12 mt-5">
@@ -21,7 +19,7 @@
             <div class="card-headers mt-3 mb-1">
               <h3>Your Transaction</h3>
             </div>
-            <div class="card-body" v-if="$store.getters.totalPrice.length">
+            <div class="card-body" v-if="$store.state.totalPrice">
               <table class="table">
                 <tr>
                   <th>Total Transactions</th>
@@ -30,7 +28,7 @@
               </table>
             </div>
             <div class="card-footer">
-              <button :disabled="!$store.getters.totalPrice.length" @click.prevent="checkout" class="btn btn-checkout">Checkout</button>
+              <button :disabled="!$store.state.totalPrice" @click.prevent="checkout" class="btn btn-checkout">Checkout</button>
             </div>
           </div>
         </div>
@@ -58,10 +56,10 @@ export default {
   },
   computed: {
     carts () {
-      return this.$store.getters.getCart
+      return this.$store.state.carts
     },
     totalPrice () {
-      return this.$store.getters.totalPrice[0].totalPrice
+      return this.$store.state.totalPrice
     },
     convertRupiah () {
       const numberString = this.totalPrice.toString()

@@ -10,7 +10,8 @@ export default new Vuex.Store({
     products: [],
     isLogin: false,
     carts: [],
-    histories: []
+    histories: [],
+    totalPrice: 0
   },
   mutations: {
     setProducts (state, payload) {
@@ -24,6 +25,9 @@ export default new Vuex.Store({
     },
     setHistories (state, payload) {
       state.histories = payload
+    },
+    setTotalPrice (state, payload) {
+      state.totalPrice = payload
     }
   },
   actions: {
@@ -48,7 +52,7 @@ export default new Vuex.Store({
               Vue.toasted.error(e.message)
             })
           } else if (err.response.data.message) {
-            Vue.toasted.error(err.response.data.message)
+            Vue.toasted.error(err.response.data.message, { icon: 'times' })
           }
         })
     },
@@ -61,12 +65,12 @@ export default new Vuex.Store({
         .then(({ data }) => {
           console.log(data)
           localStorage.setItem('access_token', data.access_token)
-          Vue.toasted.success(`Hi ${data.email.split('@')[0]} ! Have a nice day !!!`)
+          Vue.toasted.success(`Hi ${data.email.split('@')[0]} ! Have a nice day !!!`, { icon: 'check' })
           router.push('/')
         })
         .catch(err => {
           // console.log(err.response.data.message)
-          Vue.toasted.error(err.response.data.message)
+          Vue.toasted.error(err.response.data.message, { icon: 'times' })
         })
     },
     fetchData (context) {
@@ -90,10 +94,12 @@ export default new Vuex.Store({
       })
         .then(({ data }) => {
           console.log(data)
+          if (router.history.current.name === 'Home') Vue.toasted.success('Success add the product !!!', { icon: 'check' })
           context.dispatch('fetchCarts')
         })
         .catch(err => {
-          console.log(err)
+          console.log(err.response.data)
+          Vue.toasted.error(err.response.data.message, { icon: 'times' })
         })
     },
     fetchCarts (context) {
@@ -105,24 +111,42 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
-          context.commit('setCarts', data)
+          context.commit('setCarts', data.data)
+          context.commit('setTotalPrice', data.totalPrice)
         })
         .catch(err => {
           console.log(err)
         })
     },
     deleteCart (context, id) {
-      axios({
-        method: 'DELETE',
-        url: '/carts/' + id,
-        headers: {
-          access_token: localStorage.getItem('access_token')
-        }
+      Vue.toasted.show('Are you sure ?', {
+        action: [
+          {
+            text: 'Yes',
+            onClick: (e, toastObject) => {
+              toastObject.goAway(0)
+              axios({
+                method: 'DELETE',
+                url: '/carts/' + id,
+                headers: {
+                  access_token: localStorage.getItem('access_token')
+                }
+              })
+                .then(({ data }) => {
+                  Vue.toasted.success(data.message, { icon: 'check' })
+                  context.dispatch('fetchCarts')
+                })
+                .catch(err => console.log(err))
+            }
+          },
+          {
+            text: 'No',
+            onClick: (e, toastObject) => {
+              toastObject.goAway(0)
+            }
+          }
+        ]
       })
-        .then(_ => {
-          context.dispatch('fetchCarts')
-        })
-        .catch(err => console.log(err))
     },
     checkout (context) {
       axios({
@@ -134,9 +158,15 @@ export default new Vuex.Store({
       })
         .then(({ data }) => {
           console.log(data)
+          Vue.toasted.success('Yeayy... Success checkout your transaction !!!', { icon: 'check' })
           context.dispatch('fetchCarts')
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+          console.log(err.response.data.messages)
+          err.response.data.messages.forEach((e) => {
+            Vue.toasted.error(e, { icon: 'times' })
+          })
+        })
     },
     fetchHistories (context) {
       axios({
@@ -151,14 +181,6 @@ export default new Vuex.Store({
           context.commit('setHistories', data)
         })
         .catch(err => console.log(err))
-    }
-  },
-  getters: {
-    getCart (state) {
-      return state.carts.filter(e => !e.totalPrice)
-    },
-    totalPrice (state) {
-      return state.carts.filter(e => e.totalPrice)
     }
   },
   modules: {
