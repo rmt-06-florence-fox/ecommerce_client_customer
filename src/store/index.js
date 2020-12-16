@@ -52,7 +52,7 @@ export default new Vuex.Store({
       const token = localStorage.getItem('token')
       axios({
         method: 'POST',
-        url: 'wishlist',
+        url: '/wishlist',
         headers: {
           token
         },
@@ -60,13 +60,13 @@ export default new Vuex.Store({
           ProductId: productId
         }
       })
-      .then(result => {
-        context.dispatch('getProducts')
-        context.dispatch('getWishlist')
-      })
-      .catch(err => {
-        console.log(err)
-      })
+        .then(result => {
+          context.dispatch('getProducts')
+          context.dispatch('getWishlist')
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
     addToCart (context, productId) {
       const token = localStorage.getItem('token')
@@ -80,12 +80,12 @@ export default new Vuex.Store({
           ProductId: productId
         }
       })
-      .then(result => {
-        context.dispatch('getCart')
-      })
-      .catch(err => {
-        console.log(err)
-      })
+        .then(result => {
+          context.dispatch('getCart')
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
     decrementAmount (context, productId) {
       const token = localStorage.getItem('token')
@@ -105,12 +105,12 @@ export default new Vuex.Store({
         method: 'GET',
         url: '/banners/status'
       })
-      .then(result => {
-        context.commit('insertBanners', result.data)
-      })
-      .catch(err => {
-        console.log(err)
-      })
+        .then(result => {
+          context.commit('insertBanners', result.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
     getCart (context) {
       const token = localStorage.getItem('token')
@@ -121,24 +121,24 @@ export default new Vuex.Store({
           token
         }
       })
-      .then(result => {
-        context.commit('insertCart', result.data)
-      })
-      .catch(err => {
-        console.log(err)
-      })
+        .then(result => {
+          context.commit('insertCart', result.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
     getCategories (context) {
       axios({
         method: 'GET',
-        url: '/category'
+        url: '/categories'
       })
-      .then(result => {
-        context.commit('insertCategories', result.data)
-      })
-      .catch(err => {
-        console.log(err)
-      })
+        .then(result => {
+          context.commit('insertCategories', result.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
     getHistory (context) {
       const token = localStorage.getItem('token')
@@ -149,24 +149,24 @@ export default new Vuex.Store({
           token
         }
       })
-      .then(result => {
-        context.commit('insertHistory', result.data)
-      })
-      .catch(err => {
-        console.log(err)
-      })
+        .then(result => {
+          context.commit('insertHistory', result.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
     getProducts (context) {
       axios({
         method: 'GET',
         url: '/products'
       })
-      .then(result => {
-        context.commit('insertProducts', result.data)
-      })
-      .catch(err => {
-        console.log(err)
-      })
+        .then(result => {
+          context.commit('insertProducts', result.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
     getWishlist (context) {
       const token = localStorage.getItem('token')
@@ -177,12 +177,12 @@ export default new Vuex.Store({
           token
         }
       })
-      .then(result => {
-        context.commit('insertWishlist', result.data)
-      })
-      .catch(err => {
-        console.log(err)
-      })
+        .then(result => {
+          context.commit('insertWishlist', result.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
     incrementAmount (context, productId) {
       const token = localStorage.getItem('token')
@@ -198,7 +198,7 @@ export default new Vuex.Store({
       })
     },
     login (context, payload) {
-      const {email, password} = payload
+      const { email, password } = payload
       return axios({
         method: 'POST',
         url: '/customerLogin',
@@ -208,7 +208,7 @@ export default new Vuex.Store({
       })
     },
     register (context, payload) {
-      if(payload.gender === 'Any') {
+      if (payload.gender === 'Any') {
         payload.gender = ''
       }
       return axios({
@@ -242,10 +242,10 @@ export default new Vuex.Store({
           token
         }
       })
-      .then(result => {
-        context.dispatch('getProducts')
-        context.dispatch('getWishlist')
-      })
+        .then(result => {
+          context.dispatch('getProducts')
+          context.dispatch('getWishlist')
+        })
     }
   },
   modules: {
