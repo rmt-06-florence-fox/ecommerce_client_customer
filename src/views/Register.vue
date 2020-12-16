@@ -2,8 +2,8 @@
   <div class="container mt-5">
     <div class="card" style="width: 30rem;">
     <div class="card-body">
-      <form id="login-form" class="input-margin" @submit.prevent="login">
-        <h2 class="card-title">Login Form</h2>
+      <form id="login-form" class="input-margin" @submit.prevent="register">
+        <h2 class="card-title">Login Register</h2>
         <div class="form-group">
           <label for="email">Email</label>
           <input type="text" class="form-control" name="email" id="email-input" placeholder="email" v-model="user.email">
@@ -18,9 +18,10 @@
   </div>
   </div>
 </template>
+
 <script>
 export default {
-  name: 'login',
+  name: 'Register',
   data () {
     return {
       user: {
@@ -30,13 +31,10 @@ export default {
     }
   },
   methods: {
-    login () {
+    register () {
       const user = this.user
-      this.$store.dispatch('login', user)
+      this.$store.dispatch('register', user)
     }
-  },
-  created () {
-    this.$store.dispatch('statusLogin')
   }
 }
 </script>

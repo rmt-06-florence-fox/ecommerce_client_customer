@@ -24,6 +24,7 @@ export default {
   },
   created () {
     this.$store.dispatch('fetchProducts')
+    this.$store.dispatch('statusLogin')
   }
 }
 </script>

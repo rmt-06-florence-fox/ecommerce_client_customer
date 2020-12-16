@@ -10,7 +10,8 @@ export default new Vuex.Store({
     listProducts: [],
     listCategories: [],
     listCarts: [],
-    listTransactions: []
+    listTransactions: [],
+    isLogin: ''
   },
   mutations: {
     setListProducts (state, payload) {
@@ -24,9 +25,21 @@ export default new Vuex.Store({
     },
     setListTransactions (state, payload) {
       state.listTransactions = payload
+    },
+    setIsLogin (state, payload) {
+      state.isLogin = payload
     }
   },
   actions: {
+    statusLogin (context) {
+      if (localStorage.getItem('access_token')) {
+        const status = true
+        context.commit('setIsLogin', status)
+      } else {
+        const status = false
+        context.commit('setIsLogin', status)
+      }
+    },
     fetchProducts (context) {
       axios({
         url: '/products',
@@ -38,7 +51,7 @@ export default new Vuex.Store({
         .then(({ data }) => {
           context.commit('setListProducts', data)
         })
-        .catch(e => console.log(e))
+        .catch(e => Vue.$vToastify.error(`${e.response.data.message}`))
     },
     fetchCarts (context) {
       axios({
@@ -51,7 +64,7 @@ export default new Vuex.Store({
         .then(({ data }) => {
           context.commit('setListCarts', data)
         })
-        .catch(e => console.log(e))
+        .catch(e => Vue.$vToastify.error(`${e.response.data.message}`))
     },
     fetchTransactions (context) {
       axios({
@@ -65,7 +78,7 @@ export default new Vuex.Store({
           console.log(data)
           context.commit('setListTransactions', data)
         })
-        .catch(e => console.log(e))
+        .catch(e => Vue.$vToastify.error(`${e.response.data.message}`))
     },
     fetchCategories (context) {
       return new Promise((resolve, reject) => {
@@ -92,7 +105,7 @@ export default new Vuex.Store({
           router.push('/')
         })
         .catch(e => {
-          console.log(e)
+          Vue.$vToastify.error(`${e.response.data.message}`)
         })
     },
     register (context, user) {
@@ -101,7 +114,7 @@ export default new Vuex.Store({
         .then(response => {
           router.push('/')
         })
-        .catch(e => console.log(e))
+        .catch(e => Vue.$vToastify.error(`${e.response.data.message}`))
     },
     filterId (context, id) {
       return new Promise((resolve, reject) => {
@@ -119,34 +132,50 @@ export default new Vuex.Store({
           .catch(err => reject(err))
       })
     },
-    addCart (context, productId) {
+    addCart (context, product) {
       axios({
-        url: `/carts/${productId}`,
+        url: `/carts/${product.id}`,
         method: 'POST',
         headers: {
           access_token: localStorage.getItem('access_token')
         },
-        data: {
-          ProductId: productId
-        }
+        data: product
       })
         .then(response => {
-          console.log(response + 'Successfully Added')
+          if (response.status === 200) {
+            Vue.$vToastify.success('product has been updated in your cart')
+          } else {
+            Vue.$vToastify.success('product has been added in your cart')
+          }
         })
-        .catch(e => console.log(e))
+        .catch(e => Vue.$vToastify.error(`${e.response.data.message}`))
     },
-    patchCart (context, productId) {
+    patchCart (context, product) {
       axios({
-        url: `/carts/${productId}`,
+        url: `/carts/${product.productId}`,
         method: 'PATCH',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        },
+        data: product
+      })
+        .then(response => {
+          context.dispatch('fetchCarts')
+        })
+        .catch(e => Vue.$vToastify.error(`${e.response.data.message}`))
+    },
+    deleteId (context, id) {
+      axios({
+        url: `/carts/${id}`,
+        method: 'DELETE',
         headers: {
           access_token: localStorage.getItem('access_token')
         }
       })
         .then(response => {
-          console.log(response)
+          context.dispatch('fetchCarts')
         })
-        .catch(e => console.log(e))
+        .catch(e => Vue.$vToastify.error(`${e.response.data.message}`))
     },
     deleteCart (context) {
       axios({
@@ -159,7 +188,7 @@ export default new Vuex.Store({
         .then(response => {
           router.push('/')
         })
-        .catch(e => console.log(e))
+        .catch(e => Vue.$vToastify.error(`${e.response.data.message}`))
     },
     patchStock (context, data) {
       axios({
@@ -175,38 +204,31 @@ export default new Vuex.Store({
         .then(response => {
           console.log(response)
         })
-        .catch(e => console.log(e))
+        .catch(e => Vue.$vToastify.error(`${e.response.data.message}`))
     },
-    deleteProduct (context) {
+    transactionData (context) {
       axios({
-        url: '/customerProduct',
-        method: 'DELETE',
+        url: '/transactions',
+        method: 'PATCH',
         headers: {
           access_token: localStorage.getItem('access_token')
         }
       })
         .then(response => {
-          console.log(response.message)
+          router.push('/')
         })
-        .catch(e => console.log(e))
-    },
-    addTransaction (context, data) {
-      axios({
-        url: `/transactions/${data.id}`,
-        method: 'POST',
-        headers: {
-          access_token: localStorage.getItem('access_token')
-        },
-        data: {
-          quantity: data.quantity
-        }
-      })
-        .then(response => {
-          console.log(response)
-        })
-        .catch(e => console.log(e))
+        .catch(e => Vue.$vToastify.error(`${e.response.data.message}`))
     }
   },
   modules: {
+  },
+  getters: {
+    countTotal: state => {
+      let total = 0
+      for (let i = 0; i < state.listCarts.length; i++) {
+        total += (state.listCarts[i].quantity * state.listCarts[i].Product.price)
+      }
+      return total
+    }
   }
 })

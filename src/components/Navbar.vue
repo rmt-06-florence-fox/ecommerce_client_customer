@@ -1,6 +1,11 @@
 <template>
  <nav class="navbar sticky-top navbar-light shadow bg-light">
-    <a class="navbar-brand font-weight-bold" href="#">Hacktiv Design</a>
+    <button class="btn btn-sm btn-outline-primary rounded-pill font-weight-bold text-dark mr-2"
+      type="button"
+      @click='goMainPage'>
+      <i class="fas fa-book"></i>
+    </button>
+    <a class="navbar-brand font-weight-bold">Welcome to my humble bookshop</a>
     <div class="mr-2">
       <button class="btn btn-sm btn-outline-primary rounded-pill font-weight-bold text-dark mr-2"
         v-if="!isLogin"
@@ -15,6 +20,11 @@
         Register
       </button>
       <div v-else-if="isLogin">
+        <button class="btn btn-sm btn-outline-primary rounded-pill font-weight-bold text-dark mr-2"
+          type="button"
+          @click='goHistories'>
+          <i class="fas fa-history"></i>
+        </button>
         <button class="btn btn-sm btn-outline-primary rounded-pill font-weight-bold text-dark mr-2"
           type="button"
           @click='goCart'>
@@ -33,18 +43,12 @@
 <script>
 export default {
   name: 'Navbar',
-  data () {
-    return {
-      isLogin: false
-    }
-  },
   methods: {
-    checkLogin () {
-      if (localStorage.getItem('access_token')) {
-        this.isLogin = true
-      } else {
-        this.isLogin = false
-      }
+    goMainPage () {
+      this.$router.push('/')
+    },
+    goHistories () {
+      this.$router.push('/histories')
     },
     goCart () {
       this.$router.push('/carts')
@@ -60,8 +64,10 @@ export default {
       this.$router.push('/login')
     }
   },
-  created () {
-    this.checkLogin()
+  computed: {
+    isLogin () {
+      return this.$store.state.isLogin
+    }
   }
 }
 </script>
