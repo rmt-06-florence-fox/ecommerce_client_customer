@@ -1,7 +1,10 @@
 .DS_Store
 node_modules
 /dist
-
+.mdb
+mdbvue
+Vue-Bootstrap-with-Material-Design
+Jenkinsfile
 
 # local env files
 .env.local
