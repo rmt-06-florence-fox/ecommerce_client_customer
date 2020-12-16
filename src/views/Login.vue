@@ -1,6 +1,11 @@
 <template>
     <main class="d-flex align-items-center min-vh-100 py-3 py-md-0">
-    <div class="container">
+      <div class="loading container" v-if="isLoading">
+        <center>
+          <lottie-player src="https://assets4.lottiefiles.com/animated_stickers/lf_tgs_g7ve4rc8.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;" loop  autoplay></lottie-player>
+        </center>
+      </div>
+    <div class="container" v-else>
       <div class="card login-card">
         <div class="row no-gutters">
           <div class="col-md-5">
@@ -12,18 +17,18 @@
                 <img src="assets/logo.jpg" alt="logo" class="logo">
               </div>
               <p class="login-card-description">Sign into your account</p>
-              <form id="form-login">
+              <form id="form-login" @submit.prevent="login">
                   <div class="form-group">
                     <label for="email" class="sr-only">Email</label>
-                    <input type="email" name="email" id="email" class="form-control" placeholder="Email address">
+                    <input type="email" name="email" id="email" class="form-control" placeholder="Email address" v-model="email">
                   </div>
                   <div class="form-group mb-4">
                     <label for="password" class="sr-only">Password</label>
-                    <input type="password" name="password" id="password" class="form-control" placeholder="***********">
+                    <input type="password" name="password" id="password" class="form-control" placeholder="***********" v-model="password">
                   </div>
-                  <input name="login" id="login" class="btn btn-block login-btn mb-4" type="button" value="Login">
+                  <input name="login" id="login" class="btn btn-block login-btn mb-4" type="submit" value="Login">
                 </form>
-                <p class="login-card-footer-text">Don't have an account? <a href="#!" class="text-reset">Register here</a></p>
+                <p class="login-card-footer-text">Don't have an account? <router-link to="/register" class="text-reset">Register here</router-link></p>
             </div>
           </div>
         </div>
@@ -33,8 +38,45 @@
 </template>
 
 <script>
+import swal from 'sweetalert'
 export default {
-
+  data () {
+    return {
+      email: '',
+      password: '',
+      isLoading: false
+    }
+  },
+  methods: {
+    login () {
+      if (localStorage.getItem('access_token')) {
+        swal('Error', 'Anda sedang Login')
+      } else {
+        this.isLoading = true
+        const obj = {
+          email: this.email,
+          password: this.password,
+          role: 'customer'
+        }
+        this.$store.dispatch('login', obj)
+          .then(value => {
+            swal({
+              text: 'Login success',
+              title: 'Welcome',
+              icon: 'success'
+            })
+            localStorage.setItem('access_token', value)
+            this.$router.push('/')
+          })
+          .catch(err => {
+            swal('Error', err.response.data)
+          })
+          .finally(() => {
+            this.isLoading = false
+          })
+      }
+    }
+  }
 }
 </script>
 

@@ -1,6 +1,11 @@
 <template>
-    <main class="container">
-    <div class="container-fluid">
+  <main class="container">
+     <div class="loading" v-if="isLoading">
+        <center>
+          <lottie-player src="https://assets4.lottiefiles.com/animated_stickers/lf_tgs_g7ve4rc8.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;" loop  autoplay></lottie-player>
+        </center>
+      </div>
+    <div class="container-fluid" v-else>
       <div class="row">
         <div class="col-sm-6 register-section-wrapper">
           <div class="brand-wrapper">
@@ -8,18 +13,18 @@
           </div>
           <div class="register-wrapper my-auto">
             <h1 class="register-title">Register in</h1>
-            <form action="#!">
+            <form @submit.prevent="register">
               <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" name="email" id="email" class="form-control" placeholder="email@example.com">
+                <input type="email" name="email" id="email" class="form-control" placeholder="email@example.com" v-model="email">
               </div>
               <div class="form-group mb-4">
                 <label for="password">Password</label>
-                <input type="password" name="password" id="password" class="form-control" placeholder="enter your passsword">
+                <input type="password" name="password" id="password" class="form-control" placeholder="enter your passsword" v-model="password">
               </div>
-              <input name="submit" id="register" class="btn btn-block register-btn" type="button" value="Register">
+              <input name="submit" id="register" class="btn btn-block register-btn" type="submit" value="Register">
             </form>
-            <p class="register-wrapper-footer-text">Done have an account? <a href="#!" class="text-reset">Login here</a></p>
+            <p class="register-wrapper-footer-text">Done have an account? <router-link to="/login" class="text-reset">Login here</router-link></p>
           </div>
         </div>
         <div class="col-sm-6 px-0 d-none d-sm-block">
@@ -31,8 +36,43 @@
 </template>
 
 <script>
+import swal from 'sweetalert'
 export default {
-
+  data () {
+    return {
+      email: '',
+      password: '',
+      isLoading: false
+    }
+  },
+  methods: {
+    register () {
+      if (localStorage.getItem('access_token')) {
+        swal('Error', 'Anda telah Login')
+      } else {
+        this.isLoading = true
+        const obj = {
+          email: this.email,
+          password: this.password
+        }
+        this.$store.dispatch('register', obj)
+          .then(value => {
+            swal({
+              text: 'Register Success',
+              title: 'Yeay',
+              icon: 'success'
+            })
+            this.$router.push('/login')
+          })
+          .catch(err => {
+            swal('Error', err.response.data)
+          })
+          .finally(() => {
+            this.isLoading = false
+          })
+      }
+    }
+  }
 }
 </script>
 
@@ -141,6 +181,7 @@ body {
     border-radius: 27.5px;
     box-shadow: 0 10px 30px 0 rgba(172, 168, 168, 0.43);
     overflow: hidden;
+    margin-top: 150px;
   }
 
 /*# sourceMappingURL=register.css.map */
