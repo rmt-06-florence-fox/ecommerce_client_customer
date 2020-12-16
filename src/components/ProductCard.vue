@@ -1,20 +1,37 @@
 <template>
-  <div class="card col-3 m-2 border-0 shadow" style="width: 18rem;">
-    <img class="card-img-top  mt-2 h-75">
-    <div class="card-body d-flex flex-column align-items-center">
-        <img src="../assets/heart2.svg" alt="" class="bottom-left-icon">
-        <p class="card-text text-secondary"></p>
-        <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+  <div class="card  m-3 border-0 shadow" style="width: 25rem;">
+    <img class="card-img-top" :src="product.image_url" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">{{product.name}}</h5>
+      <p class="card-text"><strong>{{price}}</strong><br>
+      stock: {{product.stock}}</p>
+      <a href="#" class="btn btn-primary text-white"><span class="glyphicon glyphicon-shopping-cart"></span> Add to Cart</a>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-
+  name: 'ProductCard',
+  props: ['product'],
+  computed: {
+    price () {
+      let rupiah = ''
+      const angkarev = this.product.price.toString().split('').reverse().join('')
+      for (let i = 0; i < angkarev.length; i++) if (i % 3 === 0) rupiah += angkarev.substr(i, 3) + '.'
+      return 'Rp. ' + rupiah.split('', rupiah.length - 1).reverse().join('')
+    }
+  }
 }
 </script>
 
 <style>
-
+.bottom-left-icon {
+  width: 10%;
+  position: absolute;
+  top: 8px;
+  right: 16px;
+  font-size: 18px;
+  cursor:pointer;
+  }
 </style>

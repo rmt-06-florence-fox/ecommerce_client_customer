@@ -4,10 +4,29 @@ import Home from '../views/Home.vue'
 import Product from '../views/Product'
 import Login from '../views/Login'
 import Register from '../views/Register'
+import Dashboard from '../views/Dashboard'
+import Cart from '../views/Cart'
 
 Vue.use(VueRouter)
 
 const routes = [
+  {
+    path: '/customer',
+    name: 'Dashboard',
+    component: Dashboard,
+    children: [
+      {
+        path: '',
+        name: 'ProductList',
+        component: Product
+      },
+      {
+        path: '/customer/cart',
+        name: 'ShoppingCart',
+        component: Cart
+      }
+    ]
+  },
   {
     path: '/',
     name: 'Home',
