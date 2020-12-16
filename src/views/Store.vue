@@ -1,36 +1,25 @@
 <template>
   <div class="col-12">
-       <div class="cart_title mt-5">Etalase {{ title }}</div>
-       <div class="cart_section">
+       <div class="cart_title mt-5">
+         <h1 style="font-size: 90px; color: black">
+           Etalase {{ title }}
+         </h1>
+       </div>
+       <div class="cart_section" style="padding-top: 10px;">
      <div class="container-fluid">
          <div class="row justify-content-center">
              <div class="col-lg-10">
                  <div class="cart_container">
-                     <!-- <div v-if="addForm === false" @click="addFormStatus" class="cart_buttons"><button type="button" class="button cart_button_checkout">Tambah Produk</button></div>
-                     <div class='col-12 m-5' v-if="addForm === true">
-                      <form @submit.prevent="addProduct">
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">Nama</label>
-                          <input v-model="name" type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Nama produk">
-                        </div>
-                        <div class="form-group">
-                          <label for="exampleInputPassword1">Stock</label>
-                          <input v-model="stock" type="text" class="form-control" id="exampleInputPassword1" placeholder="Jumlah produk">
-                        </div>
-                        <div class="form-group">
-                          <label for="exampleInputPassword1">Harga</label>
-                          <input v-model="price" type="text" class="form-control" id="exampleInputPassword1" placeholder="Harga produk">
-                        </div>
-                        <div class="form-group">
-                          <label for="exampleInputPassword1">Foto</label>
-                          <input v-model="image_url" type="text" class="form-control" id="exampleInputPassword1" placeholder="Link gambar">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Tambahkan</button>
-                      </form>
-                        <p @click="addFormStatusFalse" class="col-12 m-2">cancel</p>
-                     </div> -->
-                     <!-- benerin -->
-                     <ProductRow v-for="product in allProducts" :key="product.id" :product="product"></ProductRow>
+                     <Banner style="max-height:300px;"/>
+                     <div class="col-12 mt-1" style="background-color: black; color: white; font-size: 16px;">
+                       <ul class="row align-items-center" style="justify-content: space-around;">
+                         <li @click="changeCategory('')">Semua Produk</li>
+                         <li @click="changeCategory('Aksesoris')">Aksesoris</li>
+                         <li @click="changeCategory('Pria')">Pria</li>
+                         <li @click="changeCategory('Wanita')">Wanita</li>
+                       </ul>
+                     </div>
+                     <ProductRow v-for="product in filteredProducts" :key="product.id" :product="product"></ProductRow>
                  </div>
              </div>
          </div>
@@ -42,10 +31,12 @@
 <script>
 import { mapState } from 'vuex'
 import ProductRow from '../components/ProductRow'
+import Banner from '../components/Banner'
 
 export default {
   components: {
-    ProductRow
+    ProductRow,
+    Banner
   },
   data () {
     return {
@@ -53,10 +44,14 @@ export default {
       name: '',
       image_url: '',
       stock: '',
-      price: ''
+      price: '',
+      category: ''
     }
   },
   methods: {
+    changeCategory (category) {
+      this.category = category
+    },
     fetchData () {
       this.$store.dispatch('fetchData')
     },
@@ -98,7 +93,11 @@ export default {
     this.addForm = false
   },
   computed: {
-    ...mapState(['title', 'allProducts'])
+    ...mapState(['title', 'allProducts']),
+    // ...mapGetters(['filteredProducts']),
+    filteredProducts () {
+      return this.$store.getters.filteredProducts(this.category)
+    }
   }
 }
 </script>
@@ -110,6 +109,10 @@ export default {
     -webkit-font-smoothing: antialiased;
     -webkit-text-shadow: rgba(0, 0, 0, .01) 0 0 1px;
     text-shadow: rgba(0, 0, 0, .01) 0 0 1px
+}
+
+li {
+  cursor: pointer;
 }
 
 p:hover {

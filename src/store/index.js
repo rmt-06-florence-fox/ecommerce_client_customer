@@ -66,7 +66,7 @@ export default new Vuex.Store({
       })
         .then(response => {
           const data = response.data
-          console.log(data)
+          // console.log(data)
           // this.allProducts = data
           // console.log(this.allProducts)
           context.commit('setAllProducts', data)
@@ -74,7 +74,7 @@ export default new Vuex.Store({
           let totalPrice = 0
           for (let i = 0; i < data.length; i++) {
             const product = data[i]
-            console.log(product)
+            // console.log(product)
             totalPrice += (Number(product.Product.price) * Number(product.count))
           }
           context.commit('setPrice', totalPrice)
@@ -177,5 +177,15 @@ export default new Vuex.Store({
     }
   },
   modules: {
+  },
+  getters: {
+    filteredProducts: (state) => (payload) => {
+      if (!payload) {
+        return state.allProducts
+      }
+      return state.allProducts.filter(el => {
+        return el.category === payload
+      })
+    }
   }
 })

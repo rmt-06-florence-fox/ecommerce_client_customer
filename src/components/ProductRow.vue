@@ -11,7 +11,12 @@
                   </div>
                   <div class="cart_item_quantity cart_info_col">
                       <div class="cart_item_title">Stock</div>
-                      <div class="cart_item_text">{{ product.stock }}</div>
+                      <div v-if="product.stock !==0" class="cart_item_text">{{ product.stock }}</div>
+                      <div v-else class="cart_item_text">
+                        <h6 style="color:red;">
+                        SOLD OUT
+                        </h6>
+                      </div>
                   </div>
                   <div class="cart_item_price cart_info_col">
                       <div class="cart_item_title">Harga</div>

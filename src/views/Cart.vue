@@ -1,11 +1,16 @@
 <template>
   <div class="col-12">
-      <div class="cart_title mt-5">Keranjang</div>
+      <div v-if="allProducts.length !== 0" class="cart_title mt-5">Keranjang</div>
       <div class="cart_section">
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-lg-10">
                 <div class="cart_container">
+                  <div v-if="allProducts.length === 0" class="mb-5">
+                    <i class="fa fa-shopping-cart fa-5x" aria-hidden="true"></i>
+                    <h1 >Kosong ni</h1>
+                    <h5>Silakan liat-liat dulu produk kami</h5>
+                  </div>
                     <!-- <div v-if="addForm === false" @click="addFormStatus" class="cart_buttons"><button type="button" class="button cart_button_checkout">Tambah Produk</button></div>
                     <div class='col-12 m-5' v-if="addForm === true">
                       <form @submit.prevent="addProduct">
@@ -31,10 +36,10 @@
                     </div> -->
                     <!-- benerin -->
                     <CartRow v-for="product in allProducts" :key="product.id" :product="product"></CartRow>
-                    <div class="cart_item_price cart_info_col mt-4 mr-3">
+                    <div v-if="allProducts.length !== 0" class="cart_item_price cart_info_col mt-4 mr-3">
                       <div class="cart_item_title">Total harga:</div>
                       <div class="cart_item_text mt-0">Rp {{ price }}</div>
-                      <button class="btn btn-primary mt-2">Checkout</button>
+                      <button @click="checkout" class="btn btn-primary mt-2">Checkout</button>
                   </div>
                 </div>
             </div>
@@ -53,6 +58,28 @@ export default {
       totalPrice: 100
     }
   },
+  methods: {
+    checkout () {
+      for (let i = 0; i < this.allProducts.length; i++) {
+        const product = this.allProducts[i]
+        // console.log(product.count)
+        // console.log(product.Product.stock)
+        // console.log('haha')
+        const newStock = product.Product.stock - product.count
+        // console.log(newStock)
+        const obj = {
+          id: product.Product.id,
+          name: product.Product.name,
+          stock: newStock,
+          price: product.Product.price,
+          image_url: product.Product.image_url
+        }
+        console.log(obj.id)
+        this.$store.dispatch('updateProduct', obj)
+        this.$store.dispatch('deleteCart', product.id)
+      }
+    }
+  },
   computed: {
     ...mapState(['allProducts', 'price'])
   },
@@ -61,6 +88,7 @@ export default {
   },
   created () {
     this.$store.dispatch('getCarts')
+    console.log(this.allProducts)
   }
 
 }

@@ -6,21 +6,26 @@
               <div class="row">
                 <div class="col-8">
                   <img :src="productDetails.image_url" class="img-fluid">
-                  <button v-if="increment === false" @click="updateCart(productDetails.id)" class="btn btn-info m-3">Masukkan ke keranjang</button>
-                  <button v-else style="opacity:0.5;" class="btn btn-info m-3">Masukkan ke keranjang</button>
+                  <button v-if="increment === false && productDetails.stock !== 0" @click="updateCart(productDetails.id)" class="btn btn-info m-3">Masukkan ke keranjang</button>
+                  <button v-else style="opacity:0.3;" @click="soldWarning" class="btn btn-info m-3">Masukkan ke keranjang</button>
                   <!-- <button class="btn btn-danger m-3" @click="deleteProduct(productDetails.id)">Delete</button> -->
+                  <br><small v-if="sold === true" style="color: red;">Keabisan lu bos</small>
                 </div>
                 <div class="konten col-4">
                   <ul class="list-group">
                     <li class="list-group-item">
                       Stock <br>
-                      <small class="text-muted">{{ productDetails.stock }}</small>
+                      <small v-if="productDetails.stock === 0" style="color: red;">SOLD OUT</small>
+                      <small v-else class="text-muted">{{ productDetails.stock }}</small>
                     </li>
                     <li class="list-group-item">
                       Harga <br>
                       <small class="text-muted">Rp {{ productDetails.price }}</small>
                     </li>
                   </ul>
+                  <h6 class="mt-3">Jumlah produk dalam keranjang:</h6>
+                  <h2>{{ count }}</h2>
+                  <p v-if="increment === true" style="color:red; font-size: 12px;">semua stock telah masuk ke dalam keranjang</p>
                 </div>
                 <div class='form col-8' v-if="updateForm === true">
                   <form @submit.prevent="updateProduct">
@@ -64,10 +69,15 @@ export default {
       stock: 0,
       price: 0,
       image_url: '',
-      increment: false
+      increment: false,
+      count: 0,
+      sold: false
     }
   },
   methods: {
+    soldWarning () {
+      this.sold = true
+    },
     updateCart (id) {
       // console.log(id)
       this.$store.dispatch('updateCart', id)
@@ -107,6 +117,7 @@ export default {
             this.stock = product.stock
             this.price = product.price
             this.image_url = product.image_url
+            this.count = data.data.product.count
             if (data.data.product.count >= product.stock) {
               this.increment = true
             }
@@ -116,6 +127,7 @@ export default {
             this.stock = data.data.product.stock
             this.price = data.data.product.price
             this.image_url = data.data.product.image_url
+            this.count = 0
           }
         })
         .catch(err => {
@@ -138,6 +150,7 @@ export default {
   created () {
     this.updateForm = false
     this.getProductById()
+    // console.log(this.productDetails, ',,,,')
   }
 }
 </script>
