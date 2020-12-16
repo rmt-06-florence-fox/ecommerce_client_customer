@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-
+import NotFound from '../views/NotFound.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -29,13 +29,12 @@ const routes = [
         path: 'history',
         name: 'TransHistory',
         component: () => import('../components/Trans.vue')
+      },
+      {
+        path: '*',
+        name: 'NotFound',
+        component: NotFound
       }
-      // ,
-      // {
-      //   path: '*',
-      //   name: 'NotFound',
-      //   component: NotFound
-      // }
     ]
   }
 ]

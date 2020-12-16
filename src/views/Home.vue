@@ -9,19 +9,6 @@
           <mdb-nav-item
           @click.native.prevent="goToAll"
           href="#" active>All Products</mdb-nav-item>
-          <!-- <mdb-dropdown tag="li" class="nav-item">
-            <mdb-dropdown-toggle tag="a" navLink slot="toggle" waves-fixed>Category</mdb-dropdown-toggle>
-            <mdb-dropdown-menu>
-              <mdb-dropdown-item
-              @click.native.prevent="goHome">Cat1</mdb-dropdown-item>
-              <mdb-dropdown-item>cat2</mdb-dropdown-item>
-              <mdb-dropdown-item>cat3</mdb-dropdown-item>
-            </mdb-dropdown-menu>
-          </mdb-dropdown> -->
-                  <!-- <form>
-          <mdb-input type="text" class="text-white" placeholder="Search" aria-label="Search" label navInput waves waves-fixed/>
-        </form> -->
-
         </mdb-navbar-nav>
       </mdb-navbar-toggler>
       <mdb-navbar-toggler class="col-4 justify-content-center">
@@ -31,7 +18,7 @@
       </mdb-navbar-toggler>
       <mdb-navbar-toggler class="col-4 justify-content-end">
         <span
-        v-if="userDetail.role"
+        v-if="userDetail.email"
         class="align-items-center d-flex">
           <div>
             <mdb-dropdown
@@ -43,7 +30,7 @@
               </v-gravatar>
               <span
               class="mx-2 navbar-text white-text">
-              {{ userDetail.role }}
+              {{ userDetail.email }}
               </span>
               </mdb-dropdown-toggle>
               <mdb-dropdown-menu>
@@ -93,12 +80,12 @@
           :key="cat.id">
             <mdb-view hover>
               <a href="#!">
-                <mdb-card-image :src="`https://source.unsplash.com/random`" :alt="cat.name"></mdb-card-image>
+                <mdb-card-image :src="`https://source.unsplash.com/1600x900/?${cat.name},product`" :alt="cat.name"></mdb-card-image>
                 <mdb-mask flex-center waves overlay="white-slight"></mdb-mask>
               </a>
             </mdb-view>
             <mdb-card-body>
-              <mdb-card-title class="text-capitalize">{{ cat.name }}</mdb-card-title>
+              <mdb-card-title class="text-capitalize">{{ name }}</mdb-card-title>
               <mdb-btn
               @click="goToCategory(cat.id)"
               color="primary"><mdb-icon icon="shopping-bag"/> Shop Now</mdb-btn>
@@ -128,10 +115,13 @@
           v-if="!tabs">
           <mdb-modal-body class="mx-3 grey-text text-left">
             <mdb-input
-            v-model="form.email"
+            v-model="name"
+            label="Your name" icon="user" class="mb-5"/>
+            <mdb-input
+            v-model="email"
             label="Your email" icon="envelope" type="email" class="mb-5"/>
             <mdb-input
-            v-model="form.password"
+            v-model="password"
             label="Your password" icon="lock" type="password"/>
           </mdb-modal-body>
           <mdb-modal-footer center>
@@ -143,10 +133,10 @@
           v-else>
           <mdb-modal-body class="mx-3 grey-text text-left">
             <mdb-input
-            v-model="form.email"
+            v-model="email"
             label="Your email" icon="envelope" type="email" class="mb-5"/>
             <mdb-input
-            v-model="form.password"
+            v-model="password"
             label="Your password" icon="lock" type="password"/>
           </mdb-modal-body>
           <mdb-modal-footer center>
@@ -165,11 +155,9 @@ export default {
     return {
       register: false,
       tabs: false,
-      form: {
-        name: '',
-        email: '',
-        password: ''
-      }
+      name: '',
+      email: '',
+      password: ''
     }
   },
   computed: {
@@ -194,46 +182,37 @@ export default {
       this.$router.push('/', () => {})
     },
     signUp () {
-      this.form.avatar = this.form.email
-      this.$store.dispatch('register', this.form)
+      const user = {
+        email: this.email,
+        password: this.password
+      }
+      this.$store.dispatch('register', user)
         .then(({ data }) => {
-          for (const key in this.form) {
-            this.form[key] = ''
-          }
-          this.$vToastify.success(`Thank you ${data.email} for registering on Amaz-ing. Happy shopping!`)
+          this.$vToastify.success('Thank you for registering. Happy shopping!')
         })
         .catch(({ response }) => {
           this.$vToastify.error(response.data.error)
         })
     },
     signIn () {
-      this.$store.dispatch('login', this.form)
-        .then(({ data }) => {
-          localStorage.setItem('access_token', data.access_token)
-          for (const key in this.form) {
-            this.form[key] = ''
-          }
-          this.$store.commit('setUserDetail', data)
-          this.$store.dispatch('fetchCart')
-          this.$vToastify.success(`Logged in with ${data.email}`)
-        })
-        .catch(({ response }) => {
-          this.$vToastify.error(response.data.error)
-        })
+      const user = {
+        email: this.email,
+        password: this.password
+      }
+      this.$store.dispatch('login', user)
+      this.sign = false
     },
     signOut () {
+      this.email = ''
       this.$vToastify.prompt({
         body: 'Are you sure?',
         answers: { Yes: true, No: false }
       })
         .then(val => {
           if (val) {
-            localStorage.clear()
-            this.$router.push('/')
-            for (const key in this.form) {
-              this.form[key] = ''
-            }
-            this.$store.commit('setUserDetail', this.form)
+            localStorage.removeItem('access_token')
+            localStorage.removeItem('email')
+            this.$store.commit('setUserDetail', this.email)
           }
         })
     },

@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from '../axios/axios'
+// import router from '../router'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
     userDetail: {
-      email: localStorage.email,
-      role: localStorage.role
+      email: localStorage.email
     },
     products: [],
     banners: [],
@@ -19,8 +19,7 @@ export default new Vuex.Store({
   },
   mutations: {
     setUserDetail (state, payload) {
-      const { email, role } = payload
-      state.userDetail = { email, role }
+      state.userDetail = payload
     },
     setProducts (state, payload) {
       state.products = payload
@@ -49,7 +48,21 @@ export default new Vuex.Store({
       return axios.post('/registerCust', payload)
     },
     login (context, payload) {
-      return axios.post('/loginCust', payload)
+      axios({
+        method: 'POST',
+        url: '/loginCust',
+        data: payload
+      })
+        .then(({ data }) => {
+          console.log(data)
+          // Vue.swal('Login Success')
+          localStorage.setItem('access_token', data.access_token)
+          localStorage.setItem('email', data.email)
+        })
+        .catch(err => {
+          console.log(err)
+          // Vue.swal('Failed to Login', `${err.response.data.message}`, 'error')
+        })
     },
     fetchAllProducts (context) {
       axios.get('/products', {

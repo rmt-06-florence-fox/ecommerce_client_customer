@@ -17,6 +17,7 @@
                     <th></th>
                   </tr>
                 </mdb-tbl-head>
+                {{cart}}
                 <mdb-tbl-body>
                   <tr
                   v-for="product in cart"
