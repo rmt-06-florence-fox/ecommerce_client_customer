@@ -72,7 +72,10 @@ export default {
   methods: {
     register () {
       // register ke store
-      console.log(this.email, this.password)
+      this.$store.dispatch('register', {
+        email: this.email,
+        password: this.password
+      })
     },
     changePage () {
       this.$emit('changePage')

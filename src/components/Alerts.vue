@@ -1,18 +1,12 @@
 <template>
   <!-- component -->
   <div
-    class="min-h-screen flex flex-col space-y-4 items-center justify-center bg-gray-100 py-6"
+    class="flex flex-col items-center justify-center bg-transparent py-1 fixed w-screen"
   >
-    <div class="relative font-semibold text-2xl pb-4 border-b border-gray-300">
-      <span>Alerts components</span>
-      <span
-        class="absolute text-xs right-0 -mt-6 -mr-6 bg-blue-300 text-blue-800 rounded p-1"
-        >by iAmine</span
-      >
-    </div>
-
+  <transition name="fade">
     <div
-      class="alert flex flex-row items-center bg-red-200 p-5 rounded border-b-2 border-red-300"
+      class="alert flex flex-row items-center bg-red-200 p-2 rounded border-b-2 border-red-300"
+      v-if="errors.red"
     >
       <div
         class="alert-icon flex items-center bg-red-100 border-2 border-red-500 justify-center h-10 w-10 flex-shrink-0 rounded-full"
@@ -30,13 +24,15 @@
       <div class="alert-content ml-4">
         <div class="alert-title font-semibold text-lg text-red-800">Error</div>
         <div class="alert-description text-sm text-red-600">
-          This is an alert message, alert message goes here..!
+          {{ errors.red }}
         </div>
       </div>
     </div>
-
+  </transition>
+  <transition name="fade">
     <div
       class="alert flex flex-row items-center bg-green-200 p-5 rounded border-b-2 border-green-300"
+      v-if="errors.green"
     >
       <div
         class="alert-icon flex items-center bg-green-100 border-2 border-green-500 justify-center h-10 w-10 flex-shrink-0 rounded-full"
@@ -56,13 +52,15 @@
           Success
         </div>
         <div class="alert-description text-sm text-green-600">
-          This is an alert message, alert message goes here..!
+          {{ errors.green }}
         </div>
       </div>
     </div>
-
+    </transition>
+    <transition name="fade">
     <div
       class="alert flex flex-row items-center bg-yellow-200 p-5 rounded border-b-2 border-yellow-300"
+      v-if="errors.yellow"
     >
       <div
         class="alert-icon flex items-center bg-yellow-100 border-2 border-yellow-500 justify-center h-10 w-10 flex-shrink-0 rounded-full"
@@ -82,13 +80,15 @@
           Warning
         </div>
         <div class="alert-description text-sm text-yellow-600">
-          This is an alert message, alert message goes here..!
+          {{ errors.yellow }}
         </div>
       </div>
     </div>
-
+  </transition>
+  <transition name="fade">
     <div
       class="alert flex flex-row items-center bg-blue-200 p-5 rounded border-b-2 border-blue-300"
+      v-if="errors.blue"
     >
       <div
         class="alert-icon flex items-center bg-blue-100 border-2 border-blue-500 justify-center h-10 w-10 flex-shrink-0 rounded-full"
@@ -106,16 +106,30 @@
       <div class="alert-content ml-4">
         <div class="alert-title font-semibold text-lg text-blue-800">Info</div>
         <div class="alert-description text-sm text-blue-600">
-          This is an alert message, alert message goes here..!
+          {{ errors.blue }}
         </div>
       </div>
     </div>
+    </transition>
   </div>
 </template>
 
 <script>
-export default {}
+export default {
+  name: 'alerts',
+  computed: {
+    errors () {
+      return this.$store.state.errors
+    }
+  }
+}
 </script>
 
 <style>
+.fade-enter-active, .fade-leave-active {
+  transition: opacity .3s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 </style>

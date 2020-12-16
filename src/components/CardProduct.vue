@@ -5,31 +5,32 @@
         <!-- Article -->
         <article class="overflow-hidden rounded-lg shadow-lg">
 
-            <a href="#">
-                <img alt="Placeholder" class="block max-h-80 w-full" src="https://picsum.photos/600/400/?random">
-            </a>
+            <div>
+                <img alt="Placeholder" class="block h-60 w-full" :src="item.image_url">
+            </div>
 
             <header class="flex items-center justify-between leading-tight p-2 md:p-4">
                 <h1 class="text-lg">
-                    <a class="no-underline hover:underline text-black" href="#">
-                        Article Title
+                    <a class="no-underline text-black">
+                        {{ item.name }}
                     </a>
                 </h1>
                 <p class="text-grey-darker text-sm">
-                    14/4/19
+                    stock: {{ item.stock }}
+                </p>
+                <p class="text-grey-darker text-sm">
+                    {{ item.category }}
                 </p>
             </header>
 
             <footer class="flex items-center justify-between leading-none p-2 md:p-4">
-                <a class="flex items-center no-underline hover:underline text-black" href="#">
-                    <img alt="Placeholder" class="block rounded-full" src="https://picsum.photos/32/32/?random">
+                <a class="flex items-center no-underline text-black">
                     <p class="ml-2 text-sm">
-                        Author Name
+                        {{ item.price }}
                     </p>
                 </a>
-                <a class="no-underline text-grey-darker hover:text-red-dark" href="#">
-                    <span class="hidden">Like</span>
-                    <i class="fa fa-heart"></i>
+                <a class="no-underline text-grey-darker hover:text-red-dark" @click="postCart(item.id)">
+                    <button class="hover:underline">Add to cart</button>
                 </a>
             </footer>
 
@@ -42,7 +43,13 @@
 
 <script>
 export default {
-
+  name: 'CardProduct',
+  props: ['item'],
+  methods: {
+    postCart (id) {
+      this.$store.dispatch('postProductId', id)
+    }
+  }
 }
 </script>
 

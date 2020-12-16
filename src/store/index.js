@@ -11,24 +11,33 @@ export default new Vuex.Store({
     products: [],
     carts: [],
     histories: [],
-    errorLogin: '',
-    isLogin: false
+    errors: {
+      red: '',
+      green: '',
+      yellow: '',
+      blue: ''
+    },
+    isLogin: false,
+    search: ''
   },
   mutations: {
     SET_products (state, payload) {
-      //
+      state.products = payload
     },
     SET_carts (state, payload) {
-      //
+      state.carts = payload
     },
     SET_histories (state, payload) {
-      //
+      state.histories = payload
     },
-    SET_errorLogin (state, payload) {
-      //
+    SET_errors (state, payload) {
+      state.errors = payload
     },
     SET_isLogin (state, payload) {
       state.isLogin = payload
+    },
+    SET_search (state, payload) {
+      state.search = payload
     }
   },
   actions: {
@@ -46,7 +55,20 @@ export default new Vuex.Store({
           router.push('/')
         })
         .catch(err => {
-          console.log(err.response)
+          context.commit('SET_errors', {
+            red: err.response.data.message,
+            green: '',
+            yellow: '',
+            blue: ''
+          })
+          setTimeout(() => {
+            context.commit('SET_errors', {
+              red: '',
+              green: '',
+              yellow: '',
+              blue: ''
+            })
+          }, 3000)
         })
     },
     logout (context, payload) {
@@ -67,7 +89,20 @@ export default new Vuex.Store({
           router.push('/login')
         })
         .catch(err => {
-          console.log(err.response)
+          context.commit('SET_errors', {
+            red: err.response.data.message,
+            green: '',
+            yellow: '',
+            blue: ''
+          })
+          setTimeout(() => {
+            context.commit('SET_errors', {
+              red: '',
+              green: '',
+              yellow: '',
+              blue: ''
+            })
+          }, 3000)
         })
     },
     getProduct (context, payload) {
@@ -76,7 +111,15 @@ export default new Vuex.Store({
         method: 'GET'
       })
         .then(({ data }) => {
-          context.commit('SET_products', data)
+          const formatter = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'IDR'
+          })
+          data.products.map(el => {
+            el.price = formatter.format(el.price)
+            return el
+          })
+          context.commit('SET_products', data.products)
         })
         .catch(err => {
           console.log(err.response)
@@ -91,7 +134,16 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
-          context.commit('SET_carts', data)
+          const formatter = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'IDR'
+          })
+          data.cart.map(el => {
+            el.price = formatter.format(el.price)
+            el.total = formatter.format(el.total)
+            return el
+          })
+          context.commit('SET_carts', data.cart)
         })
         .catch(err => {
           console.log(err.response)
@@ -107,7 +159,16 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
-          context.commit('SET_histories', data)
+          const formatter = new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'IDR'
+          })
+          data.histories.map(el => {
+            el.price = formatter.format(el.price)
+            el.total = formatter.format(el.total)
+            return el
+          })
+          context.commit('SET_histories', data.histories)
         })
         .catch(err => {
           console.log(err.response)
@@ -126,21 +187,61 @@ export default new Vuex.Store({
           router.push('/history')
         })
         .catch(err => {
-          console.log(err.response)
+          context.commit('SET_errors', {
+            red: err.response.data.message,
+            green: '',
+            yellow: '',
+            blue: ''
+          })
+          setTimeout(() => {
+            context.commit('SET_errors', {
+              red: '',
+              green: '',
+              yellow: '',
+              blue: ''
+            })
+          }, 3000)
         })
     },
     postProductId (context, payload) {
       axios({
-        url: `/carts/${payload.id}`,
+        url: `/carts/${payload}`,
         method: 'POST',
         headers: {
           access_token: localStorage.getItem('access_token')
         }
       })
         .then(({ data }) => {
+          context.commit('SET_errors', {
+            red: '',
+            green: '',
+            yellow: '',
+            blue: 'added to cart'
+          })
+          setTimeout(() => {
+            context.commit('SET_errors', {
+              red: '',
+              green: '',
+              yellow: '',
+              blue: ''
+            })
+          }, 3000)
         })
         .catch(err => {
-          console.log(err.response)
+          context.commit('SET_errors', {
+            red: err.response.data.message,
+            green: '',
+            yellow: '',
+            blue: ''
+          })
+          setTimeout(() => {
+            context.commit('SET_errors', {
+              red: '',
+              green: '',
+              yellow: '',
+              blue: ''
+            })
+          }, 3000)
         })
     },
     patchCartId (context, payload) {
@@ -158,7 +259,20 @@ export default new Vuex.Store({
           context.dispatch('getCart')
         })
         .catch(err => {
-          console.log(err.response)
+          context.commit('SET_errors', {
+            red: err.response.data.message,
+            green: '',
+            yellow: '',
+            blue: ''
+          })
+          setTimeout(() => {
+            context.commit('SET_errors', {
+              red: '',
+              green: '',
+              yellow: '',
+              blue: ''
+            })
+          }, 3000)
         })
     },
     deleteCartId (context, payload) {
@@ -173,12 +287,37 @@ export default new Vuex.Store({
           context.dispatch('getCart')
         })
         .catch(err => {
-          console.log(err.response)
+          context.commit('SET_errors', {
+            red: err.response.data.message,
+            green: '',
+            yellow: '',
+            blue: ''
+          })
+          setTimeout(() => {
+            context.commit('SET_errors', {
+              red: '',
+              green: '',
+              yellow: '',
+              blue: ''
+            })
+          }, 3000)
         })
     }
   },
   modules: {
   },
   getters: {
+    filteredProduct: (state) => {
+      if (state.search === '' || state.products.length < 1) {
+        return state.products
+      } else {
+        const out = state.products.filter(el => {
+          if (el.category.includes(state.search)) {
+            return el
+          }
+        })
+        return out
+      }
+    }
   }
 })
