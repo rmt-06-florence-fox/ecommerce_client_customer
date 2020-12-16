@@ -7,8 +7,20 @@
       </div>
       <div class="row" v-else>
           <div class="col-md-3">
-              <h1>Buat Checkout dan total harga</h1>
-              <h1>{{ convertMoney() }}</h1>
+              <!-- card checkout -->
+            <div class="card">
+              <div class="card-header">
+                Checkout
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Total Price On Your Cart</h5>
+                <h6 class="card-text">{{ convertMoney() }}</h6>
+                <p class="card-text">Checkout Now And Get Your Product</p>
+                <p class="card-text">Wee will to your email for more about payment</p>
+                <button href="#" class="btn btn-primary" disabled>Checkout Now</button>
+              </div>
+            </div>
+              <!-- card checkout -->
           </div>
           <div class="col-9">
               <h1>Your Cart</h1>
@@ -33,7 +45,7 @@ export default {
     return {
       isLoading: false,
       carts: this.$store.state.carts,
-      total: this.$store.state.carts
+      total: this.$store.state.totalPrice
     }
   },
   components: {

@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from '../config/axios'
-// import swal from 'sweetalert'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -68,6 +67,25 @@ export default new Vuex.Store({
     getTotalPrice (context) {
       const carts = this.carts
       context.commit('set_totalPrice', carts)
+    },
+    deleteCart (context, id) {
+      return axios({
+        url: '/cart/' + id,
+        method: 'DELETE',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+    },
+    patchCart (context, payload) {
+      return axios({
+        url: '/cart',
+        method: 'PATCH',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        },
+        data: payload
+      })
     }
   },
   modules: {

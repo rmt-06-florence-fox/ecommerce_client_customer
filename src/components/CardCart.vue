@@ -13,20 +13,20 @@
                                 <span class="visually-hidden"></span>
                              </div>
                             <div v-else>
-                                <button class="bd-highlight mx-1 btn">-</button>
+                                <button class="bd-highlight mx-1 btn" @click="minCart">-</button>
                             </div>
                             <span class="bd-highlight mx-2 mt-1">{{ cart.quantity }}</span>
                             <div class="spinner-border text-primary" role="status" v-if="loadingCount">
                                 <span class="visually-hidden"></span>
                             </div>
                             <div v-else>
-                                <button class="bd-highlight mx-1 btn">+</button>
+                                <button class="bd-highlight mx-1 btn" @click="plusCart">+</button>
                             </div>
-                            <div class="spinner-border text-primary mx-5" role="status" v-if="loadingRemove">
+                            <div class="spinner-border text-primary" role="status" v-if="loadingRemove">
                                 <span class="visually-hidden"></span>
                             </div>
                             <div v-else>
-                                <button class="bd-highlight mx-5 btn-danger btn-remove">Remove From Cart</button>
+                                <button class="bd-highlight btn-danger btn-remove" @click="removeCart">Remove From Cart</button>
                             </div>
                     </div>
                 </div>
@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import swal from 'sweetalert'
 export default {
   name: 'CardCart',
   props: ['cart'],
@@ -52,6 +53,72 @@ export default {
       thousand = thousand.match(/\d{1,3}/g)
       thousand = thousand.join('.').split('').reverse().join('')
       return `Rp.${thousand},-`
+    },
+    removeCart () {
+      swal({
+        title: 'Are you Sure?',
+        text: 'You will delted this product permanently',
+        icon: 'warning',
+        buttons: true,
+        dangerMode: true
+      })
+        .then(willDelete => {
+          if (willDelete) {
+            this.loadingRemove = true
+            this.$store.dispatch('deleteCart', this.cart.id)
+              .then(value => {
+                swal({
+                  text: 'Cart has beed deleted',
+                  title: 'Yeay',
+                  icon: 'success'
+                })
+                this.$store.dispatch('fetchCart')
+                this.$router.push('/')
+              })
+              .catch(err => {
+                swal('Error', `${err.response.data}`)
+              })
+          } else {
+            swal('Your Product is save!')
+          }
+        })
+        .finally(() => {
+          this.loadingRemove = false
+        })
+    },
+    plusCart () {
+      this.loadingCount = true
+      const obj = {
+        quantity: +1,
+        ProductId: this.cart.Product.id
+      }
+      this.$store.dispatch('patchCart', obj)
+        .then(value => {
+          this.cart = value.data
+        })
+        .catch(err => {
+          swal('Error', `${err.response.data}`)
+        })
+        .finally(() => {
+          this.loadingCount = false
+        })
+    },
+    minCart () {
+      this.loadingCount = true
+      const obj = {
+        quantity: -1,
+        ProductId: this.cart.Product.id
+      }
+      this.$store.dispatch('patchCart', obj)
+        .then(value => {
+          this.cart = value.data
+        })
+        .catch(err => {
+          swal('Error', `${err.response.data}`)
+        })
+        .finally(() => {
+          this.loadingCount = false
+        })
     }
   }
 }
@@ -71,5 +138,6 @@ export default {
   }
   .btn-remove{
       overflow: hidden;
+      margin-left: 50px;
   }
 </style>
