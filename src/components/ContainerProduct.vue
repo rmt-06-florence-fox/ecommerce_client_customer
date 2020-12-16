@@ -1,0 +1,22 @@
+<template>
+  <!-- component -->
+    <div class="container my-12 mx-auto px-4 md:px-12">
+        <div class="flex flex-wrap -mx-1 lg:-mx-4">
+            <CardProduct/>
+        </div>
+    </div>
+</template>
+
+<script>
+import CardProduct from './CardProduct'
+export default {
+  name: 'ContainerProduct',
+  components: {
+    CardProduct
+  }
+}
+</script>
+
+<style>
+
+</style>
