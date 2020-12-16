@@ -9,7 +9,7 @@
         <p class="card-text fas fa-calculator"> {{ product.stock }} left</p>
         <p class="card-text fas fa-money-bill ml-auto"> <small> Rp </small>{{ convertRupiah }},00</p>
       </div>
-      <button v-if="isLogin" class="btn btn-add-cart mx-auto mb-2"><b-icon icon="bag-plus"></b-icon> Add To Cart</button>
+      <button @click.prevent="addCart" v-if="isLogin" class="btn btn-add-cart m-2 mx-auto"><b-icon icon="bag-plus"></b-icon> Add To Cart</button>
     </div>
   </div>
 </template>
@@ -22,6 +22,10 @@ export default {
     checkLogin () {
       if (localStorage.getItem('access_token')) this.$store.commit('checkLogin', true)
       else this.$store.commit('checkLogin', false)
+    },
+    addCart () {
+      console.log(this.product.id)
+      this.$store.dispatch('addCart', this.product.id)
     }
   },
   computed: {
