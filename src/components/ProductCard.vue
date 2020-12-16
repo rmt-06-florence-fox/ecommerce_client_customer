@@ -7,7 +7,7 @@
     <b-card-footer>
       <small>Rp {{ product.price}}</small> |
       <small>stock : {{ product.stock}}</small> |
-      <b-button variant="primary" v-if="status === 'loggedIn'" @click.prevent="doCreateOrUpdate"><b-icon icon="plus-square"></b-icon></b-button>
+      <b-button variant="primary" v-if="status === 'loggedIn'" @click.prevent="doCreateOrUpdate" :disabled="product.stock === 0"><b-icon icon="plus-square" ></b-icon></b-button>
     </b-card-footer>
   </b-card>
 </template>

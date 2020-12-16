@@ -10,7 +10,8 @@ export default new Vuex.Store({
     status: '',
     products: [],
     carts: [],
-    totalPrice: 0
+    totalPrice: 0,
+    histories: []
   },
   mutations: {
     setStatus (state, payload) {
@@ -25,6 +26,9 @@ export default new Vuex.Store({
     },
     setTotalPrice (state, payload) {
       state.totalPrice = payload
+    },
+    setHistories (state, payload) {
+      state.histories = payload
     }
   },
   actions: {
@@ -140,7 +144,24 @@ export default new Vuex.Store({
           context.dispatch('fetchCart')
         })
         .catch(err => {
+          context.dispatch('fetchCart')
           console.log(err)
+        })
+    },
+    fetchHistories (context, payload) {
+      axios({
+        url: '/carts/histories',
+        method: 'get',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .then(({ data }) => {
+          console.log(data)
+          context.commit('setHistories', data)
+        })
+        .catch(error => {
+          console.log(error)
         })
     }
   },

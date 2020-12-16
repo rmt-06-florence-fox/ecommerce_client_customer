@@ -3,7 +3,7 @@
     <b-navbar type="dark" variant="dark">
       <b-navbar-brand @click.prevent="goToMainPage">Pasar Terang</b-navbar-brand>
       <b-navbar-nav class="ml-auto">
-        <b-nav-item v-if="status === 'loggedIn'">
+        <b-nav-item v-if="status === 'loggedIn'" @click.prevent="goToHistory">
           <b-icon icon="cart-check-fill"></b-icon> history
         </b-nav-item>
         <b-nav-item v-if="status === 'loggedIn'" @click.prevent="gotToCart">
@@ -52,7 +52,11 @@ export default {
       if (this.$router.history.current.path !== '/') {
         this.$router.push('/')
       }
-      // console.log()
+    },
+    goToHistory () {
+      if (this.$router.history.current.path !== '/history') {
+        this.$router.push('/history')
+      }
     }
   }
 }
