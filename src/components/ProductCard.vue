@@ -7,7 +7,7 @@
     <b-card-footer>
       <small>Rp {{ product.price}}</small> |
       <small>stock : {{ product.stock}}</small> |
-      <b-button variant="primary" v-if="status === 'loggedIn'"><b-icon icon="plus-square"></b-icon></b-button>
+      <b-button variant="primary" v-if="status === 'loggedIn'" @click.prevent="doCreateOrUpdate"><b-icon icon="plus-square"></b-icon></b-button>
     </b-card-footer>
   </b-card>
 </template>
@@ -19,6 +19,16 @@ export default {
   computed: {
     status () {
       return this.$store.state.status
+    }
+  },
+  methods: {
+    doCreateOrUpdate () {
+      const payload = {
+        productId: this.product.id,
+        quantity: 1
+      }
+      this.$store.dispatch('changeQuantity', payload)
+      this.$router.push('/carts')
     }
   }
 }

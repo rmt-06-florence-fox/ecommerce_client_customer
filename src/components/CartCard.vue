@@ -6,7 +6,7 @@
           <img :src="cart.Product.image_url" alt="">
         </div>
         <div class="col-8">
-          <div class="card-title text-end m-1"><button type="button" class="btn-close" aria-label="Close"></button></div>
+          <div class="card-title text-end m-1"><button type="button" class="btn-close" aria-label="Close" @click.prevent="doDeleteCart"></button></div>
           <ul class="text-start mb-3">
             <li>{{ cart.Product.name }}</li>
             <li>{{ cart.Product.price }}</li>
@@ -33,6 +33,9 @@ export default {
         quantity: number
       }
       this.$store.dispatch('changeQuantity', payload)
+    },
+    doDeleteCart () {
+      this.$store.dispatch('deleteCart', { cartId: this.cart.id })
     }
   }
 }

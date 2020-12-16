@@ -107,6 +107,39 @@ export default new Vuex.Store({
           context.dispatch('fetchCart')
         })
         .catch(err => {
+          console.log(err.response.data)
+        })
+    },
+    deleteCart (context, payload) {
+      console.log(payload)
+      axios({
+        url: '/carts',
+        method: 'delete',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        },
+        data: payload
+      })
+        .then(_ => {
+          context.dispatch('fetchCart')
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    checkout (context, payload) {
+      console.log('hit')
+      axios({
+        url: '/carts',
+        method: 'put',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .then(_ => {
+          context.dispatch('fetchCart')
+        })
+        .catch(err => {
           console.log(err)
         })
     }
