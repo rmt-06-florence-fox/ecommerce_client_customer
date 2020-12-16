@@ -4,7 +4,10 @@
       <b-navbar-brand>Pasar Terang</b-navbar-brand>
       <b-navbar-nav class="ml-auto">
         <b-nav-item v-if="status === 'loggedIn'">
-          <b-icon icon="minecart-loaded"></b-icon>
+          <b-icon icon="cart-check-fill"></b-icon> history
+        </b-nav-item>
+        <b-nav-item v-if="status === 'loggedIn'">
+          <b-icon icon="minecart-loaded" @click.prevent="gotToCart"></b-icon> cart
         </b-nav-item>
         <b-nav-item v-if="status === 'loggedIn'" @click.prevent="doLogOut">
           <b-icon icon="box-arrow-in-right"></b-icon> logout
@@ -32,12 +35,15 @@ export default {
   },
   methods: {
     showLoginModal () {
-      console.log('ke klik')
+      // console.log('ke klik')
       this.$bvModal.show('modal-login')
     },
     doLogOut () {
       this.$store.commit('setStatus', 'loggedOut')
       localStorage.clear()
+    },
+    gotToCart () {
+      this.$router.push('/carts')
     }
   }
 }

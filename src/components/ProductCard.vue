@@ -7,7 +7,7 @@
     <b-card-footer>
       <small>Rp {{ product.price}}</small> |
       <small>stock : {{ product.stock}}</small> |
-      <b-button variant="primary"><b-icon icon="plus-square"></b-icon></b-button>
+      <b-button variant="primary" v-if="status === 'loggedIn'"><b-icon icon="plus-square"></b-icon></b-button>
     </b-card-footer>
   </b-card>
 </template>
@@ -15,7 +15,12 @@
 <script>
 export default {
   name: 'ProductCard',
-  props: ['product']
+  props: ['product'],
+  computed: {
+    status () {
+      return this.$store.state.status
+    }
+  }
 }
 </script>
 

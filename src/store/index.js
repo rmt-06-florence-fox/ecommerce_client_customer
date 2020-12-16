@@ -8,7 +8,9 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     status: '',
-    products: []
+    products: [],
+    carts: [],
+    totalPrice: 0
   },
   mutations: {
     setStatus (state, payload) {
@@ -17,6 +19,12 @@ export default new Vuex.Store({
     },
     setProducts (state, payload) {
       state.products = payload
+    },
+    setCarts (state, payload) {
+      state.carts = payload
+    },
+    setTotalPrice (state, payload) {
+      state.totalPrice = payload
     }
   },
   actions: {
@@ -65,6 +73,24 @@ export default new Vuex.Store({
         })
         .catch(error => {
           console.log(error)
+        })
+    },
+    fetchCart (context, payload) {
+      axios({
+        url: '/carts',
+        method: 'get',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .then(({ data }) => {
+          const { carts, totalPrice } = data
+          console.log(carts, totalPrice)
+          context.commit('setCarts', carts)
+          context.commit('setTotalPrice', totalPrice)
+        })
+        .catch(err => {
+          console.log(err)
         })
     }
   },
