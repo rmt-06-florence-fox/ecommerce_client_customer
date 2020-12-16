@@ -9,7 +9,10 @@ export default new Vuex.Store({
     title: 'JAM TANGEN',
     user: [],
     products: [],
-    categories: []
+    categories: [],
+    banners: [],
+    carts: [],
+    totalPrice: []
   },
   mutations: {
     setUser (state, value) {
@@ -20,6 +23,38 @@ export default new Vuex.Store({
     },
     setCategories (state, value) {
       state.categories = value
+    },
+    setBanners (state, value) {
+      state.banners = value
+    },
+    setCart (state, value) {
+      state.carts = value
+    },
+    setTotalPrice (state, value) {
+      const container = []
+      let check = null
+      // let index = null
+      state.totalPrice.forEach((el, i) => {
+        if (el.cart.Product.name === value.cart.Product.name) {
+          check = el
+          // index = i
+          container.push(value)
+        } else {
+          container.push(el)
+        }
+      })
+      // console.log(check, index)
+      if (check) {
+        state.totalPrice = container
+      } else {
+        state.totalPrice.push(value)
+      }
+    },
+    resetTotalPrice (state, value) {
+      state.totalPrice = value
+    },
+    deleteTotalPrice (state, index, value) {
+      state.totalPrice.splice(+index, 1)
     }
   },
   actions: {
@@ -52,8 +87,64 @@ export default new Vuex.Store({
         .then(res => {
           context.commit('setCategories', res.data)
         })
+    },
+    loadCarts (context) {
+      axios({
+        method: 'get',
+        url: '/cart',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .then(res => {
+          context.commit('setCart', res.data)
+        })
+    },
+    checkout (context, val) {
+      // console.log(val)
+      axios({
+        method: 'post',
+        url: '/cart/checkout',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        },
+        data: {
+          checkout: val
+        }
+      })
+        .then(res => {
+          console.log(res.data)
+        })
+        .catch(error => {
+          if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            console.log(error.response.data)
+            console.log(error.response.status)
+            console.log(error.response.headers)
+          } else if (error.request) {
+            // The request was made but no response was received
+            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+            // http.ClientRequest in node.js
+            console.log(error.request)
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', error.message)
+          }
+          console.log(error.config)
+        })
     }
   },
   modules: {
+  },
+  getters: {
+    getTotal: state => {
+      let total = 0
+      state.totalPrice.forEach(el => { total += el.total })
+      return total
+    },
+    producOnDetail: state => id => {
+      return state.totalPrice[id]
+    }
   }
 })

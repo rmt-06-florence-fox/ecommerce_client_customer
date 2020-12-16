@@ -9,6 +9,7 @@
           <div class="hidden md:block">
             <div class="ml-10 flex items-baseline space-x-4">
               <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
+              <router-link to="/" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Dashboard</router-link>
               <a href="#" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
 
               <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Team</a>
@@ -28,12 +29,13 @@
               <!-- Heroicon name: bell -->
               <i class="lni lni-heart h-6 w-6 flex items-center"></i>
             </button>
+            <router-link to="/cart">
             <button class="p-1 space-x-1 text-white flex flex-row">
               <span class="">Cart</span>
               <!-- Heroicon name: bell -->
               <i class="lni lni-cart h-6 w-6 flex items-center"></i>
             </button>
-
+            </router-link>
             <!-- Profile dropdown -->
             <div class="ml-3 relative">
               <div>

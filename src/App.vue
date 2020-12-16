@@ -1,8 +1,8 @@
 <template>
 <!-- This example requires Tailwind CSS v2.0+ -->
-<div class="bg-white">
+<div class="bg-white h-screen">
 <Navbar />
-  <router-view />
+  <router-view :key="$route.fullPath" />
   <Footer />
 </div>
 </template>
@@ -27,7 +27,9 @@ export default {
   created () {
     this.$store.dispatch('loadProducts')
     this.$store.dispatch('loadCategories')
-    if (localStorage.getItem('access_token')) this.$store.dispatch('loadUser')
+    if (localStorage.getItem('access_token')) {
+      this.$store.dispatch('loadUser')
+    }
   }
 }
 </script>

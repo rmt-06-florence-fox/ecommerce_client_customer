@@ -1,7 +1,7 @@
 <template>
     <div class="max-w-xs mx-auto bg-white shadow-lg overflow-hidden">
         <div class="px-4 py-2 bg-white">
-            <h1 class="text-black font-bold text-sm uppercase">{{product.name}}</h1>
+            <h1 class="text-black font-bold text-sm capitalize ">{{product.name}}</h1>
             <!-- <p class="text-gray-600 text-sm mt-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi quos quidem sequi illum facere recusandae voluptatibus</p> -->
         </div>
 
@@ -9,15 +9,38 @@
 
         <div class="flex items-center justify-between px-4 py-2 bg-white">
             <h1 class="text-black font-bold text-sm">{{priceConverted}}</h1>
-            <button class="px-2 py-1 bg-black text-xs text-white font-semibold uppercase border-transparent border-2 hover:bg-white hover:text-black hover:border-black focus:bg-white "><i class="lni lni-cart"></i></button>
+            <button @click="goToCart" class="px-2 py-1 bg-black text-xs text-white font-semibold uppercase border-transparent border-2 hover:bg-white hover:text-black hover:border-black focus:bg-white "><i class="lni lni-cart"></i></button>
         </div>
     </div>
 </template>
 
 <script>
+import axios from '../config/axios'
+
 export default {
   name: 'productCard',
   props: ['product'],
+  methods: {
+    goToCart () {
+      if (localStorage.getItem('access_token')) {
+        axios({
+          method: 'post',
+          url: `/cart/${this.product.id}`,
+          headers: {
+            access_token: localStorage.getItem('access_token')
+          },
+          data: {
+            amount: 1
+          }
+        })
+          .then(res => {
+            this.$router.push('/cart')
+          })
+      } else {
+        this.$router.push('/login')
+      }
+    }
+  },
   computed: {
     priceConverted () {
       return 'Rp. ' + this.product.price

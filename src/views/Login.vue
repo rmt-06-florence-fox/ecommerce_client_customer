@@ -26,7 +26,7 @@
         From: "opacity-100 translate-y-0 sm:scale-100"
         To: "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
     -->
-    <div class="inline-block align-bottom bg-white text-left shadow-xl mx-auto transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full animate__animated animate__wobble" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
+    <div v-on-clickaway="away" class="inline-block align-bottom bg-white text-left shadow-xl mx-auto transform transition-all sm:my-8 sm:align-middle sm:max-w-sm sm:w-full animate__animated animate__wobble" role="dialog" aria-modal="true" aria-labelledby="modal-headline">
 
     <!-- <div class="bg-white w-full max-w-sm rounded-lg shadow-md overflow-hidden mx-auto"> -->
         <div class="py-4 px-6">
@@ -93,9 +93,13 @@
 <script>
 import { mapState } from 'vuex'
 import axios from '../config/axios'
+import { directive as onClickaway } from 'vue-clickaway'
 
 export default {
   name: 'Login',
+  directives: {
+    onClickaway: onClickaway
+  },
   data () {
     return {
       showReg: false,
@@ -127,6 +131,9 @@ export default {
           this.$store.dispatch('loadUser')
           this.$router.push('/')
         })
+    },
+    away () {
+      this.$router.push('/')
     }
   },
   computed: {
