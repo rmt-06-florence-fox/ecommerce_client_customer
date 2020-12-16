@@ -2,6 +2,7 @@
   <div class="card  m-3 border-0 shadow" style="width: 25rem;">
     <img class="card-img-top" :src="product.image_url" alt="Card image cap">
     <div class="card-body">
+      <img src="../assets/heart2.svg" alt="" class="bottom-left-icon" @click="addToWishlist">
       <h5 class="card-title">{{product.name}}</h5>
       <p class="card-text"><strong>{{price}}</strong><br>
       stock: {{product.stock}}</p>
@@ -20,6 +21,9 @@ export default {
       this.$store.commit('set_addToCartSuccess', null)
       this.$store.commit('set_addToCartFailed', null)
       this.$store.dispatch('addToCart', this.product)
+    },
+    addToWishlist () {
+      this.$store.dispatch('addToWishlist', this.product)
     }
   },
   computed: {

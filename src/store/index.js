@@ -11,7 +11,10 @@ export default new Vuex.Store({
     products: [],
     addToCartSuccess: null,
     addToCartFailed: null,
-    carts: null
+    carts: null,
+    wishlist: null,
+    addToWishlistSuccess: null,
+    addToWishlistFailed: null
   },
   mutations: {
     set_errors (state, payload) {
@@ -28,6 +31,15 @@ export default new Vuex.Store({
     },
     set_carts (state, payload) {
       state.carts = payload
+    },
+    set_wishlist (state, payload) {
+      state.wishlist = payload
+    },
+    set_addToWishlistFailed (state, payload) {
+      state.addToWishlistFailed = payload
+    },
+    set_addToWishlistSuccess (state, payload) {
+      state.addToWishlistSuccess = payload
     }
   },
   actions: {
@@ -179,6 +191,80 @@ export default new Vuex.Store({
         .catch(err => {
           console.log(err.response.data)
         })
+    },
+    addToWishlist (context, payload) {
+      axios({
+        url: `/customer/wishlist/${payload.id}`,
+        method: 'post',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .then(response => {
+          context.commit('set_addToWishlistSuccess', 'Success add item to your wishlist!')
+        })
+        .catch(err => {
+          context.commit('set_addToWishlistFailed', err.response.data.message)
+        })
+    },
+    getWishlist (context, payload) {
+      axios({
+        url: '/customer/wishlist',
+        method: 'get',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .then(response => {
+          context.commit('set_wishlist', response.data)
+        })
+        .catch(err => {
+          console.log(err.response.data)
+        })
+    },
+    deleteWishlist (context, payload) {
+      const swalWithBootstrapButtons = Vue.swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success',
+          cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+      })
+      swalWithBootstrapButtons.fire({
+        title: 'Are you sure to remove this item from your wishlist?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, delete it!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axios({
+            url: `/customer/wishlist/${payload.id}`,
+            method: 'delete',
+            headers: {
+              access_token: localStorage.getItem('access_token')
+            }
+          })
+            .then(response => {
+              swalWithBootstrapButtons.fire(
+                'Deleted!',
+                'Your product has been deleted from cart.',
+                'success'
+              )
+              context.dispatch('getWishlist')
+            })
+        } else {
+          swalWithBootstrapButtons.fire(
+            'Cancelled',
+            'Your product is safe :)',
+            'error'
+          )
+        }
+      }).catch(err => {
+        console.log(err.response.data)
+      })
     }
   },
   modules: {

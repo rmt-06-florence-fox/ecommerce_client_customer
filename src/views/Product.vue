@@ -1,15 +1,15 @@
 <template>
   <div class="container mt-3">
-    <div v-if="addToCartSuccess" class="text-center mr-5">
+    <div v-if="addToCartSuccess || addToWishlistSuccess" class="text-center mr-5">
       <div class="alert alert-success alert-dismissible">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        <strong>Success</strong> {{addToCartSuccess}}
+        <strong>Success</strong> {{addToCartSuccess}} {{addToWishlistSuccess}}
       </div>
     </div>
-    <div v-if="addToCartFailed" class="text-center mr-5">
+    <div v-if="addToCartFailed || addToWishlistFailed" class="text-center mr-5">
       <div class="alert alert-danger alert-dismissible">
         <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-        <strong>Failed!</strong> {{addToCartFailed}}
+        <strong>Failed!</strong> {{addToCartFailed}} {{addToWishlistFailed}}
       </div>
     </div>
     <div class="row">
@@ -38,6 +38,12 @@ export default {
     },
     addToCartFailed () {
       return this.$store.state.addToCartFailed
+    },
+    addToWishlistSuccess () {
+      return this.$store.state.addToWishlistSuccess
+    },
+    addToWishlistFailed () {
+      return this.$store.state.addToWishlistFailed
     }
   },
   created () {
