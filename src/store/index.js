@@ -63,7 +63,7 @@ export default new Vuex.Store({
         data: payload
       })
         .then(({ data }) => {
-          console.log(data)
+          // console.log(data)
           localStorage.setItem('access_token', data.access_token)
           Vue.toasted.success(`Hi ${data.email.split('@')[0]} ! Have a nice day !!!`, { icon: 'check' })
           router.push('/')
@@ -93,12 +93,12 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
-          console.log(data)
+          // console.log(data)
           if (router.history.current.name === 'Home') Vue.toasted.success('Success add the product !!!', { icon: 'check' })
           context.dispatch('fetchCarts')
         })
         .catch(err => {
-          console.log(err.response.data)
+          // console.log(err.response.data)
           Vue.toasted.error(err.response.data.message, { icon: 'times' })
         })
     },
@@ -157,12 +157,12 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
-          console.log(data)
+          // console.log(data)
           Vue.toasted.success('Yeayy... Success checkout your transaction !!!', { icon: 'check' })
           context.dispatch('fetchCarts')
         })
         .catch(err => {
-          console.log(err.response.data.messages)
+          // console.log(err.response.data.messages)
           err.response.data.messages.forEach((e) => {
             Vue.toasted.error(e, { icon: 'times' })
           })
@@ -177,7 +177,7 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
-          console.log(data)
+          // console.log(data)
           context.commit('setHistories', data)
         })
         .catch(err => console.log(err))
