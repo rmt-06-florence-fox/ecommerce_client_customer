@@ -1,12 +1,12 @@
 <template>
+<div>
   <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow justify-content-between">
-    <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#" @click="home">Mr Bee Ecommerce</a>
-    <div class="col-md-6 mt-0 mb-0 px-0" >
-    <a class="btn btn-secondary text-white col-md-4 col-lg-1 px-2 mr-1" href="#" @click="products">Products</a>
-    <a class="btn btn-secondary text-white col-md-4 col-lg-1 px-2" href="#" @click="carts">Carts</a>
+    <a class="navbar-brand col-3 col-md-3 col-lg-2 mr-0 px-3" href="#" @click="home">Mr Bee Ecommerce</a>
+    <div class="col-6 col-md-6 mt-0 mb-0 px-0" >
+    <button class="btn btn-secondary text-white col-4 col-md-4 col-lg-1 px-2 mr-1" @click="products">Products</button>
+    <button class="btn btn-secondary text-white col-4 col-md-4 col-lg-1 px-2" @click="carts">Carts</button>
     </div>
      <div v-if="currentUser" class="text-white">
-        {{ currentUser }}
         <button text class="mr-2 btn btn-danger" @click="signout">Sign Out</button>
       </div>
       <div v-else>
@@ -14,6 +14,10 @@
         <button text class="mr-2 btn btn-success" @click="signup">Sign Up</button>
       </div>
   </nav>
+  <nav v-if="currentUser" class="d-flex ml-3">
+    User Active: {{ currentUser }}
+  </nav>
+</div>
 </template>
 
 <script>

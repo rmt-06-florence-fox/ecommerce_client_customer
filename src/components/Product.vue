@@ -1,5 +1,5 @@
 <template>
-  <div class="container mt-3 mb-3">
+  <div class="container mt-3 mb-3 d-flex">
       <ProductItem
         v-for="(product, idx) in products" :key="idx"
         :product="product"

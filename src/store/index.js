@@ -9,8 +9,9 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     products: [],
-    carts: {},
+    carts: '',
     currentUser: localStorage.getItem('email')
+    // cartsQuantity: ''
   },
   mutations: {
     setProducts (state, payload) {
@@ -21,6 +22,9 @@ export default new Vuex.Store({
     },
     setCurrentUser (state, payload) {
       state.currentUser = payload
+    // },
+    // setQuantity (state, payload) {
+    //   state.cartsQuantity = payload
     }
   },
   actions: {
@@ -73,7 +77,7 @@ export default new Vuex.Store({
     },
     addToCart (context, payload) {
       axios({
-        url: '/carts',
+        url: '/carts/' + payload.id,
         method: 'POST',
         data: payload,
         headers: { access_token: localStorage.getItem('access_token') }
@@ -84,7 +88,6 @@ export default new Vuex.Store({
             'Product has been added to cart!',
             'success'
           )
-          router.push('/carts')
         })
         .catch((error) => {
           Swal.fire('Failed', `${error.response.data.message}`, 'error')
@@ -96,12 +99,44 @@ export default new Vuex.Store({
         method: 'GET',
         headers: { access_token: localStorage.getItem('access_token') }
       })
-        .then((response) => {
+        .then(response => {
           context.commit('setCarts', response.data)
         })
-        .catch((error) => {
-          console.log(error.response.data)
+        .catch(error => {
           console.log(error)
+        })
+    },
+    updateCart (context, payload) {
+      axios({
+        url: '/carts/' + payload.id,
+        method: 'POST',
+        data: payload,
+        headers: { access_token: localStorage.getItem('access_token') }
+      })
+        .then(response => {
+          console.log(response.data)
+          // context.commit('setQuantity', response.data.quantity)
+        })
+        .catch((error) => {
+          console.log(error.response.data.message)
+        // Swal.fire('Failed', `${error.response.data.message}`, 'error')
+        })
+    },
+    deleteCart (context, id) {
+      axios({
+        url: '/carts/' + id,
+        method: 'DELETE',
+        headers: { access_token: localStorage.getItem('access_token') }
+      })
+        .then(response => {
+          Swal.fire(
+            'Done',
+            'Cart has been deleted!',
+            'success'
+          )
+        })
+        .catch((error) => {
+          Swal.fire('Failed', `${error.response.data.message}`, 'error')
         })
     }
   },

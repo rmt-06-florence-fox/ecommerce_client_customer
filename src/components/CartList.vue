@@ -5,14 +5,13 @@
             <CartItem
                 v-for="(cart, idx) in carts.carts" :key="idx"
                 :cart="cart"
-                :total="carts.total"
             ></CartItem>
           </div>
-          <div class="col-4">
+          <div class="col-4 px-5">
             <div class="card text-right" style="width: 18rem;">
             <div class="card-body">
                 <h5 class="card-title">Total bill</h5>
-                <p class="card-text">{{ 'uang' }}</p>
+                <p class="card-text">{{ carts.total }}</p>
                 <a href="#" class="btn btn-primary">Checkout</a>
             </div>
             </div>
