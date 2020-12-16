@@ -8,8 +8,8 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="/home">Home</a>
+                    <li class="nav-item">
+                        <router-link to="/" class="nav-link">Home</router-link>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/">List Barang</a>
@@ -19,8 +19,8 @@
                             More
                         </p>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <router-link to="/register" class="dropdown-item">Register</router-link>
-                        <router-link to="/login" class="dropdown-item">Login</router-link>
+                        <p to="/register" class="dropdown-item" @click="register">Register</p>
+                        <p to="/login" class="dropdown-item" @click="login">Login</p>
                         <p class="dropdown-item" id="logout" @click="logout">Log Out</p>
                     </div>
                     </li>
@@ -37,20 +37,39 @@ export default {
   name: 'Navbar',
   methods: {
     logout () {
-      swal({
-        title: 'Logout',
-        icon: 'info',
-        text: 'Are you sure wanna to logout?',
-        buttons: true,
-        dangerMode: true
-      })
-        .then(value => {
-          if (value) {
-            localStorage.clear()
-            this.$router.push('/login')
-            swal('Logout Success', { icon: 'success' })
-          }
+      if (localStorage.getItem('access_token')) {
+        swal({
+          title: 'Logout',
+          icon: 'info',
+          text: 'Are you sure wanna to logout?',
+          buttons: true,
+          dangerMode: true
         })
+          .then(value => {
+            if (value) {
+              localStorage.clear()
+              this.$router.push('/login')
+              swal('Logout Success', { icon: 'success' })
+            }
+          })
+      } else {
+        swal('Error', 'You Not Login')
+      }
+    },
+    register () {
+      console.log('masuk')
+      if (localStorage.getItem('access_token')) {
+        swal('Error', 'Anda Sedang Login')
+      } else {
+        this.$router.push('/register')
+      }
+    },
+    login () {
+      if (localStorage.getItem('access_token')) {
+        swal('Error', 'Anda Sedang Login')
+      } else {
+        this.$router.push('/login')
+      }
     }
   }
 }
@@ -64,7 +83,7 @@ export default {
         display: flex;
         align-self: flex-start;
     }
-    #logout{
+    .dropdown-item{
         cursor: pointer;
     }
     #navbarDropdownMenuLink{

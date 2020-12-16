@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <h1>Ini adalah home page</h1>
   </div>
 </template>
 
