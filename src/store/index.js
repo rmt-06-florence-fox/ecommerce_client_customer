@@ -56,13 +56,13 @@ export default new Vuex.Store({
       axios({
         method: 'POST',
         url: '/login',
-        data: payload,
-        validateStatus: () => status < 500
+        data: payload
       }).then(({ data }) => {
+        // console.log('masuk then')
         if (data.role === 'admin') {
           // console.log('masuk error')
           throw new Error('you are not customer, you should not login through this app')
-        } else {
+        } else if (data.role === 'customer') {
           // context.commit('setErrors', [])
           // console.log('masuk tidak error')
           localStorage.setItem('access_token', data.access_token)
@@ -74,18 +74,14 @@ export default new Vuex.Store({
           }, 500)
         }
       }).catch(err => {
-        // console.log(err.message)
-        // console.log(err.response.data, 'res.data')
-        // console.log(err.response.status, 'res.status')
-        // console.log(err.response.headers, 'res.headers')
-        // console.log(err.request, 'req')
-        // console.log('Error', err.message, 'config')
-        // console.log(err.config, 'config')
-        if (err.message) {
-          console.log(typeof err)
-          context.commit('setErrors', [err.message])
-        } else {
+        // console.log(err)
+        // console.log(typeof err)
+        if (err.response) {
+          // console.log('masuk if')
           context.commit('setErrors', err.response.data.messages)
+        } else {
+          // console.log('masuk else')
+          context.commit('setErrors', [err.message])
         }
       })
     },
