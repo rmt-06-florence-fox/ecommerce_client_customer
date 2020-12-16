@@ -1,6 +1,7 @@
 <template>
 <div class="bg-white">
   <main class="mb-36">
+    <ErrorCard v-if="addCartErr" />
     <div class="container flex flex-col py-6 items-center">
       <!-- <div class="grid grid-cols-12"> -->
         <div class="w-10/12 flex content-center">
@@ -41,16 +42,19 @@
 import productCard from '../components/ProductCard'
 import { mapState } from 'vuex'
 import Banner from '../components/Banner'
+import ErrorCard from '../components/ErrorCard'
 
 export default {
   components: {
     productCard,
-    Banner
+    Banner,
+    ErrorCard
   },
   computed: {
     ...mapState({
       products: 'products',
-      categories: 'categories'
+      categories: 'categories',
+      addCartErr: 'addCartErr'
     })
   }
 }

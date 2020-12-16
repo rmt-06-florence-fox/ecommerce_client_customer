@@ -36,6 +36,13 @@ export default {
           .then(res => {
             this.$router.push('/cart')
           })
+          .catch(err => {
+            this.$store.commit('setAddCartErr', err.response.data.message)
+            setTimeout(() => {
+              this.$store.commit('setAddCartErr', null)
+            }, 3000)
+            console.log(err.response.data.message)
+          })
       } else {
         this.$router.push('/login')
       }

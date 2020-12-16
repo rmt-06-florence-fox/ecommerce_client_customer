@@ -12,7 +12,9 @@ export default new Vuex.Store({
     categories: [],
     banners: [],
     carts: [],
-    totalPrice: []
+    totalPrice: [],
+    addCartErr: null,
+    postCheckout: false
   },
   mutations: {
     setUser (state, value) {
@@ -55,6 +57,12 @@ export default new Vuex.Store({
     },
     deleteTotalPrice (state, index, value) {
       state.totalPrice.splice(+index, 1)
+    },
+    setAddCartErr (state, val) {
+      state.addCartErr = val
+    },
+    setpostCheckout (state, value) {
+      state.postCheckout = value
     }
   },
   actions: {
@@ -113,7 +121,7 @@ export default new Vuex.Store({
         }
       })
         .then(res => {
-          console.log(res.data)
+          return true
         })
         .catch(error => {
           if (error.response) {
