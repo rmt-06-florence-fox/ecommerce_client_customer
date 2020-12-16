@@ -1,8 +1,8 @@
 <template>
   <div>
       <Alerts/>
-      <LoginForm v-if="page == 'login'" @changePage="changePage"/>
-      <RegisterForm v-if="page == 'register'" @changePage="changePage"/>
+      <LoginForm v-if="currentRouteName === 'Login'"/>
+      <RegisterForm v-if="currentRouteName === 'Register'"/>
   </div>
 </template>
 
@@ -20,10 +20,9 @@ export default {
       page: 'login'
     }
   },
-  methods: {
-    changePage () {
-      if (this.page === 'login') this.page = 'register'
-      else this.page = 'login'
+  computed: {
+    currentRouteName () {
+      return this.$route.name
     }
   }
 }

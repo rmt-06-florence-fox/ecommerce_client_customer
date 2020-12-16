@@ -6,6 +6,8 @@ import Not404 from '../views/Not404.vue'
 // import Alert from '../views/Alert'
 import Cart from '../views/Cart'
 import History from '../views/History'
+// import LoginForm from '../components/LoginForm'
+// import RegisterForm from '../components/RegisterForm'
 
 Vue.use(VueRouter)
 
@@ -13,6 +15,11 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
+    component: Login
+  },
+  {
+    path: '/register',
+    name: 'Register',
     component: Login
   },
   {

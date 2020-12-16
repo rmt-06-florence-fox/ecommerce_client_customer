@@ -14,6 +14,7 @@ export default {
     Alerts, CartBody
   },
   created () {
+    if (localStorage.getItem('access_token')) this.$store.commit('SET_isLogin', true)
     this.$store.dispatch('getCart')
   }
 }
