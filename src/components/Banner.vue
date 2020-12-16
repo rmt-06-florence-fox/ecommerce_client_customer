@@ -8,7 +8,15 @@
     <div class="flex flex-wrap md:-m-2 -m-1">
       <div class="flex flex-wrap w-1/2">
         <div class="md:p-2 p-1 w-1/2">
-          <img alt="gallery" class="w-full object-cover h-full object-center block" src="https://images.unsplash.com/photo-1589391943533-d6856910b7a8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=925&q=80">
+        <agile :autoplay-speed="5000">
+        <div class="slide">
+            <img alt="gallery" class="w-full object-cover h-full object-center block" src="https://images.unsplash.com/photo-1589391943533-d6856910b7a8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=925&q=80">
+        </div>
+        <div class="slide">
+            <img alt="gallery" class="w-full object-cover h-full object-center block" src="https://images.unsplash.com/photo-1571834007715-c91d56907c45?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1049&q=80">
+        </div>
+        </agile>
+          <!-- <img alt="gallery" class="w-full object-cover h-full object-center block" src="https://images.unsplash.com/photo-1589391943533-d6856910b7a8?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=925&q=80"> -->
         </div>
         <div class="md:p-2 p-1 w-1/2">
           <img alt="gallery" class="w-full object-cover h-full object-center block" src="https://images.unsplash.com/photo-1571834007715-c91d56907c45?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1049&q=80">
@@ -34,6 +42,7 @@
 </template>
 
 <script>
+
 export default {
   name: 'Banner'
 }

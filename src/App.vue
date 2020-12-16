@@ -27,6 +27,7 @@ export default {
   created () {
     this.$store.dispatch('loadProducts')
     this.$store.dispatch('loadCategories')
+    this.$store.dispatch('loadBanners')
     if (localStorage.getItem('access_token')) {
       this.$store.dispatch('loadUser')
     }

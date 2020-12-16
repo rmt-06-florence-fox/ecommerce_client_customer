@@ -1,13 +1,12 @@
 <template>
-    <div class="max-w-xs mx-auto bg-white shadow-lg overflow-hidden">
-        <div class="px-4 py-2 bg-white">
+    <div class="max-w-xs mx-auto bg-white overflow-hidden">
+        <div class=" py-2 bg-white">
             <h1 class="text-black font-bold text-sm capitalize ">{{product.name}}</h1>
-            <!-- <p class="text-gray-600 text-sm mt-1">Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi quos quidem sequi illum facere recusandae voluptatibus</p> -->
         </div>
 
         <img class="h-48 w-full object-cover" :src="product.image_url" alt="NIKE AIR" id="product">
 
-        <div class="flex items-center justify-between px-4 py-2 bg-white">
+        <div class="flex items-center justify-between py-2 bg-white">
             <h1 class="text-black font-bold text-sm">{{priceConverted}}</h1>
             <button @click="goToCart" class="px-2 py-1 bg-black text-xs text-white font-semibold uppercase border-transparent border-2 hover:bg-white hover:text-black hover:border-black focus:bg-white "><i class="lni lni-cart"></i></button>
         </div>
