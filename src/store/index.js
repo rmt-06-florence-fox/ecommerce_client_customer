@@ -79,6 +79,7 @@ export default new Vuex.Store({
         })
     },
     addToCart (context, payload) {
+      console.log(payload, 'store')
       const accessToken = localStorage.getItem('access_token')
       const id = payload
       axios({
