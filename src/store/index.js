@@ -120,6 +120,49 @@ export default new Vuex.Store({
           .catch(err => {
             console.log(err.response.data)
           })
+      } else {
+        const swalWithBootstrapButtons = Vue.swal.mixin({
+          customClass: {
+            confirmButton: 'btn btn-success',
+            cancelButton: 'btn btn-danger'
+          },
+          buttonsStyling: false
+        })
+        swalWithBootstrapButtons.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert this!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, delete it!',
+          cancelButtonText: 'No, cancel!',
+          reverseButtons: true
+        }).then((result) => {
+          if (result.isConfirmed) {
+            axios({
+              url: `/customer/carts/${payload.ProductId}`,
+              method: 'patch',
+              headers: {
+                access_token: localStorage.getItem('access_token')
+              }
+            })
+              .then(response => {
+                swalWithBootstrapButtons.fire(
+                  'Deleted!',
+                  'Your product has been deleted from cart.',
+                  'success'
+                )
+                context.dispatch('getCart')
+              })
+          } else {
+            swalWithBootstrapButtons.fire(
+              'Cancelled',
+              'Your product is safe :)',
+              'error'
+            )
+          }
+        }).catch(err => {
+          console.log(err.response.data)
+        })
       }
     },
     increaseItem (context, payload) {
