@@ -9,7 +9,7 @@
           <h6>{{ cart.Product.name }} </h6>
           <button @click.prevent="decreaseQuantity" class="btn far fa-minus-square"></button>
           {{ cart.quantity }}
-          <button @click.prevent="increaseQuantity" class="btn far fa-plus-square "></button>
+          <button :disabled="checkQuantity" @click.prevent="increaseQuantity" class="btn far fa-plus-square "></button>
           Rp. {{ totalPrice }}, 00
           <div class="card-footer">
             <small>remaining stock : {{ cart.Product.stock }} </small>
@@ -58,6 +58,10 @@ export default {
         rupiah += separator + ribuan.join('.')
       }
       return rupiah
+    },
+    checkQuantity () {
+      if (this.cart.Product.stock <= this.cart.quantity) return true
+      else return false
     }
   }
 }

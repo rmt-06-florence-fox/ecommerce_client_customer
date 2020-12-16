@@ -30,7 +30,7 @@
               </table>
             </div>
             <div class="card-footer">
-              <button @click.prevent="checkout" class="btn btn-checkout">Checkout</button>
+              <button :disabled="!$store.getters.totalPrice.length" @click.prevent="checkout" class="btn btn-checkout">Checkout</button>
             </div>
           </div>
         </div>
