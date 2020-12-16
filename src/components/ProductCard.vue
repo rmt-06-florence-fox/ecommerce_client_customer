@@ -5,7 +5,8 @@
       <h5 class="card-title">{{product.name}}</h5>
       <p class="card-text"><strong>{{price}}</strong><br>
       stock: {{product.stock}}</p>
-      <a href="#" class="btn btn-primary text-white"><span class="glyphicon glyphicon-shopping-cart"></span> Add to Cart</a>
+      <a @click="addToCart" class="btn btn-primary text-white" v-if="product.stock > 0"><span class="glyphicon glyphicon-shopping-cart"></span> Add to Cart</a>
+      <a class="btn btn-secondary text-white disabled" v-else-if="product.stock <= 0">Out of Stock</a>
     </div>
   </div>
 </template>
@@ -14,6 +15,13 @@
 export default {
   name: 'ProductCard',
   props: ['product'],
+  methods: {
+    addToCart () {
+      this.$store.commit('set_addToCartSuccess', null)
+      this.$store.commit('set_addToCartFailed', null)
+      this.$store.dispatch('addToCart', this.product)
+    }
+  },
   computed: {
     price () {
       let rupiah = ''

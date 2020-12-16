@@ -8,7 +8,10 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     errors: null,
-    products: []
+    products: [],
+    addToCartSuccess: null,
+    addToCartFailed: null,
+    carts: null
   },
   mutations: {
     set_errors (state, payload) {
@@ -16,6 +19,15 @@ export default new Vuex.Store({
     },
     set_products (state, payload) {
       state.products = payload
+    },
+    set_addToCartSuccess (state, payload) {
+      state.addToCartSuccess = payload
+    },
+    set_addToCartFailed (state, payload) {
+      state.addToCartFailed = payload
+    },
+    set_carts (state, payload) {
+      state.carts = payload
     }
   },
   actions: {
@@ -58,6 +70,68 @@ export default new Vuex.Store({
       })
         .then(response => {
           context.commit('set_products', response.data)
+        })
+        .catch(err => {
+          console.log(err.response.data)
+        })
+    },
+    addToCart (context, payload) {
+      axios({
+        url: `/customer/carts/${payload.id}`,
+        method: 'post',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .then(response => {
+          context.commit('set_addToCartSuccess', 'Success add item to your cart!')
+        })
+        .catch(err => {
+          context.commit('set_addToCartFailed', err.response.data.message)
+        })
+    },
+    getCart (context) {
+      axios({
+        url: '/customer/carts',
+        method: 'get',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .then(response => {
+          context.commit('set_carts', response.data)
+        })
+        .catch(err => {
+          console.log(err.response.data)
+        })
+    },
+    decreaseItem (context, payload) {
+      if (payload.quantity > 1) {
+        axios({
+          url: `/customer/carts/${payload.ProductId}`,
+          method: 'patch',
+          headers: {
+            access_token: localStorage.getItem('access_token')
+          }
+        })
+          .then(response => {
+            context.dispatch('getCart')
+          })
+          .catch(err => {
+            console.log(err.response.data)
+          })
+      }
+    },
+    increaseItem (context, payload) {
+      axios({
+        url: `/customer/carts/${payload.ProductId}`,
+        method: 'post',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .then(response => {
+          context.dispatch('getCart')
         })
         .catch(err => {
           console.log(err.response.data)
