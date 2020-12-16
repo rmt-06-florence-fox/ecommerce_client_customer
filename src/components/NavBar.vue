@@ -2,9 +2,9 @@
   <div class="top-nav-bar">
         <img src="../assets/navbar-logo.jpg" class="logo">
         <a class="navbar-brand" @click.prevent="$router.push({ name: 'Home' })">EG Store</a>
-        <div class="search-box" style="display: none;">
-            <input type="text" class="form-control">
-            <span class="input-group-text"><i class="fa fa-search" aria-hidden="true"></i></span>
+        <div class="search-box">
+            <input type="text" class="form-control" v-model="searchedObject" placeholder="search...">
+            <span class="input-group-text"><i @click="searched" class="fa fa-search" aria-hidden="true" style="cursor: pointer;"></i></span>
         </div>
         <div class="menu-bar">
             <ul v-if="!isLogin">
@@ -22,9 +22,19 @@
 <script>
 export default {
   name: 'NavBar',
+  data () {
+    return {
+      searchedObject: ''
+    }
+  },
   computed: {
     isLogin () {
       return this.$store.state.isLogin
+    },
+    search () {
+      return this.objects.filter(object => {
+        return object.name.include(this.searchedObject)
+      })
     }
   },
   methods: {
@@ -32,6 +42,9 @@ export default {
       this.$store.commit('SET_LOGIN', false)
       localStorage.removeItem('access_token')
       this.$router.push({ name: 'Login' })
+    },
+    searched () {
+      this.$store.commit('SEARCH', this.searchedObject)
     }
   }
 }

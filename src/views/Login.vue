@@ -13,6 +13,8 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2'
+
 export default {
   name: 'Login',
   data () {
@@ -29,13 +31,18 @@ export default {
       }
       this.$store.dispatch('login', payload)
         .then(({ data }) => {
+          localStorage.setItem('access_token', data.access_token)
           console.log(data)
           this.$store.commit('SET_LOGIN', true)
-          localStorage.setItem('access_token', data.access_token)
           this.$router.push({ name: 'Home' })
         })
         .catch(err => {
           console.log(err)
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Sorry, wrong email password'
+          })
         })
     },
     created () {

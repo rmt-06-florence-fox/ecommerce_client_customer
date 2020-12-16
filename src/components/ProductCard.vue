@@ -2,7 +2,8 @@
 <div class="row">
     <div class="col-4">
         <div class="card mt-5" style="width: 18rem;">
-            <img :src="product.image" class="card-img-top" alt="...">
+            <img @click="addToWishList(product.id)" src="@/assets/heart2.svg" alt="" class="bottom-left-icon">
+            <img :src="product.image" class="card-img-top" alt="">
             <div class="card-body">
                 <h5 class="card-title">{{ product.name }}</h5>
             </div>
@@ -19,6 +20,8 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2'
+
 export default {
   name: 'ProductCard',
   props: ['product'],
@@ -30,6 +33,27 @@ export default {
         ProductId: this.product.id
       }
       this.$store.dispatch('addToCart', payload)
+    },
+    addToWishList (id) {
+      console.log(id)
+      this.$store.dispatch('addWish', id)
+        .then(() => {
+          this.$store.dispatch('fetchWishList')
+          Swal.fire({
+            icon: 'success',
+            title: 'Product has been added to wishlist',
+            showConfirmButton: false,
+            timer: 1500
+          })
+        })
+        .catch(err => {
+          console.log(err)
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'You cannot add the same product to your wishlist'
+          })
+        })
     }
   }
 }

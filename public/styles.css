@@ -138,11 +138,11 @@ body
 /* Side menu */
 .side-menu
 {
-    height: 1000px;
-    width: 15%;
+    height: 250vh;
+    width: 100%;
     font-size: 14px;
     float: left;
-    z-index: 2;
+    z-index: -2;
     background-color: #ddd;
     position: static;
 }
