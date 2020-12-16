@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <Header></Header>
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
@@ -8,11 +9,22 @@
   </div>
 </template>
 
+<script>
+import Header from './components/Header'
+export default {
+  name: "App",
+  components:{
+    Header
+  }
+}
+</script>
+
 <style lang="scss">
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap");
 
 $image-path: "~@/../mdb/mdbvue/img";
 @import "~@/../mdb/mdbvue/scss/mdb-free.scss";
+
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
