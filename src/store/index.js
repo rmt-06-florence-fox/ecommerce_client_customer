@@ -106,6 +106,27 @@ export default new Vuex.Store({
         .catch(err => {
           console.log(err)
         })
+    },
+    deleteCart (context, id) {
+      axios({
+        method: 'DELETE',
+        url: '/carts/' + id,
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .then(_ => {
+          context.dispatch('fetchCarts')
+        })
+        .catch(err => console.log(err))
+    }
+  },
+  getters: {
+    getCart (state) {
+      return state.carts.filter(e => !e.totalPrice)
+    },
+    totalPrice (state) {
+      return state.carts.filter(e => e.totalPrice)
     }
   },
   modules: {

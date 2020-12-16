@@ -1,31 +1,31 @@
 <template>
   <div>
     <Navbar></Navbar>
+    <!-- {{ totalPrice }}
+    {{ carts }} -->
     <div class="container">
       <div class="row">
         <div class="col-md-7 col-sm-12 mt-5">
           <div class="card">
-            <div class="card-headers">
-              Carts
+            <div class="card-headers mt-3">
+              <h3>Your Carts</h3>
             </div>
             <div class="card-body">
               <!-- Looping Product Card -->
-              <Cart></Cart>
-              <Cart></Cart>
-              <Cart></Cart>
+              <Cart v-for="cart in carts" :key="cart.id" :cart="cart"></Cart>
             </div>
           </div>
         </div>
         <div class="col-md-5 col-sm-12 mt-5">
           <div class="card">
-            <div class="card-headers">
-                Checkout
+            <div class="card-headers mt-3 mb-1">
+              <h3>Your Transaction</h3>
             </div>
             <div class="card-body">
               <table class="table">
                 <tr>
                   <th>Total Transactions</th>
-                  <td>Rp 1.000.000,00</td>
+                  <td>Rp {{ convertRupiah }},00</td>
                 </tr>
               </table>
             </div>
@@ -47,6 +47,33 @@ export default {
   components: {
     Navbar,
     Cart
+  },
+  methods: {
+    fetchCart () {
+      this.$store.dispatch('fetchCarts')
+    }
+  },
+  computed: {
+    carts () {
+      return this.$store.getters.getCart
+    },
+    totalPrice () {
+      return this.$store.getters.totalPrice[0].totalPrice
+    },
+    convertRupiah () {
+      const numberString = this.totalPrice.toString()
+      const sisa = numberString.length % 3
+      var rupiah = numberString.substr(0, sisa)
+      const ribuan = numberString.substr(sisa).match(/\d{3}/g)
+      if (ribuan) {
+        const separator = sisa ? '.' : ''
+        rupiah += separator + ribuan.join('.')
+      }
+      return rupiah
+    }
+  },
+  created () {
+    this.fetchCart()
   }
 }
 </script>
