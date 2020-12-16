@@ -4,8 +4,18 @@ import VueRouter from 'vue-router'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Dashboard from '../views/Dashboard.vue'
+import Cart from '../views/Cart.vue'
 
 Vue.use(VueRouter)
+
+const routerGuard = (to, from, next) => {
+  const authenticated = localStorage.getItem('access_token')
+  if (authenticated) {
+    next()
+  } else {
+    next({ name: 'Login' })
+  }
+}
 
 const routes = [
   {
@@ -19,9 +29,20 @@ const routes = [
     component: Login
   },
   {
+    path: '/cart',
+    name: 'Cart',
+    component: Cart,
+    beforeEnter: routerGuard
+  },
+  {
     path: '/register',
     name: 'Register',
     component: Register
+  },
+  {
+    path: '/cart',
+    name: 'Cart',
+    component: Cart
   },
   {
     path: '/about',

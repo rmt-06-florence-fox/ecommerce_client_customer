@@ -4,7 +4,7 @@
     <div class="container is-fluid">
       <h1 class="title">Products</h1>
       <div class="field">
-        <div class="control" :class="{'is-loading': isLoading}">
+        <div class="control" :class="{'is-loading': isLoadingSearch}">
           <input v-model="searchQuery" class="input" type="text" placeholder="Filter by name">
         </div>
       </div>
@@ -16,10 +16,6 @@
           @destroy='destroy'
         />
       </div>
-      <ModalEdit
-        v-if="isActive"
-        :targetEdit="targetEdit"
-      />
     </div>
   </section>
 </template>
@@ -57,6 +53,7 @@ export default {
   },
   created () {
     this.fetchProducts()
+    this.$store.dispatch('fetchCarts')
   },
   computed: {
     products () {
@@ -65,11 +62,14 @@ export default {
     isActive () {
       return this.$store.state.isActive
     },
-    isLoading () {
-      return this.$store.state.isLoading
-    },
     filtered () {
       return this.$store.getters.filtered(this.query)
+    },
+    carts () {
+      return this.$store.state.carts
+    },
+    isLoadingSearch () {
+      return this.$store.state.isLoadingSearch
     }
   },
   watch: {

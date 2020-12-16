@@ -9,10 +9,11 @@ export default new Vuex.Store({
     products: [],
     isActive: false,
     targetEdit: {},
-    isLoading: false,
     searchQuery: '',
     carts: [],
-    isLoggedIn: localStorage.getItem('access_token')
+    isLoggedIn: localStorage.getItem('access_token'),
+    isLoadingSearch: false,
+    total: 0
   },
   mutations: {
     changeProducts (state, payload) {
@@ -29,12 +30,8 @@ export default new Vuex.Store({
       state.targetEdit = payload
     },
     changeIsLoading (state) {
-      // if (state.isLoading) {
-      //   state.isLoading = false
-      // } else {
-      //   state.isLoading = true
-      // }
-      state.isLoading = true
+      console.log('ganti state laoding')
+      state.isLoadingSearch = true
     },
     deactivate (state) {
       state.isLoading = false
@@ -44,6 +41,13 @@ export default new Vuex.Store({
     },
     changeLogin (state) {
       state.isLoggedIn = localStorage.getItem('access_token')
+    },
+    changeTotal (state) {
+      let total = 0
+      state.carts.forEach(item => {
+        total += item.totalPrice
+      })
+      state.total = total
     }
   },
   actions: {
@@ -165,6 +169,7 @@ export default new Vuex.Store({
         })
     },
     fetchCarts (context) {
+      console.log('fetchCarts')
       axios({
         method: 'GET',
         url: '/carts',
@@ -173,10 +178,14 @@ export default new Vuex.Store({
         }
       })
         .then(response => {
+          console.log('success')
           context.commit('changeCarts', response.data.data)
+          context.commit('changeTotal')
+          console.log(context.state.carts)
+          console.log(context.state.total)
         })
         .catch(err => {
-          console.log(err.response)
+          console.log(err)
         })
     },
     addCart (context, payload) {
@@ -188,11 +197,22 @@ export default new Vuex.Store({
         },
         data: payload
       })
+    },
+    decrementCart (context, payload) {
+      return axios({
+        method: 'PATCH',
+        url: '/carts/' + payload.id,
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        },
+        data: payload
+      })
     }
   },
   getters: {
     filtered: (state) => (val) => {
       return state.products.filter(product => {
+        state.isLoadingSearch = false
         return product.name.toLowerCase().includes(val.toLowerCase())
       })
     }
