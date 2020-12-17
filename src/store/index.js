@@ -134,6 +134,11 @@ export default new Vuex.Store({
         .then(res => {
           console.log(res.data)
           context.commit('fetchCart', res.data)
+          let data = 0
+          res.data.forEach(e => {
+            data += e.price
+          })
+          context.commit('totalPrice', data)
         })
         .catch(err => {
           Toast.fire({

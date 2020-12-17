@@ -10,7 +10,8 @@
           <input class="form-group quantity-field mb-1" type="number" min="1" :max="data.Product.stock" v-model="data.quantity" readonly>
         </div>
       </td>
-      <td>Rp. {{ data.price }},00</td>
+      <td>{{ data.price.toLocaleString('id-ID',
+        { style: 'currency', currency: 'IDR' }) }}</td>
     </div>
     </tr>
   </div>

@@ -3,7 +3,8 @@
     <Navbar/>
     <div class="pt-5 mt-5 mb-5">
       <h1>Carts</h1>
-      <h1>Total Price: Rp. {{ totalPrice }},00</h1>
+      <h1>Total Price: {{ totalPrice.toLocaleString('id-ID',
+        { style: 'currency', currency: 'IDR' }) }}</h1>
       <table class="center">
         <tr>
           <div class="mb-2 mt-2">
@@ -32,11 +33,6 @@ export default {
       allPrice: 0
     }
   },
-  methods: {
-    getAllPrice () {
-      this.allPrice = this.totalPrice
-    }
-  },
   components: {
     Navbar,
     CartList
@@ -45,9 +41,6 @@ export default {
     totalPrice () {
       return this.$store.state.totalPrice
     }
-  },
-  created () {
-    this.getAllPrice()
   }
 }
 </script>

@@ -4,23 +4,15 @@
       <div class="card fit shadow">
         <div class="card-header">
           <img class="temp-img" :src="product.image_url" alt="">
-          <div class="temp-img-overlay">
+          <div class="temp-img-overlay" v-if="product.stock > 0">
             <button class="btn btn-add btn-sm" @click.prevent="addToCart(product.id)">Add To Cart</button>
           </div>
         </div>
-        <div class="card-body row mt-3">
-          <div class="col p-0">
-            <p><b>Price</b></p>
-            <p class="mt-1">Rp. {{ product.price }},00</p>
-          </div>
-          <div class="col p-0">
-            <p><b>Name</b></p>
-            <p class="mt-1">{{ product.name }}</p>
-          </div>
-          <div class="col-3 p-0">
-            <p><b>Stock</b></p>
-            <p class="mt-1">{{ product.stock }}</p>
-          </div>
+        <div class="card-body">
+          <h5 class="mt-1"><b>{{ product.name }}</b></h5>
+          <h5 class="mt-1">{{ product.price.toLocaleString('id-ID',
+            { style: 'currency', currency: 'IDR' }) }}</h5>
+          <p class="mt-1">Stock: {{ product.stock }}</p>
         </div>
       </div>
     </div>

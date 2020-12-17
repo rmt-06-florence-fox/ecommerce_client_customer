@@ -30,7 +30,8 @@
           </div>
         </div>
       </td>
-      <td>Rp. {{ cart.price }},00</td>
+      <td>{{ cart.price.toLocaleString('id-ID',
+        { style: 'currency', currency: 'IDR' }) }}</td>
       <td>
         <button class="btn btn-primary mr-2" @click="buyCart(cart.id)">Buy</button>
         <button class="btn btn-danger ml-2" @click="deleteCart(cart.id)">Remove</button>
@@ -77,12 +78,6 @@ export default {
     },
     buyCart (id) {
       this.$store.dispatch('patchCart', id)
-    },
-    getTotal () {
-      this.carts.forEach(e => {
-        this.totalPrice = this.totalPrice + e.price
-      })
-      this.$store.commit('totalPrice', this.totalPrice)
     }
   },
   computed: {
@@ -92,7 +87,6 @@ export default {
   },
   created () {
     this.fetchCart()
-    this.getTotal()
   }
 }
 </script>
