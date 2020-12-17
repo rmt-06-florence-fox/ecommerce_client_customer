@@ -14,6 +14,13 @@ import Navbar from './components/Navbar.vue'
 export default {
   components: {
     Navbar
+  },
+  created () {
+    if (localStorage.getItem('access_token')) {
+      this.$store.commit('set_isLogin', true)
+    } else {
+      this.$store.commit('set_isLogin', false)
+    }
   }
 }
 </script>

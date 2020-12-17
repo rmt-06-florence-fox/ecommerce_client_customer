@@ -9,7 +9,8 @@ export default new Vuex.Store({
     products: [],
     carts: [],
     totalPrice: 0,
-    isLogin: false
+    isLogin: false,
+    histories: []
   },
   mutations: {
     set_product (state, payload) {
@@ -24,6 +25,10 @@ export default new Vuex.Store({
     },
     set_isLogin (state, payload) {
       state.isLogin = payload
+    },
+    set_histories (state, payload) {
+      console.log(payload, '<<<<<<<<<')
+      state.histories = payload
     }
   },
   actions: {
@@ -96,6 +101,15 @@ export default new Vuex.Store({
       return axios({
         url: '/cart/checkout',
         method: 'PATCH',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+    },
+    getHistory () {
+      return axios({
+        url: '/cart/history',
+        method: 'GET',
         headers: {
           access_token: localStorage.getItem('access_token')
         }
