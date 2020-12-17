@@ -58,7 +58,8 @@ export default new Vuex.Store({
         },
         data: {
           ProductId: payload.ProductId,
-          quantity: payload.quantity
+          quantity: payload.quantity,
+          status: payload.status
         }
       })
         .then(({ data }) => {
