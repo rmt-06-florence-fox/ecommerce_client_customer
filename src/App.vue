@@ -10,6 +10,11 @@ import Navbar from './components/Navbar'
 export default {
   components: {
     Navbar
+  },
+  created () {
+    if (localStorage.access_token) {
+      this.$store.commit('setLogin', true)
+    }
   }
 }
 </script>
