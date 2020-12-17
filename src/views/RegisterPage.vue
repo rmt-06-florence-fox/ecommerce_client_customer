@@ -7,7 +7,7 @@
     <form @submit.prevent="register">
       <input type="text" v-model="name" id="name" class="fadeIn second" name="register" placeholder="name" required>
       <input type="text" v-model="email" id="email" class="fadeIn second" name="register" placeholder="email" required>
-      <input type="text" v-model="password" id="password" class="fadeIn third" name="register" placeholder="password" required>
+      <input type="password" v-model="password" id="password" class="fadeIn third" name="register" placeholder="password" required>
       <input type="submit" class="fadeIn fourth" value="Register">
     </form>
     <div id="formFooter">
@@ -141,7 +141,7 @@ input[type=button]:active, input[type=submit]:active, input[type=reset]:active  
   transform: scale(0.95);
 }
 
-input[type=text] {
+input[type=text], input[type=password] {
   background-color: #f6f6f6;
   border: none;
   color: #0d0d0d;
@@ -162,12 +162,12 @@ input[type=text] {
   border-radius: 5px 5px 5px 5px;
 }
 
-input[type=text]:focus {
+input[type=text]:focus, input[type=password]:focus {
   background-color: #fff;
   border-bottom: 2px solid #5fbae9;
 }
 
-input[type=text]:placeholder {
+input[type=text]:placeholder, input[type=password]:placeholder {
   color: #cccccc;
 }
 

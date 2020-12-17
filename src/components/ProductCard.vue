@@ -5,6 +5,7 @@
       <div class="card-body">
         <h5 class="card-title">{{ Product.name }}</h5>
         <p class="card-text">Rp {{ Product.price }}</p>
+        <p class="card-text">stock: {{ Product.stock }}</p>
         <a @click="addToCart" class="btn btn-dark" id="btn-addCart">
           <img src="https://www.freeiconspng.com/thumbs/cart-icon/basket-cart-icon-27.png" width="15" height="15" alt="">
           add to cart</a>
@@ -22,7 +23,6 @@ export default {
         ProductId: this.Product.id
       }
       this.$store.dispatch('addCart', payload)
-      this.$store.dispatch('fetchCart')
     }
   }
 }

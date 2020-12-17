@@ -32,7 +32,6 @@ export default new Vuex.Store({
         })
     },
     fetchCart (context) {
-      console.log('<<<<<<<<<<<<<<< masuk store')
       axios({
         url: 'http://localhost:3000/cart',
         method: 'GET',
@@ -41,7 +40,6 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
-          console.log(data, '<<<<<<<<<<<<<<data cart')
           context.commit('fetchCart', data)
         })
         .catch(error => {
@@ -49,7 +47,6 @@ export default new Vuex.Store({
         })
     },
     removeCart (context, payload) {
-      console.log('<<<<<<<<<<<<<<< masuk store')
       axios({
         url: 'http://localhost:3000/cart',
         method: 'DELETE',
@@ -61,7 +58,6 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
-          console.log(data, '<<<<<<<<<<<<<<data cart')
           context.commit('fetchCart', data)
         })
         .catch(error => {
@@ -69,7 +65,6 @@ export default new Vuex.Store({
         })
     },
     addCart (context, payload) {
-      console.log('<<<<<<<<<<<<<<< masuk store')
       axios({
         url: 'http://localhost:3000/cart',
         method: 'POST',
@@ -81,16 +76,21 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
-          console.log(data, '<<<<<<<<<<<<<<data cart')
-          context.commit('fetchCart', data)
+          context.dispatch('fetchCart')
           router.push({ path: '/cart' })
+            .catch(error => {
+              console.info(error.message)
+            })
         })
         .catch(error => {
+          router.push({ path: '/cart' })
+            .catch(error => {
+              console.info(error.message)
+            })
           console.log(error)
         })
     },
     updateCart (context, payload) {
-      console.log('<<<<<<<<<<<<<<< masuk store update cart')
       axios({
         url: 'http://localhost:3000/cart',
         method: 'PATCH',
@@ -104,7 +104,6 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
-          console.log(data, '<<<<<<<<<<<<<<data cart')
           context.commit('fetchCart', data)
         })
         .catch(error => {

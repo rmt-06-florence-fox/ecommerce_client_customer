@@ -8,17 +8,23 @@
         :Cart="Cart"
       ></CartCard>
     </div>
+    <BottomNavbar
+     :Cart="Carts"
+     :Price="Price"
+    ></BottomNavbar>
   </div>
 </template>
 
 <script>
 import Navbar from '../components/Navbar'
 import CartCard from '../components/CartCard'
+import BottomNavbar from '../components/BottomNavbar'
 
 export default {
   components: {
     Navbar,
-    CartCard
+    CartCard,
+    BottomNavbar
   },
   methods: {
     fetchCart () {
@@ -28,6 +34,13 @@ export default {
   computed: {
     Carts () {
       return this.$store.state.carts
+    },
+    Price () {
+      let totalPrice = 0
+      for (let i = 0; i < this.Carts.length; i++) {
+        totalPrice += (this.Carts[i].Product.price * this.Carts[i].quantity)
+      }
+      return totalPrice
     }
   },
   created () {

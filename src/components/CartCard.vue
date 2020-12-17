@@ -6,9 +6,9 @@
         <h5 class="card-title">{{ Cart.Product.name }}</h5>
         <p class="card-text">Rp {{ Cart.Product.price }}</p>
         <div class="row mx-auto d-flex justify-content-center" id="button-cart">
-          <button @click="addQuantity" id="btn">+</button>
-          <p>{{ quantity }}</p>
-          <button @click="reduceQuantity" id="btn">-</button>
+          <button v-if="Cart.quantity < Cart.Product.stock" @click="addQuantity" id="btn">+</button>
+          <p>{{ Cart.quantity }}</p>
+          <button v-if="Cart.quantity > 0 " @click="reduceQuantity" id="btn">-</button>
         </div>
         <a @click="removeCart" class="btn btn-danger" id="btn-removeCart">
           remove from cart</a>
@@ -29,30 +29,30 @@ export default {
 
   },
   methods: {
+    setQuantity () {
+      this.quantity = this.Cart.quantity
+    },
     removeCart () {
       const payload = {
         id: this.Cart.id
       }
       this.$store.dispatch('removeCart', payload)
-      this.$store.dispatch('fetchCart')
     },
     addQuantity () {
       const payload = {
         ProductId: this.Cart.Product.id,
-        quantity: this.quantity,
+        quantity: this.Cart.quantity,
         status: 'add'
       }
       this.$store.dispatch('updateCart', payload)
-      this.$store.dispatch('fetchCart')
     },
     reduceQuantity () {
       const payload = {
         ProductId: this.Cart.Product.id,
-        quantity: this.quantity,
+        quantity: this.Cart.quantity,
         status: 'reduce'
       }
       this.$store.dispatch('updateCart', payload)
-      this.$store.dispatch('fetchCart')
     }
   },
   props: ['Cart']

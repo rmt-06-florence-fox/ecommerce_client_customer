@@ -8,6 +8,11 @@ import NotFound from '../views/NotFound.vue'
 
 Vue.use(VueRouter)
 
+function guardMyroute (to, from, next) {
+  if (!localStorage.getItem('access_token') && to.path !== '/login') next({ path: '/login' })
+  else next()
+}
+
 const routes = [
   {
     path: '/',
@@ -27,6 +32,7 @@ const routes = [
   {
     path: '/cart',
     name: 'cart',
+    beforeEnter: guardMyroute,
     component: CartPage
   },
   {
