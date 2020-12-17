@@ -38,7 +38,7 @@ export default new Vuex.Store({
           localStorage.setItem('access_token', response.data.access_token)
           localStorage.setItem('email', response.data.email)
           context.commit('setCurrentUser', response.data.email)
-          router.push('/')
+          router.push('/home')
         })
         .catch((error) => {
           Swal.fire('Login Failed', `${error.response.data.message}`, 'error')
