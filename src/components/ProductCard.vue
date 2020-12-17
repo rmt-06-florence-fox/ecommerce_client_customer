@@ -62,8 +62,8 @@ export default {
     display: flex;
   }
   img {
-    max-height: 200px;
-    max-width: 250px;
+    height: 200px;
+    width: 250px;
   }
   .btn-add-cart{
     background-color: #80daec;
