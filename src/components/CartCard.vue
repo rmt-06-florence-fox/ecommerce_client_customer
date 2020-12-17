@@ -1,14 +1,17 @@
 <template>
- <div class="card m-3 col-3" style="width: 18rem;">
+  <div class="card col-4 m-2 border-0 shadow" style="width: 18rem;">
+    <div class="m-2 bottom-left-icon d-flex justify-content-end">
+      <a style="cursor: pointer" @click.prevent="removeCart(cart.id)">x</a>
+    </div>
     <img :src="cart.Product.image_url" class="card-img-top">
     <div class="card-body">
       <h5 class="card-title">{{cart.Product.name}}</h5>
       <p class="card-text"></p>
       <p class="card-text"></p>
-      <div>
-        <a @click.prevent="updateCart(cart.id)" class="btn btn-primary mr-3 text-white m-1" style="cursor: pointer; width: 40px">-</a>
-        {{cart.quantity}}
-        <a @click.prevent="addToCart(cart.ProductId)" class="btn btn-primary ml-3 text-white m-1" style="cursor: pointer; width: 40px">+</a>
+      <div class="row d-flex justify-content-center">
+        <a @click.prevent="updateCart(cart.id)" class="btn btn-primary mr-3 text-white m-1 d-flex justify-content-center" style="cursor: pointer; width: 30px; height: 34px">-</a>
+        <p class="mt-2" style="height: 35px">{{cart.quantity}}</p>
+        <a @click.prevent="addToCart(cart.ProductId)" class="btn btn-primary ml-3 text-white m-1 d-flex justify-content-center" style="cursor: pointer; width: 30px; height: 34px">+</a>
       </div>
     </div>
   </div>
@@ -24,6 +27,9 @@ export default {
     },
     updateCart (id) {
       this.$store.dispatch('updateCart', id)
+    },
+    removeCart (id) {
+      this.$store.dispatch('removeCart', id)
     }
   }
 }

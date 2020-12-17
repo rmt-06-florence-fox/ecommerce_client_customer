@@ -8,7 +8,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     products: [],
-    cart: []
+    cart: [],
+    price: 0
   },
   mutations: {
     set_products (state, payload) {
@@ -16,6 +17,9 @@ export default new Vuex.Store({
     },
     set_cart (state, payload) {
       state.cart = payload
+    },
+    set_price (state, payload) {
+      state.price = payload
     }
   },
   actions: {
@@ -73,6 +77,7 @@ export default new Vuex.Store({
       })
         .then(() => {
           context.dispatch('fetchCart')
+          context.dispatch('getPrice')
         })
         .catch(err => console.log(err))
     },
@@ -86,7 +91,48 @@ export default new Vuex.Store({
       })
         .then(() => {
           context.dispatch('fetchCart')
+          context.dispatch('getPrice')
         })
+        .catch(err => console.log(err))
+    },
+    removeCart (context, id) {
+      return axios({
+        url: `cart/${id}`,
+        method: 'delete',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .then(() => context.dispatch('fetchCart'))
+        .catch(err => console.log(err))
+    },
+    getPrice (context, payload) {
+      return axios({
+        url: 'cart',
+        method: 'get',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .then(({ data }) => {
+          let total = 0
+          for (let i = 0; i < data.data.length; i++) {
+            const counter = (+data.data[i].quantity * +data.data[i].Product.price)
+            total += counter
+          }
+          context.commit('set_price', total)
+        })
+        .catch(err => console.log(err))
+    },
+    checkout (context, payload) {
+      return axios({
+        url: 'cart/checkout',
+        method: 'put',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .then(() => router.push('home'))
         .catch(err => console.log(err))
     }
   },

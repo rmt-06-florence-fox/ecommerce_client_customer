@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>this is main page</h1>
+    <h1>Products</h1>
     <div class="container">
       <div class="row">
         <ProductCard v-for="product in allProduct" :product="product" :key="product.id"/>

@@ -1,29 +1,22 @@
 <template>
-  <!-- <div>
+  <div>
     <div class="container mt-5">
-    <div class="row">
-      <div class="col-4"> -->
-        <!-- <div class="card shadow-sm p-3 mb-5 bg-white rounded" style="width: 18rem;">
-          <h1 class="text-center">Profile</h1>
-          <img :src="profile.avatar" class="card-img-top h-50 img-thumbnail" alt="...">
+      <div class="row">
+        <div class="col-4 shadow mt-5" style="height: 140px">
+          <button type="submit" class="btn btn-primary mt-4" @click.prevent="checkout">Checkout</button>
           <div class="card-body">
-            <h5 class="card-title">{{profile.name}}</h5>
-            <p class="card-text">{{profile.occupation}}</p>
-            <div class="d-flex align-items-center">
-              <i class="fa fa-map-marker-alt"></i><span>{{profile.address}}</span>
-            </div>
+            <h5 class="card-title">Price: {{totalPrice}}</h5>
           </div>
         </div>
-      </div> -->
-      <div class="container">
-        <h1 class="text-center">Your Cart</h1>
-        <div class="row mx-auto d-flex justify-content-center" style="width:100%">
-          <CartCard v-for="cart in yourCart.data" :cart="cart" :key="cart.id"/>
+        <div>
+          <h1 class="text-center">Your Cart</h1>
+          <div class="row mx-auto d-flex justify-content-center" style="width: 100%">
+            <CartCard v-for="cart in yourCart" :cart="cart" :key="cart.id"/>
+          </div>
         </div>
       </div>
-    <!-- </div>
+    </div>
   </div>
-  </div> -->
 </template>
 
 <script>
@@ -36,15 +29,25 @@ export default {
   methods: {
     fetchCart () {
       this.$store.dispatch('fetchCart')
+    },
+    getPrice () {
+      this.$store.dispatch('getPrice')
+    },
+    checkout () {
+      this.$store.dispatch('checkout')
     }
   },
   computed: {
     yourCart () {
-      return this.$store.state.cart
+      return this.$store.state.cart.data
+    },
+    totalPrice () {
+      return this.$store.state.price
     }
   },
   created () {
     this.fetchCart()
+    this.getPrice()
   }
 }
 </script>
