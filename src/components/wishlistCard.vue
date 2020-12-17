@@ -4,33 +4,31 @@
     <div class="card" v-else>
       <div class="card-image">
         <figure class="image is-4by3">
-          <img :src="list.image_url" alt="Placeholder image">
+          <img :src="list.Product.image_url" alt="Placeholder image">
         </figure>
       </div>
       <div class="card-content">
         <div class="media">
           <div class="media-content">
-            <p class="title is-5">{{list.name}}</p>
-            <p class="subtitle is-6">{{list.category}}</p>
+            <p class="title is-5">{{list.Product.name}}</p>
+            <p class="subtitle is-6">{{list.Product.category}}</p>
           </div>
         </div>
 
         <div class="content" style="list-style-type: none">
           <li><b>Price: </b>{{priceRp}}</li>
-          <li><b>Stock(s): </b>{{list.stock}}</li>
         </div>
         <div class="buttons">
-          <a @click.prevent="addWishlist(list.id)" class="button is-medium">
-            <span class="icon is-medium">
-              <i class="fas fa-heart"></i>
-            </span>
-          </a>
-          <a @click.prevent="addToCart(list.id)" class="button is-medium" v-if="list.stock > 0">
+          <a @click.prevent="addToCart(list.id)" class="button is-medium" v-if="list.Product.stock > 0">
             <span class="icon is-medium">
               <i class="fas fa-shopping-cart"></i>
             </span>
           </a>
-          <p v-if="list.stock < 1">We're sorry, we out of stock.</p>
+          <a class="button is-medium" @click.prevent="deleteWishlist(list.id)">
+                <span class="icon is-medium">
+                  <i class="fas fa-trash"></i>
+                </span>
+              </a>
         </div>
       </div>
     </div>
@@ -51,6 +49,7 @@ export default {
       this.isLoading = true
       this.$store.dispatch('addCart', id)
         .then(res => {
+          console.log(res)
           this.$router.push('/yourCart')
         })
         .catch(err => {
@@ -60,18 +59,17 @@ export default {
           this.isLoading = false
         })
     },
-    addWishlist (id) {
+    deleteWishlist (id) {
       this.isLoading = true
-      this.$store.dispatch('addWishlist', id)
+      this.$store.dispatch('deleteWishlist', id)
         .then(res => {
           return this.$store.dispatch('fetchWishlists')
         })
         .then(res => {
           this.$store.commit('FETCH_WISHLISTS', res.data)
-          this.$router.push('/yourWishlist')
         })
         .catch(err => {
-          console.log(err.response)
+          console.log(err)
         })
         .finally(() => {
           this.isLoading = false
@@ -81,7 +79,7 @@ export default {
   computed: {
     priceRp: function () {
       let rupiah = ''
-      const priceReverse = this.list.price.toString().split('').reverse().join('')
+      const priceReverse = this.list.Product.price.toString().split('').reverse().join('')
       for (let i = 0; i < priceReverse.length; i++) if (i % 3 === 0) rupiah += priceReverse.substr(i, 3) + '.'
       return 'Rp. ' + rupiah.split('', rupiah.length - 1).reverse().join('')
     }

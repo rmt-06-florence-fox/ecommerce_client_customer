@@ -14,7 +14,7 @@
             <p class="subtitle is-6">{{list.Product.category}}</p>
             <p><b>Price: </b>{{priceRp}} /each</p>
             <div class="columns pt-4 pl-3">
-              <a class="button is-small" @click.prevent="minusItem(list.id)" v-if="list.totalItem > 0">
+              <a class="button is-small" @click.prevent="minusItem(list.id)" v-if="list.totalItem > 1">
                 <span class="icon is-small">
                   <i class="fas fa-chevron-left"></i>
                 </span>
@@ -106,20 +106,6 @@ export default {
     }
   },
   props: ['list'],
-  created () {
-    this.isLoading = true
-    this.$store.dispatch('fetchCart')
-      .then(res => {
-        this.$store.commit('FETCH_CARTS', res.data[0])
-        this.$store.commit('FETCH_TOTAL_CHECKOUT', res.data[1])
-      })
-      .catch(err => {
-        console.log(err)
-      })
-      .finally(() => {
-        this.isLoading = false
-      })
-  },
   computed: {
     priceRp: function () {
       let rupiah = ''

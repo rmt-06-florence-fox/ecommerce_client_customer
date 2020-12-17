@@ -9,7 +9,8 @@ export default new Vuex.Store({
     isLogin: false,
     listProducts: [],
     listCarts: [],
-    totalCheckout: 0
+    totalCheckout: 0,
+    wishlists: []
   },
   mutations: {
     CHANGE_IS_LOGIN (state, payload) {
@@ -23,6 +24,9 @@ export default new Vuex.Store({
     },
     FETCH_TOTAL_CHECKOUT (state, payload) {
       state.totalCheckout = payload[0].totalCheckout
+    },
+    FETCH_WISHLISTS (state, payload) {
+      state.wishlists = payload
     }
   },
   actions: {
@@ -83,22 +87,6 @@ export default new Vuex.Store({
         }
       })
     },
-    fetchCartInCard (context) {
-      axios({
-        url: '/carts',
-        method: 'get',
-        headers: {
-          access_token: localStorage.getItem('access_token')
-        }
-      })
-        .then(res => {
-          context.commit('FETCH_CARTS', res.data[0])
-          context.commit('FETCH_TOTAL_CHECKOUT', res.data[1])
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
     addCart (context, id) {
       return axios({
         url: `/carts/${id}`,
@@ -129,6 +117,33 @@ export default new Vuex.Store({
     deleteCart (context, id) {
       return axios({
         url: `/carts/${id}`,
+        method: 'delete',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+    },
+    addWishlist (context, id) {
+      return axios({
+        url: `/wishlists/${id}`,
+        method: 'post',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+    },
+    fetchWishlists (context) {
+      return axios({
+        url: '/wishlists',
+        method: 'get',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+    },
+    deleteWishlist (context, id) {
+      return axios({
+        url: `/wishlists/${id}`,
         method: 'delete',
         headers: {
           access_token: localStorage.getItem('access_token')

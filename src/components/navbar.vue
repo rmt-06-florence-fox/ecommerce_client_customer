@@ -28,11 +28,11 @@
                   <i class="fas fa-shopping-cart"></i>
                 </span>
               </router-link>
-              <router-link class="button is-large is-light" to="/yourTransaction">
+              <!-- <router-link class="button is-large is-light" to="/yourTransaction">
                 <span class="icon is-large">
                   <i class="fas fa-cash-register"></i>
                 </span>
-              </router-link>
+              </router-link> -->
             </div>
           </div>
           <div class="navbar-item">
@@ -69,7 +69,7 @@ export default {
     logout () {
       this.$store.commit('CHANGE_IS_LOGIN', false)
       localStorage.clear()
-      // this.$router.push('/login')
+      this.$router.push('/login')
       // this.$swal.fire({
       //   title: 'Are you sure?',
       //   text: "After this, you won't allowed to access this site!",
