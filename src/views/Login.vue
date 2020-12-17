@@ -20,7 +20,7 @@
               <span>
                   <small> Don't have an account? </small>
               </span>
-              <a class="btn btn-link">Register here</a>
+              <a class="btn btn-link"><router-link to="/register">Register here</router-link></a>
           </div>
       </form>
     </div>
@@ -42,6 +42,8 @@ export default {
         password: this.password
       }
       this.$store.dispatch('login', payload)
+      this.email = ''
+      this.password = ''
     }
   }
 }
@@ -56,7 +58,7 @@ export default {
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    margin-top: 10%;
-    margin-bottom: 100%;
+    margin-top: 5%;
+    margin-bottom: 5%;
   }
 </style>

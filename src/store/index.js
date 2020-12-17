@@ -7,11 +7,16 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    products: []
+    products: [],
+    statusLogin: false,
+    access_token: localStorage.getItem('access_token')
   },
   mutations: {
     setProducts (state, payload) {
       state.products = payload
+    },
+    setStatus (state, payload) {
+      state.statusLogin = payload
     }
   },
   actions: {
@@ -23,7 +28,21 @@ export default new Vuex.Store({
       })
         .then(({ data }) => {
           localStorage.setItem('access_token', data.access_token)
+          context.commit('setStatus', true)
           router.push({ name: 'Home' })
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    register (context, payload) {
+      return axios({
+        method: 'POST',
+        url: '/register',
+        data: payload
+      })
+        .then(({ data }) => {
+          router.push({ name: 'Login' })
         })
         .catch(err => {
           console.log(err)

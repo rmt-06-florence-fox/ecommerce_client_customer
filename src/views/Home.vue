@@ -1,13 +1,11 @@
 <template>
-  <div id="home">
-    <div class="container-fluid">
-      <div class="row">
-        <ProductCard
-        v-for="product in products"
-        :key="product.id"
-        :product="product"
-        />
-      </div>
+  <div id="home" class="container">
+    <div class="row">
+      <ProductCard
+      v-for="product in products"
+      :key="product.id"
+      :product="product"
+      />
     </div>
   </div>
 </template>
@@ -39,8 +37,5 @@ export default {
 <style>
   #home {
     margin-bottom: 5%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
   }
 </style>

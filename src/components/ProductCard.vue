@@ -1,10 +1,10 @@
 <template>
-  <div class="col-4">
-    <div class="card mt-5" style="width: 20rem;">
-      <img :src="product.image_url" class="card-img-top" style="height: 30vh;">
+  <div class="col-md-4">
+    <div class="card mt-5">
+      <img :src="product.image_url" class="card-img-top" style="height: 40vh;">
       <div class="card-body">
         <h5 class="card-title">{{ product.name }}</h5>
-        <p class="card-text">Price : {{ product.price }}</p>
+        <p class="card-text">{{ product.price | currency }}</p>
         <p class="card-text">Stock : {{ product.stock }}</p>
         <a href="#" class="btn btn-info">Add To Cart</a>
       </div>
