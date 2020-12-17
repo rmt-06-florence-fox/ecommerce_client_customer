@@ -3,7 +3,7 @@
     <div class="container-fluid banner">
       <div class="row">
         <div class="col-12 text-center align-self-center">
-          <carousel :per-page="1" :mouse-drag="false" :autoplay="true" :loop="true" :autoplayTimeout="5000" v-if="activebanner">
+          <carousel :per-page="1" :mouse-drag="false" :autoplay="true" :loop="true" :autoplayTimeout="10000" v-if="activebanner">
             <slide class="slide"
             v-for="banner in activebanner"
             :key="banner.id"

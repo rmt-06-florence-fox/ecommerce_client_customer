@@ -22,8 +22,8 @@
 
           <input type="submit" class="btn btn-success" value="Login">
         </form>
-        <hr>
-        Login Using Google
+        <!-- <hr> -->
+        <!-- Login Using Google -->
       </div>
       <div class="col-sm-4"></div>
     </div>
@@ -50,6 +50,12 @@ export default {
           password: this.password
         }
       }).then(({ data }) => {
+        this.$swal({
+          icon: 'success',
+          title: 'Success Logging In',
+          showConfirmButton: false,
+          timer: 1500
+        })
         localStorage.setItem('access_token', data.access_token)
         this.$store.dispatch('GETUSER')
         this.$store.dispatch('GETWISHLISTS')
@@ -58,7 +64,11 @@ export default {
         this.$store.commit('FILTERINGCATEGORIES', [])
         this.$router.push('/').catch(() => { })
       }).catch(err => {
-        console.log(err)
+        this.$swal({
+          icon: 'error',
+          title: 'Oops...',
+          text: err.response.data.message
+        })
       })
     }
   }

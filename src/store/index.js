@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from '../config/axios'
+import router from '../router/index'
 
 Vue.use(Vuex)
 
@@ -53,7 +54,11 @@ export default new Vuex.Store({
       }).then(({ data }) => {
         context.commit('GETPRODUCTS', data.products)
       }).catch(err => {
-        console.log(err)
+        Vue.swal({
+          icon: 'error',
+          title: 'Oops...',
+          text: err.response.data.message
+        })
       })
     },
     GETPRODUCTBYID (context, payload) {
@@ -63,7 +68,15 @@ export default new Vuex.Store({
       }).then(({ data }) => {
         context.commit('GETPRODUCTBYID', data.product)
       }).catch(err => {
-        console.log(err)
+        if (err.response.data.message === 'Error Not Found') {
+          router.push('/notfound').catch(() => { })
+        } else {
+          Vue.swal({
+            icon: 'error',
+            title: 'Oops...',
+            text: err.response.data.message
+          })
+        }
       })
     },
     GETCATEGORIES (context) {
@@ -73,7 +86,11 @@ export default new Vuex.Store({
       }).then(({ data }) => {
         context.commit('GETCATEGORIES', data.categories)
       }).catch(err => {
-        console.log(err)
+        Vue.swal({
+          icon: 'error',
+          title: 'Oops...',
+          text: err.response.data.message
+        })
       })
     },
     GETBANNERS (context) {
@@ -83,7 +100,11 @@ export default new Vuex.Store({
       }).then(({ data }) => {
         context.commit('GETBANNERS', data.banners)
       }).catch(err => {
-        console.log(err)
+        Vue.swal({
+          icon: 'error',
+          title: 'Oops...',
+          text: err.response.data.message
+        })
       })
     },
     GETUSER (context) {
@@ -96,7 +117,11 @@ export default new Vuex.Store({
       }).then(({ data }) => {
         context.commit('GETUSER', data)
       }).catch(err => {
-        console.log(err)
+        Vue.swal({
+          icon: 'error',
+          title: 'Oops...',
+          text: err.response.data.message
+        })
       })
     },
     GETCART (context) {
@@ -109,7 +134,11 @@ export default new Vuex.Store({
       }).then(({ data }) => {
         context.commit('GETCART', data.transaction)
       }).catch(err => {
-        console.log(err)
+        Vue.swal({
+          icon: 'error',
+          title: 'Oops...',
+          text: err.response.data.message
+        })
       })
     },
     GETHISTORY (context) {
@@ -122,7 +151,11 @@ export default new Vuex.Store({
       }).then(({ data }) => {
         context.commit('GETHISTORY', data.transactions)
       }).catch(err => {
-        console.log(err)
+        Vue.swal({
+          icon: 'error',
+          title: 'Oops...',
+          text: err.response.data.message
+        })
       })
     },
     GETWISHLISTS (context) {
@@ -135,7 +168,11 @@ export default new Vuex.Store({
       }).then(({ data }) => {
         context.commit('GETWISHLISTS', data.wishlists)
       }).catch(err => {
-        console.log(err)
+        Vue.swal({
+          icon: 'error',
+          title: 'Oops...',
+          text: err.response.data.message
+        })
       })
     },
     CHECKOUT (context, payload) {
@@ -147,27 +184,59 @@ export default new Vuex.Store({
           access_token: localStorage.getItem('access_token')
         }
       }).then(({ data }) => {
+        Vue.swal({
+          icon: 'success',
+          title: data.message,
+          showConfirmButton: false,
+          timer: 1500
+        })
+        router.push({ name: 'History' }).catch(() => { })
         context.dispatch('GETCART')
         context.dispatch('GETHISTORY')
         context.dispatch('GETPRODUCTS')
       }).catch(err => {
         context.dispatch('GETCART')
         context.dispatch('GETPRODUCTS')
-        console.log(err)
+        Vue.swal({
+          icon: 'error',
+          title: 'Oops...',
+          text: err.response.data.message
+        })
       })
     },
     CLEARCART (context, payload) {
-      const id = payload.id
-      axios({
-        method: 'delete',
-        url: '/transaction/' + id,
-        headers: {
-          access_token: localStorage.getItem('access_token')
+      Vue.swal({
+        title: 'Do you want to clear all cart?',
+        showDenyButton: true,
+        confirmButtonText: 'Yes',
+        denyButtonText: 'No'
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          const id = payload.id
+          axios({
+            method: 'delete',
+            url: '/transaction/' + id,
+            headers: {
+              access_token: localStorage.getItem('access_token')
+            }
+          }).then(({ data }) => {
+            Vue.swal({
+              icon: 'success',
+              title: 'Success Clear Cart',
+              showConfirmButton: false,
+              timer: 1500
+            })
+            context.dispatch('GETCART')
+          }).catch(err => {
+            Vue.swal({
+              icon: 'error',
+              title: 'Oops...',
+              text: err.response.data.message
+            })
+          })
+        } else if (result.isDenied) {
         }
-      }).then(({ data }) => {
-        context.dispatch('GETCART')
-      }).catch(err => {
-        console.log(err)
       })
     },
     ADDTOCART (context, payload) {
@@ -179,10 +248,20 @@ export default new Vuex.Store({
           access_token: localStorage.getItem('access_token')
         }
       }).then(({ data }) => {
+        Vue.swal({
+          icon: 'success',
+          title: 'Success Add to Cart',
+          showConfirmButton: false,
+          timer: 1500
+        })
         context.dispatch('GETCART')
         context.dispatch('GETPRODUCTS')
       }).catch(err => {
-        console.log(err)
+        Vue.swal({
+          icon: 'error',
+          title: 'Oops...',
+          text: err.response.data.message
+        })
       })
     },
     EDITCART (context, payload) {
@@ -198,24 +277,55 @@ export default new Vuex.Store({
           quantity
         }
       }).then(({ data }) => {
+        Vue.swal({
+          icon: 'success',
+          title: 'Success Edit Cart',
+          showConfirmButton: false,
+          timer: 1500
+        })
         context.dispatch('GETCART')
         context.dispatch('GETPRODUCTS')
       }).catch(err => {
-        console.log(err)
+        Vue.swal({
+          icon: 'error',
+          title: 'Oops...',
+          text: err.response.data.message
+        })
       })
     },
     DELETECART (context, payload) {
-      const id = payload.id
-      axios({
-        method: 'delete',
-        url: '/cart/' + id,
-        headers: {
-          access_token: localStorage.getItem('access_token')
+      Vue.swal({
+        title: 'Do you want to delete the cart?',
+        showDenyButton: true,
+        confirmButtonText: 'Yes',
+        denyButtonText: 'No'
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+          const id = payload.id
+          axios({
+            method: 'delete',
+            url: '/cart/' + id,
+            headers: {
+              access_token: localStorage.getItem('access_token')
+            }
+          }).then(({ data }) => {
+            Vue.swal({
+              icon: 'success',
+              title: 'Success Deleting Cart',
+              showConfirmButton: false,
+              timer: 1500
+            })
+            context.dispatch('GETCART')
+          }).catch(err => {
+            Vue.swal({
+              icon: 'error',
+              title: 'Oops...',
+              text: err.response.data.message
+            })
+          })
+        } else if (result.isDenied) {
         }
-      }).then(({ data }) => {
-        context.dispatch('GETCART')
-      }).catch(err => {
-        console.log(err)
       })
     },
     DELETEWISHLISTS (context, payload) {
@@ -227,9 +337,19 @@ export default new Vuex.Store({
           access_token: localStorage.getItem('access_token')
         }
       }).then(({ data }) => {
+        Vue.swal({
+          icon: 'success',
+          title: 'Success Delete a Wishlist',
+          showConfirmButton: false,
+          timer: 1500
+        })
         context.dispatch('GETWISHLISTS')
       }).catch(err => {
-        console.log(err)
+        Vue.swal({
+          icon: 'error',
+          title: 'Oops...',
+          text: err.response.data.message
+        })
       })
     },
     ADDWISHLIST (context, payload) {
@@ -241,9 +361,19 @@ export default new Vuex.Store({
           access_token: localStorage.getItem('access_token')
         }
       }).then(({ data }) => {
+        Vue.swal({
+          icon: 'success',
+          title: 'Success Add to Wishlist',
+          showConfirmButton: false,
+          timer: 1500
+        })
         context.dispatch('GETWISHLISTS')
       }).catch(err => {
-        console.log(err.response.data)
+        Vue.swal({
+          icon: 'error',
+          title: 'Oops...',
+          text: err.response.data.message
+        })
       })
     }
   },
