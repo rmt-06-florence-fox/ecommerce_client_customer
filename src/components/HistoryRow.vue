@@ -2,7 +2,7 @@
   <tr>
     <td>{{ index+1 }}</td>
     <td>{{ history.Product.name }}</td>
-    <td>{{ history.quantity * history.Product.price }}</td>
+    <td> *coming soon*</td>
     <td>{{ history.quantity }}</td>
     <td>{{ history.updatedAt.split('T')[0] }}</td>
   </tr>

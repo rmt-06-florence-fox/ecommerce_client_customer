@@ -12,9 +12,9 @@
             <li>{{ cart.Product.price * cart.quantity }}</li>
           </ul>
           <div class="text-end m-1">
-            <button class="btn" @click.prevent="changeQuantitiy(1)"><b-icon-file-plus></b-icon-file-plus></button>
-            {{ cart.quantity }}
             <button class="btn" @click.prevent="changeQuantitiy(-1)"><b-icon-file-minus></b-icon-file-minus></button>
+            {{ cart.quantity }}
+            <button class="btn" @click.prevent="changeQuantitiy(1)"><b-icon-file-plus></b-icon-file-plus></button>
           </div>
         </div>
       </div>
