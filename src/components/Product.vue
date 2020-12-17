@@ -1,9 +1,9 @@
 <template>
   <div class="product uk-card uk-card-default uk-card-hover">
     <div class="product-img">
-      <a href="#" @click.prevent="addToCart"><span class="plus-icon" uk-icon="icon: plus-circle; ratio: 1.5"></span></a>
-      <a href="#" @click.prevent="like"><span v-if="!liked" class="heart-icon" uk-icon="icon: heart; ratio: 1.5"></span></a>
-      <a href="#" @click.prevent="unlike"><span v-if="liked" class="heart-icon heart-icon-liked" uk-icon="icon: heart; ratio: 1.5"></span></a>
+      <a href="#" @click.prevent="addToCart"><i class="fa fas fa-cart-plus" style="font-size:30px"></i></a>
+      <a href="#" @click.prevent="like"><i v-if="!liked" class='far fa-heart' style='font-size:24px'></i></a>
+      <a href="#" @click.prevent="unlike"><i v-if="liked" class='fas fa-heart' style='font-size:24px'></i></a>
       <img id="product-image" :src="productImage" alt="">
     </div>
     <div class="product-description">
@@ -60,7 +60,7 @@ export default {
     },
     like () {
       if (!this.$store.state.logged) {
-        Swal.fire('Login required')
+        Swal.fire('Login first')
         this.$router.push('/landing')
       } else {
         this.$store.dispatch('addToWishList', this.product.id)
@@ -68,7 +68,7 @@ export default {
     },
     unlike () {
       if (!this.$store.state.logged) {
-        Swal.fire('Login required')
+        Swal.fire('Login first')
         this.$router.push('/landing')
       } else {
         this.$store.dispatch('removeFromWishlist', this.product.id)
@@ -117,35 +117,34 @@ export default {
   width: 350px;
   height: 220px;
 }
-.heart-icon {
-  margin: 10px;
-  margin-left: 50px;
+.fa {
+  margin: 230px;
+  margin-left: 20px;
   position: absolute;
   color: black;
 }
-.heart-icon-liked {
-  margin: 10px;
-  margin-left: 50px;
-  position: absolute;
-  color: #ff9966;
+
+.fa:hover {
+  color: #20bf6b
 }
-.heart-icon:hover {
-  color: #ff9966;
-  transition: 300ms;
-}
-.heart-icon-liked:hover {
-  color: black;
-  transition: 300ms;
-}
-.plus-icon {
+
+.far {
   margin: 10px;
   position: absolute;
   color: black;
 }
-.plus-icon:hover {
-  color: #ff9966;
+
+.fa-heart {
+  margin: 10px;
+  position: absolute;
+  color: black;
+}
+
+.far:hover {
+  color: red;
   transition: 300ms;
 }
+
 .product {
   margin-right: 10px;
   margin-bottom: 10px;

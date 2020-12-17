@@ -4,7 +4,7 @@
       <div class="uk-container">
         <div class="uk-position-center landing-card">
           <!-- Login Section -->
-          <div class="uk-card uk-card-default uk-card-body uk-animation-fade" v-show="section==='login'">
+          <div class="uk-card uk-card-login uk-card-body uk-animation-fade rounded" v-show="section==='login'">
             <h1 class="uk-text-lead">Login</h1>
             <form @submit.prevent="login">
               <label class="uk-form-label">Email: </label>
@@ -24,7 +24,7 @@
           </div>
 
           <!-- Register Section -->
-          <div class="uk-card uk-card-default uk-card-body uk-animation-fade" v-show="section==='register'">
+          <div class="uk-card uk-card-register uk-card-body uk-animation-fade" v-show="section==='register'">
             <h1 class="uk-text-lead">Register</h1>
             <form @submit.prevent="register">
               <label class="uk-form-label">First Name: </label>
@@ -128,7 +128,7 @@ export default {
     register () {
       this.$store.dispatch('register', this.registerPayload)
         .then(() => {
-          this.section = 'login'
+          this.section = 'register'
           this.registerPayload = {
             firstName: '',
             lastName: '',
@@ -152,6 +152,7 @@ export default {
             icon: 'success',
             title: 'Register successfully'
           })
+          this.$router.push('/landing')
         })
         .catch(err => {
           console.log(err)
@@ -168,8 +169,29 @@ export default {
 </script>
 
 <style scoped>
+
+.uk-card-register {
+  background-image: url(https://images.unsplash.com/reserve/LJIZlzHgQ7WPSh5KVTCB_Typewriter.jpg?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=941&q=80);
+  background-size: 160%;
+  margin-top: 260px;
+}
+
+.uk-card-login {
+  background-image: url(https://images.unsplash.com/photo-1510674485131-dc88d96369b4?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=2942&q=80);
+  background-size: 160%;
+}
+
 form {
   margin-bottom: 50px;
+}
+
+#nav {
+    font-family: 'Alfa Slab One', cursive;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    color: greenyellow !important;
 }
 
 #register-now {
@@ -197,7 +219,7 @@ form {
 
 .uk-button-default:hover {
   transition: 300ms;
-  background-color: #ff9966;
+  background-color: #20bf6b;
   color: black;
 }
 

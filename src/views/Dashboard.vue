@@ -78,6 +78,12 @@ export default {
 </script>
 
 <style scoped>
+
+.uk-card-secondary{
+  background-color: #4b4b4b;
+  /* background-size: 500%; */
+}
+
 #card-button-text {
   color: white !important;
 }
@@ -128,7 +134,7 @@ export default {
   width: 200px;
   position: fixed;
   z-index: 1;
-  top: 9rem;
+  top: 8rem;
   left: 0;
   overflow-x: hidden;
   padding-top: 20px;

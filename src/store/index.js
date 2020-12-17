@@ -212,13 +212,13 @@ export default new Vuex.Store({
         payload.gender = ''
       }
       return axios({
-        methods: 'POST',
+        method: 'POST',
         url: '/customerRegister',
         data: {
-          firstName: payload.firstName,
-          lastName: payload.lastName,
-          gender: payload.gender,
           email: payload.email,
+          firstName: payload.firstName,
+          gender: payload.gender,
+          lastName: payload.lastName,
           password: payload.password
         }
       })

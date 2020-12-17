@@ -171,7 +171,7 @@ export default {
   font-family: 'Alfa Slab One', cursive;
 }
 .uk-button:hover {
-  background-color: #ff9966;
+  background-color: #20bf6b;
   color: black;
   transition: 300ms;
 }
