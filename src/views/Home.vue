@@ -1,18 +1,29 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+<div class="hero-body">
+  <div class="row is-two-fifth">
+    <product-card
+      v-for="product in products"
+      :key="product.id"
+      :product="product"
+    ></product-card>
   </div>
+</div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import ProductCard from '../components/ProductCard.vue'
 
 export default {
   name: 'Home',
-  components: {
-    HelloWorld
+  components: { ProductCard },
+  created () {
+    this.$store.dispatch('fetchProducts')
+  },
+  computed: {
+    products () {
+      return this.$store.state.products
+    }
   }
 }
 </script>

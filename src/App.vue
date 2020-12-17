@@ -1,12 +1,19 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+  <section class="hero is-dark is-fullheight">
+    <navbar-hero></navbar-hero>
     <router-view/>
-  </div>
+  </section>
 </template>
+
+<script>
+import Navbar from './components/Navbar'
+export default {
+  name: 'App',
+  components: {
+    'navbar-hero': Navbar
+  }
+}
+</script>
 
 <style>
 #app {
@@ -23,7 +30,7 @@
 
 #nav a {
   font-weight: bold;
-  color: #2c3e50;
+  color: white;
 }
 
 #nav a.router-link-exact-active {
