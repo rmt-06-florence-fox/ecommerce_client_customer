@@ -8,6 +8,7 @@ import Dashboard from '../views/Dashboard'
 import Cart from '../views/Cart'
 import Wishlist from '../views/Wishlist'
 import Transactions from '../views/Transactions'
+import NotFound from '../views/NotFound'
 
 Vue.use(VueRouter)
 
@@ -60,6 +61,11 @@ const routes = [
         component: Register
       }
     ]
+  },
+  {
+    path: '*',
+    name: 'PageNotFound',
+    component: NotFound
   }
 ]
 
