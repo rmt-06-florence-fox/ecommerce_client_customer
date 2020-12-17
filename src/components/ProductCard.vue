@@ -28,6 +28,7 @@ export default {
         quantity: 1
       }
       this.$store.dispatch('changeQuantity', payload)
+      this.$toasted.success('added')
       this.$router.push('/carts')
     }
   }

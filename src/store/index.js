@@ -112,27 +112,43 @@ export default new Vuex.Store({
         .then(_ => {
           context.dispatch('fetchCart')
         })
-        .catch(_ => {
+        .catch(err => {
           // console.log(err.response.data)
+          Vue.toasted.error(err.response.data.message)
         })
     },
     deleteCart (context, payload) {
       // console.log(payload)
-      axios({
-        url: '/carts',
-        method: 'delete',
-        headers: {
-          access_token: localStorage.getItem('access_token')
-        },
-        data: payload
+      Vue.toasted.error('are you sure ?', {
+        action: [
+          {
+            text: 'yes',
+            onClick: (e, toastObject) => {
+              axios({
+                url: '/carts',
+                method: 'delete',
+                headers: {
+                  access_token: localStorage.getItem('access_token')
+                },
+                data: payload
+              })
+                .then(_ => {
+                  context.dispatch('fetchCart')
+                  Vue.toasted.success('deleted')
+                })
+                .catch(_ => {
+                  // console.log(err)
+                })
+            }
+          },
+          {
+            text: 'no',
+            onClick: (e, toastObject) => {
+              toastObject.goAway(0)
+            }
+          }
+        ]
       })
-        .then(_ => {
-          context.dispatch('fetchCart')
-          Vue.toasted.success('deleted')
-        })
-        .catch(_ => {
-          // console.log(err)
-        })
     },
     checkout (context, payload) {
       // console.log('hit')

@@ -1,5 +1,5 @@
 <template>
-  <b-modal id="modal-login" title="BootstrapVue"
+  <b-modal id="modal-login" title="Login"
     @ok="doLogin"
     v-if="show"
   >
@@ -57,6 +57,8 @@ export default {
   },
   created () {
     this.show = true
+    // this.email = ''
+    this.password = ''
   }
 }
 </script>

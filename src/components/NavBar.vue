@@ -39,8 +39,24 @@ export default {
       this.$bvModal.show('modal-login')
     },
     doLogOut () {
-      this.$store.commit('setStatus', 'loggedOut')
-      localStorage.clear()
+      this.$toasted.info('log out ?', {
+        action: [
+          {
+            text: 'yes',
+            onClick: (e, toastObject) => {
+              this.$store.commit('setStatus', 'loggedOut')
+              localStorage.clear()
+              this.$toasted.success('byeeeee')
+            }
+          },
+          {
+            text: 'no',
+            onClick: (e, toastObject) => {
+              toastObject.goAway(0)
+            }
+          }
+        ]
+      })
     },
     gotToCart () {
       if (this.$router.history.current.path !== '/carts') {

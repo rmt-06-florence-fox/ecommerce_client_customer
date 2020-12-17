@@ -15,7 +15,7 @@
             <div class="card-title">checkout</div>
             <div class="card-body">total : {{ totalPrice }}</div>
             <div class="card-footer">
-              <button class="btn btn-primary" @click.prevent="doCheckOut">Pay</button>
+              <button class="btn btn-primary" @click.prevent="doCheckOut" :disabled="carts.length === 0">Pay</button>
             </div>
           </div>
         </div>
