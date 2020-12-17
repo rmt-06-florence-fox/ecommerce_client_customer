@@ -18,7 +18,11 @@ export default {
   props: ['Product'],
   methods: {
     addToCart () {
-      this.$router.push('/cart')
+      const payload = {
+        ProductId: this.Product.id
+      }
+      this.$store.dispatch('addCart', payload)
+      this.$store.dispatch('fetchCart')
     }
   }
 }

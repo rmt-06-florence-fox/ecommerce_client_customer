@@ -68,6 +68,28 @@ export default new Vuex.Store({
           console.log(error)
         })
     },
+    addCart (context, payload) {
+      console.log('<<<<<<<<<<<<<<< masuk store')
+      axios({
+        url: 'http://localhost:3000/cart',
+        method: 'POST',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        },
+        data: {
+          ProductId: payload.ProductId,
+          quantity: 1
+        }
+      })
+        .then(({ data }) => {
+          console.log(data, '<<<<<<<<<<<<<<data cart')
+          context.commit('fetchCart', data)
+          router.push({ path: '/cart' })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    },
     updateCart (context, payload) {
       console.log('<<<<<<<<<<<<<<< masuk store update cart')
       axios({
