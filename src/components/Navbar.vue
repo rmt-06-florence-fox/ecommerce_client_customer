@@ -17,7 +17,7 @@
         ></FilterList>
       </div>
     </div>
-    <a class="navbar-brand font-weight-bold mr-auto">Welcome to my humble bookshop</a>
+    <a class="navbar-brand font-weight-bold mr-auto">Welcome to my humble bookstore</a>
     <div class="mr-2">
       <button class="btn btn-sm btn-outline-primary rounded-pill font-weight-bold text-dark mr-2"
         v-if="!isLogin"
