@@ -52,7 +52,7 @@ export default new Vuex.Store({
       console.log('<<<<<<<<<<<<<<< masuk store update cart')
       axios({
         url: 'http://localhost:3000/cart',
-        method: 'PUT',
+        method: 'PATCH',
         headers: {
           access_token: localStorage.getItem('access_token')
         },
