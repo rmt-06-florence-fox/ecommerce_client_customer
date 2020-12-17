@@ -66,11 +66,8 @@ export default {
       } else {
         Swal.fire({
           title: 'Are you sure?',
-          text: "You won't be able to revert this! But you can pick it again at dashboard.",
           icon: 'warning',
           showCancelButton: true,
-          confirmButtonColor: 'black',
-          cancelButtonColor: '#d33',
           confirmButtonText: 'Yes, remove!'
         }).then((result) => {
           if (result.isConfirmed) {
@@ -92,7 +89,7 @@ export default {
     },
     amountIncrement (amount, product) {
       if (amount === product.stock) {
-        this.error = "You cannot buy item for more than it's available stock"
+        this.error = "You cannot buy item more than it's available stock"
         setTimeout(() => { this.error = '' }, 3000)
       } else {
         this.$store.dispatch('incrementAmount', product.id)

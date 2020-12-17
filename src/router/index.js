@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Dashboard from '../views/Dashboard.vue'
+import Home from '../views/Home.vue'
 
 Vue.use(VueRouter)
 
@@ -15,8 +15,8 @@ const routes = [
   },
   {
     path: '/',
-    name: 'Dashboard',
-    component: Dashboard,
+    name: 'Home',
+    component: Home,
     children: [
       {
         path: '/wishlist',
