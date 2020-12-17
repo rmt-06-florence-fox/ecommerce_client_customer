@@ -37,10 +37,12 @@ export default {
     fetchCart () {
       this.$store.dispatch('fetchCartList')
     }
+    // checkout () {
+    //   this.$store.dispatch('checkout')
+    // }
   },
   created () {
     this.fetchCart()
   }
-
 }
 </script>

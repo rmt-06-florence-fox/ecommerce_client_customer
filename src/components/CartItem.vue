@@ -15,8 +15,8 @@
         <p class="btn btn-outline-primary"><small>Stock: {{ cart.Product.stock }} </small></p>
         <p class="card-text"><small class="text-muted">[total]: {{ cart.quantity }} x {{ cart.Product.price }} = {{ cart.total_unit }} </small></p>
           <p class="mb-1">amount: {{ quantity }}</p>
-          <button class="btn btn-secondary" @click="increment">+</button>
           <button class="btn btn-secondary" @click="decrement">-</button>
+          <button class="btn btn-secondary" @click="increment">+</button>
       </div>
     </div>
   </div>
@@ -25,8 +25,8 @@
 </template>
 
 <script>
-// import { BFormSpinbutton } from 'bootstrap-vue'
 import { mapState } from 'vuex'
+import Swal from 'sweetalert2'
 
 export default {
   name: 'CartItem',
@@ -47,7 +47,11 @@ export default {
         id: this.cart.Product.id,
         quantity: this.quantity
       }
-      this.$store.dispatch('updateCart', payload)
+      if (this.quantity > 0) {
+        this.$store.dispatch('updateCart', payload)
+      } else {
+        Swal.fire('Failed', 'Please input a valid amount', 'error')
+      }
     },
     removeCart (id) {
       this.$store.dispatch('deleteCart', id)
@@ -59,9 +63,6 @@ export default {
       this.quantity--
     }
   },
-  // components: {
-  //   BFormSpinbutton
-  // },
   created () {
     this.quantity = this.cart.quantity
   }

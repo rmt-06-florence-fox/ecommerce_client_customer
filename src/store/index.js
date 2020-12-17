@@ -120,8 +120,7 @@ export default new Vuex.Store({
           context.dispatch('fetchCartList')
         })
         .catch((error) => {
-          console.log(error.response.data.message)
-        // Swal.fire('Failed', `${error.response.data.message}`, 'error')
+          Swal.fire('Failed', `${error.response.data.message}`, 'error')
         })
     },
     deleteCart (context, id) {
