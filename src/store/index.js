@@ -162,7 +162,7 @@ export default new Vuex.Store({
               return product
             }
           } else if (state.searchKey.by === 'category') {
-            return product.Category.name.includes(state.searchKey.words)
+            return product.Category.name.includes(state.searchKey.words.toLowerCase())
           }
         })
       } else {
