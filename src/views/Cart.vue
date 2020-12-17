@@ -1,16 +1,23 @@
 <template>
-  <div class="row cart">
-    <div class="col-sm col-md-4">
+  <div class="row justify-center">
+    <div class="col-sm col-md-4" v-if="total">
       <CartCard v-for="cart in carts" :key="cart.id" :cart="cart">
       </CartCard>
     </div>
-    <div class="col-sm col-md-4 ml-3 mr-2">
+    <div class="col-sm col-md-4 ml-3 mr-2" v-if="!total">
+      <div class="card mt-4">
+        <div class="card-body">
+          <h5 class="card-title">No items in your cart.</h5>
+          <a href="" @click="goHome" class="btn btn-success">Let's shop</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-sm col-md-4 ml-3 mr-2" v-if="total">
       <div class="card mt-4">
         <div class="card-body">
           <h5 class="card-title">TOTAL</h5>
           <p class="card-text">{{ formatRupiah(total) }}</p>
           <a href="" v-if="carts.length" @click.prevent="checkout" class="btn btn-success">Check Out</a>
-          <a href="" v-if="!carts.length" @click.prevent="" class="btn btn-dark">No Items in Cart</a>
         </div>
       </div>
     </div>
@@ -34,6 +41,9 @@ export default {
         .catch((err) => {
           console.log(err)
         })
+    },
+    goHome () {
+      this.$router.push('/')
     }
   },
   computed: {
@@ -59,13 +69,12 @@ export default {
 </script>
 
 <style>
-  .cart {
+  .justify-center {
    padding: 1rem 1rem;
    padding-bottom: 3rem;
    display: flex;
    justify-content: center;
    height: 82vh;
    overflow-y: auto;
-   /* height: 24rem; */
   }
 </style>

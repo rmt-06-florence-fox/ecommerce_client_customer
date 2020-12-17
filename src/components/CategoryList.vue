@@ -1,6 +1,6 @@
 <template>
   <li class="nav-item">
-    <a @click="$emit('set-category', category.name)" class="nav-link">{{ formatTitle(category.name) }}</a>
+    <a v-b-toggle.sidebar @click.prevent="setSearchKey(category.name)"  class="nav-link">{{ formatTitle(category.name) }}</a>
   </li>
 </template>
 
@@ -15,6 +15,15 @@ export default {
         splitStr[i] = splitStr[i].charAt(0).toUpperCase() + splitStr[i].substring(1)
       }
       return splitStr.join(' ')
+    },
+    setSearchKey (category) {
+      const searchKey = {
+        by: 'category',
+        words: category
+      }
+      console.log(searchKey)
+      this.$store.commit('SET_SEARCH_KEY', searchKey)
+      this.$store.dispatch('fetchProducts')
     }
   }
 }

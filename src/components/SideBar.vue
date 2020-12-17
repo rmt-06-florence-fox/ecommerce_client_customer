@@ -3,11 +3,10 @@
     <b-sidebar id="sidebar" width="15rem" title="Categories" shadow>
       <ul class="nav category-list-container ml-3 text-left">
         <li class="nav-item">
-          <a @click="setCategory(null)" class="nav-link">All Categories</a>
+          <a v-b-toggle.sidebar @click="setSearchKey(null)" class="nav-link">All Categories</a>
         </li>
         <CategoryList v-for="category in categories" :key="category.id"
-          :category="category"
-          @set-category="setCategory">
+          :category="category">
         </CategoryList>
       </ul>
     </b-sidebar>
@@ -19,8 +18,13 @@ import CategoryList from './CategoryList'
 export default {
   name: 'SideBar',
   methods: {
-    setCategory (category) {
-      this.$store.commit('SET_CATEGORY', category)
+    setSearchKey (category) {
+      const searchKey = {
+        by: 'category',
+        words: category
+      }
+      this.$store.commit('SET_SEARCH_KEY', searchKey)
+      this.$store.dispatch('fetchProducts')
     }
   },
   computed: {

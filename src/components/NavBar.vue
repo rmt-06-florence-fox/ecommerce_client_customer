@@ -15,11 +15,11 @@
         </b-nav-item>
       </b-navbar-nav>
       <b-navbar-nav>
-        <b-nav-item><img v-b-toggle.sidebar src="../assets/category.svg" style="position:relative;top:-0.2rem" width="30" height="30" alt="list icon">
+        <b-nav-item v-b-toggle.sidebar><img src="../assets/category.svg" style="position:relative;top:-0.2rem" width="30" height="30" alt="list icon">
             Categories
         </b-nav-item>
       </b-navbar-nav>
-      <div class="form-group search-container">
+      <div v-if="$route.name === 'Home'" class="form-group search-container">
         <select v-model="searchKey.by" class="form-control search-by" name="search-by">
           <option value="name" selected>Name</option>
           <option value="category">Category</option>
