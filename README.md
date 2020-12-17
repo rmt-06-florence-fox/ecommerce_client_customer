@@ -1,5 +1,9 @@
 # ecommerce_client_customer
 
+LINK DEPLOY: 
+
+https://bukatoko-by-sidsoeharto.web.app/
+
 ## Project setup
 ```
 npm install
