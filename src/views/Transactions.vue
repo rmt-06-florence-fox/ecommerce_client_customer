@@ -22,6 +22,9 @@ export default {
     transactions () {
       return this.$store.state.transactions
     }
+  },
+  created () {
+    this.$store.dispatch('getTransactions')
   }
 }
 </script>

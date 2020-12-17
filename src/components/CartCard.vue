@@ -25,6 +25,7 @@
                 </div>
               </div>
             </div>
+            <button @click="deleteCart" class="btn btn-danger mt-2">Delete</button>
         </div>
     </div>
   </div>
@@ -40,6 +41,9 @@ export default {
     },
     increaseItem () {
       this.$store.dispatch('increaseItem', this.cart)
+    },
+    deleteCart () {
+      this.$store.dispatch('deleteCart', this.cart)
     }
   },
   computed: {
