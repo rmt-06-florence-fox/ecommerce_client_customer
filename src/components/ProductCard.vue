@@ -1,10 +1,12 @@
 <template>
-    <div class="max-w-xs mx-auto bg-white overflow-hidden">
+    <div class="px-2 max-w-xs mx-auto bg-white overflow-hidden border-2 border-transparent hover:border-black">
         <div class=" py-2 bg-white">
             <h1 class="text-black font-bold text-sm capitalize ">{{product.name}}</h1>
         </div>
-
+        <div>
         <img class="h-48 w-full object-cover" :src="product.image_url" alt="NIKE AIR" id="product">
+        <i class="lni lni-heart"></i>
+        </div>
 
         <div class="flex items-center justify-between py-2 bg-white">
             <h1 class="text-black font-bold text-sm">{{priceConverted}}</h1>

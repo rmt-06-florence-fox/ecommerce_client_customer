@@ -7,7 +7,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     title: 'JAM TANGEN',
-    user: [],
+    user: null,
     products: [],
     categories: [],
     banners: [],
@@ -183,6 +183,31 @@ export default new Vuex.Store({
     },
     producOnDetail: state => id => {
       return state.totalPrice[id]
+    },
+    filterProduct: state => cat => {
+      if (!cat) {
+        return state.products
+      } else {
+        const data = []
+        state.products.forEach(el => {
+          el.Categories.map(child => {
+            if (+child.id === +cat) {
+              console.log(child.id, cat)
+              data.push(el)
+            }
+          })
+        })
+        return data
+      }
+    },
+    getBigBanners: state => {
+      return state.banners.filter(el => el.size === 'lg')
+    },
+    getMediumBanners: state => {
+      return state.banners.filter(el => el.size === 'md')
+    },
+    getSmallBanners: state => {
+      return state.banners.filter(el => el.size === 'sm')
     }
   }
 })

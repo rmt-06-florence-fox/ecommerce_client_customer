@@ -4,33 +4,24 @@
       <div class="flex items-center justify-between h-16">
         <div class="flex items-center">
           <div class="flex-shrink-0">
-            <img class="h-8 w-8" src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg" alt="Workflow">
+            <span class="bg-gradient-to-r bg-clip-text text-transparent bg-gradient-to-b from-gray-400 to-white font-black text-2xl">{{title}}</span>
           </div>
           <div class="hidden md:block">
             <div class="ml-10 flex items-baseline space-x-4">
               <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-              <router-link to="/" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Dashboard</router-link>
-              <a href="#" class="bg-gray-900 text-white px-3 py-2 rounded-md text-sm font-medium">Dashboard</a>
-
-              <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Team</a>
-
-              <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Projects</a>
-
-              <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Calendar</a>
-
-              <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Reports</a>
+              <router-link to="/" class="text-gray-300 hover:bg-white hover:text-black px-3 py-2 text-sm font-medium">Dashboard</router-link>
             </div>
           </div>
         </div>
         <div class="hidden md:block">
           <div class="ml-4 flex items-center md:ml-6">
-            <button class="p-1 space-x-1 text-white flex flex-row">
+            <button class="p-1 space-x-1 text-white flex flex-row hover:text-gray-400">
               <span class="">Wishlist</span>
               <!-- Heroicon name: bell -->
               <i class="lni lni-heart h-6 w-6 flex items-center"></i>
             </button>
             <router-link to="/cart">
-            <button class="p-1 space-x-1 text-white flex flex-row">
+            <button class="p-1 space-x-1 text-white flex flex-row hover:text-gray-400">
               <span class="">Cart</span>
               <!-- Heroicon name: bell -->
               <i class="lni lni-cart h-6 w-6 flex items-center"></i>
@@ -39,9 +30,12 @@
             <!-- Profile dropdown -->
             <div class="ml-3 relative">
               <div>
-                <button class="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" id="user-menu" aria-haspopup="true">
+                <button v-if="user"  @click="seeMenu = !seeMenu" v-on-clickaway="closeMenu" class="max-w-xs bg-gray-800 rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white" id="user-menu" aria-haspopup="true">
                   <span class="sr-only">Open user menu</span>
-                  <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="">
+                  <img class="h-8 w-8 rounded-full" src="https://i.pinimg.com/originals/46/00/57/46005760e0544bcadaaee9b92387e8b8.png" alt="">
+                </button>
+                <button v-else @click="login" class="text-gray-300 hover:bg-white hover:text-black px-3 py-2 text-sm font-medium">
+                  LOGIN
                 </button>
               </div>
               <!--
@@ -55,11 +49,9 @@
                   To: "transform opacity-0 scale-95"
               -->
               <div v-if="seeMenu" class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5" role="menu" aria-orientation="vertical" aria-labelledby="user-menu">
-                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Your Profile</a>
+                <!-- <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Your Profile</a> -->
 
-                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Settings</a>
-
-                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Sign out</a>
+                <button @click="logout" class="w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Sign out</button>
               </div>
             </div>
           </div>
@@ -137,12 +129,38 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+import { directive as onClickaway } from 'vue-clickaway'
+
 export default {
   name: 'Navbar',
+  directives: {
+    onClickaway: onClickaway
+  },
   data () {
     return {
       seeMenu: false
     }
+  },
+  methods: {
+    closeMenu () {
+      this.seeMenu = false
+    },
+    logout () {
+      this.seeMenu = false
+      localStorage.clear()
+      this.$store.commit('setUser', null)
+      this.$router.push('/login')
+    },
+    login () {
+      this.$router.push('/login')
+    }
+  },
+  computed: {
+    ...mapState({
+      title: 'title',
+      user: 'user'
+    })
   }
 }
 </script>

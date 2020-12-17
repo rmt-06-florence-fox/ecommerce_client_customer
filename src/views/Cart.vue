@@ -1,6 +1,7 @@
 <template>
 <!-- component -->
 <div class="flex justify-center my-6">
+  <ErrorCard v-if="addCartErr" />
   <div class="flex flex-col w-full p-8 text-gray-800 bg-white pin-r pin-y md:w-4/5 lg:w-4/5">
     <div class="flex-1">
       <table class="w-full text-sm lg:text-base" cellspacing="0">
@@ -62,6 +63,8 @@
 import { mapState, mapGetters } from 'vuex'
 import CartCard from '../components/CartCard'
 import cardTotalDetail from '../components/cartTotalDetail'
+import ErrorCard from '../components/ErrorCard'
+import axios from '../config/axios'
 
 export default {
   name: 'Cart',
@@ -72,25 +75,55 @@ export default {
   },
   components: {
     CartCard,
-    cardTotalDetail
+    cardTotalDetail,
+    ErrorCard
   },
   methods: {
     checkout () {
       // console.log(this.totalPrice)
-      this.$store.dispatch('checkout', this.totalPrice)
-        .then(() => {
+      axios({
+        method: 'post',
+        url: '/cart/checkout',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        },
+        data: {
+          checkout: this.totalPrice
+        }
+      })
+        .then(res => {
           this.$store.commit('setpostCheckout', this.additionalMessage)
-          // setTimeout(() => {
-          //   this.$store.commit('setpostCheckout', false)
-          // }, 4000)
-          this.$router.push('/thankyou')
+          // this.$router.push('/thankyou')
+        })
+        .catch(error => {
+          this.$store.commit('setAddCartErr', error.response.data.message)
+          setTimeout(() => {
+            this.$store.commit('setAddCartErr', null)
+          }, 3000)
+          if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            console.log(error.response.data)
+            console.log(error.response.status)
+            console.log(error.response.headers)
+          } else if (error.request) {
+            // The request was made but no response was received
+            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+            // http.ClientRequest in node.js
+            console.log(error.request)
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', error.message)
+          }
+          console.log(error.config)
         })
     }
   },
   computed: {
     ...mapState({
       carts: 'carts',
-      totalPrice: 'totalPrice'
+      totalPrice: 'totalPrice',
+      addCartErr: 'addCartErr'
     }),
     ...mapGetters({
       getTotal: 'getTotal'

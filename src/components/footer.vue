@@ -7,7 +7,7 @@
                         <div>
                             <a href="#" class="text-xl font-bold text-gray-100 hover:text-gray-400">{{title}}</a>
                         </div>
-                        <p class="mt-2 text-gray-400 max-w-md">Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis, nisi! Id.</p>
+                        <p class="mt-2 text-gray-400 max-w-md">Dummy Watch Store. Definitely not the place to look for watch.</p>
                         <div class="flex mt-4 -mx-2">
                             <a href="#" class="mx-2 text-gray-100 hover:text-gray-400" aria-label="Linkden">
                                 <svg class="h-4 w-4 fill-current" viewBox="0 0 512 512">
@@ -34,9 +34,9 @@
                     <div class="grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4">
                         <div>
                             <h3 class="text-gray-100 uppercase">About</h3>
-                            <a href="#" class="block mt-2 text-sm text-gray-400">Company</a>
-                            <a href="#" class="block mt-2 text-sm text-gray-400">community</a>
-                            <a href="#" class="block mt-2 text-sm text-gray-400">Careers</a>
+                            <a href="#" class="block mt-2 text-sm text-gray-400">This on Github</a>
+                            <a href="#" class="block mt-2 text-sm text-gray-400">Admin Page</a>
+                            <a href="#" class="block mt-2 text-sm text-gray-400">Admin Page on Github</a>
                         </div>
 
                         <div>
