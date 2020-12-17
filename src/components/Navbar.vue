@@ -11,7 +11,7 @@
                     <li class="nav-item">
                         <router-link to="/" class="nav-link">Home</router-link>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item" v-if="isLogin">
                         <router-link to="/cart" class="nav-link">Cart</router-link>
                     </li>
                     <li class="nav-item dropdown">
@@ -19,9 +19,9 @@
                             More
                         </p>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <p to="/register" class="dropdown-item" @click="register">Register</p>
-                        <p to="/login" class="dropdown-item" @click="login">Login</p>
-                        <p class="dropdown-item" id="logout" @click="logout">Log Out</p>
+                        <router-link class="dropdown-item" v-if="!isLogin" to="/register">Register</router-link>
+                        <router-link class="dropdown-item" v-if="!isLogin" to="/login">Login</router-link>
+                        <p class="dropdown-item" id="logout" @click="logout" v-if="isLogin">Log Out</p>
                     </div>
                     </li>
                 </ul>
@@ -48,6 +48,7 @@ export default {
           .then(value => {
             if (value) {
               localStorage.clear()
+              this.$store.commit('set_isLogin', false)
               this.$router.push('/login')
               swal('Logout Success', { icon: 'success' })
             }
@@ -55,21 +56,11 @@ export default {
       } else {
         swal('Error', 'You Not Login')
       }
-    },
-    register () {
-      console.log('masuk')
-      if (localStorage.getItem('access_token')) {
-        swal('Error', 'Anda Sedang Login')
-      } else {
-        this.$router.push('/register')
-      }
-    },
-    login () {
-      if (localStorage.getItem('access_token')) {
-        swal('Error', 'Anda Sedang Login')
-      } else {
-        this.$router.push('/login')
-      }
+    }
+  },
+  computed: {
+    isLogin () {
+      return this.$store.state.isLogin
     }
   }
 }

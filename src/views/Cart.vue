@@ -14,10 +14,15 @@
               </div>
               <div class="card-body">
                 <h5 class="card-title">Total Price On Your Cart</h5>
-                <h6 class="card-text">{{ convertMoney() }}</h6>
+                <h6 class="card-text">{{ convertMoney(totalPrice) }}</h6>
                 <p class="card-text">Checkout Now And Get Your Product</p>
                 <p class="card-text">Wee will to your email for more about payment</p>
-                <button href="#" class="btn btn-primary" disabled>Checkout Now</button>
+                <div class="spinner-border text-primary " role="status" v-if="isLoadingCheckout">
+                  <span class="visually-hidden"></span>
+                </div>
+                <div v-else>
+                  <button href="#" class="btn btn-primary" @click="checkout">Checkout Now</button>
+                </div>
               </div>
             </div>
               <!-- card checkout -->
@@ -38,46 +43,67 @@
 </template>
 
 <script>
+import swal from 'sweetalert'
 import CardCart from '../components/CardCart.vue'
 export default {
   name: 'Cart',
   data () {
     return {
       isLoading: false,
-      carts: this.$store.state.carts,
-      total: this.$store.state.totalPrice
+      isLoadingCheckout: false
+      // total: this.$store.state.totalPrice
     }
   },
   components: {
     CardCart
   },
   methods: {
-    convertMoney () {
-      let thousand = this.total.toString().split('').reverse().join('')
+    convertMoney (params) {
+      let thousand = params.toString().split('').reverse().join('')
       thousand = thousand.match(/\d{1,3}/g)
       thousand = thousand.join('.').split('').reverse().join('')
       return `Rp.${thousand},-`
+    },
+    checkout () {
+      this.isLoadingCheckout = true
+      this.$store.dispatch('checkout')
+        .then(value => {
+          swal({
+            text: 'Please Check Your Email to detail about payment',
+            title: 'Success',
+            icon: 'success'
+          })
+          return this.$store.dispatch('fetchCart')
+        })
+        .then(value => {
+          this.$store.commit('set_carts', value.data.cart)
+          this.$store.commit('set_totalPrice', value.data.totalPrice)
+        })
+        .catch(err => {
+          swal('Error', err.response.data)
+        })
+        .finally(() => {
+          this.isLoadingCheckout = false
+        })
     }
   },
   created () {
     this.isLoading = true
     if (!localStorage.getItem('access_token')) {
-      this.carts = null
+      // this.carts = null
       this.isLoading = false
     } else {
       this.$store.dispatch('fetchCart')
         .then(value => {
-          this.$store.commit('set_carts', value.data)
-          this.carts = value.data
-          const carts = value.data
-          let total = 0
-          for (let i = 0; i < carts.length; i++) {
-            const price = carts[i].quantity * carts[i].Product.price
-            total += price
-          }
-          this.total = total
           console.log(value.data)
-          this.$store.dispatch('getTotalPrice')
+          this.$store.commit('set_carts', value.data)
+          // this.carts = value.data
+          this.$store.commit('set_carts', value.data.cart)
+          this.$store.commit('set_totalPrice', value.data.totalPrice)
+          // const carts = value.data.cart
+          // this.total = value.data.totalPrice
+          console.log(value.data)
+          // this.$store.dispatch('getTotalPrice')
         })
         .catch(err => {
           console.log('masuk error')
@@ -86,6 +112,14 @@ export default {
         .finally(() => {
           this.isLoading = false
         })
+    }
+  },
+  computed: {
+    carts () {
+      return this.$store.state.carts
+    },
+    totalPrice () {
+      return this.$store.state.totalPrice
     }
   }
 }

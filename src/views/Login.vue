@@ -66,6 +66,7 @@ export default {
               icon: 'success'
             })
             localStorage.setItem('access_token', value.data)
+            this.$store.commit('set_isLogin', true)
             this.$router.push('/')
           })
           .catch(err => {

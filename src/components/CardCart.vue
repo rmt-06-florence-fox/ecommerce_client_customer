@@ -68,12 +68,17 @@ export default {
             this.$store.dispatch('deleteCart', this.cart.id)
               .then(value => {
                 swal({
-                  text: 'Cart has beed deleted',
+                  text: 'Cart has been deleted',
                   title: 'Yeay',
                   icon: 'success'
                 })
                 this.$store.dispatch('fetchCart')
-                this.$router.push('/')
+                  .then(value => {
+                    this.$store.commit('set_carts', value.data.cart)
+                    this.$store.commit('set_totalPrice', value.data.totalPrice)
+                  })
+                // this.cart = null
+                // this.$router.push('/')
               })
               .catch(err => {
                 swal('Error', `${err.response.data}`)
@@ -94,7 +99,14 @@ export default {
       }
       this.$store.dispatch('patchCart', obj)
         .then(value => {
-          this.cart = value.data
+          // this.cart = value.data
+          console.log(value.data, '<<<<<<<<<<')
+          return this.$store.dispatch('fetchCart')
+        })
+        .then(value => {
+          console.log(value.data, '<<<< ini dari value data')
+          this.$store.commit('set_carts', value.data.cart)
+          this.$store.commit('set_totalPrice', value.data.totalPrice)
         })
         .catch(err => {
           swal('Error', `${err.response.data}`)
@@ -111,7 +123,9 @@ export default {
       }
       this.$store.dispatch('patchCart', obj)
         .then(value => {
-          this.cart = value.data
+          // this.cart = value.data
+          console.log(value.data, '<<<<<<<<<')
+          this.$store.commit('set_carts', value.data)
         })
         .catch(err => {
           swal('Error', `${err.response.data}`)

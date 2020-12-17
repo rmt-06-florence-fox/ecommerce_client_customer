@@ -8,7 +8,8 @@ export default new Vuex.Store({
     author: 'Arul Abdul Aziz',
     products: [],
     carts: [],
-    totelPrice: 0
+    totalPrice: 0,
+    isLogin: false
   },
   mutations: {
     set_product (state, payload) {
@@ -18,7 +19,11 @@ export default new Vuex.Store({
       state.carts = payload
     },
     set_totalPrice (state, payload) {
-      state.totelPrice = payload
+      console.log(payload, '<<<<<<<<<<<<<<<< ini d commit')
+      state.totalPrice = payload
+    },
+    set_isLogin (state, payload) {
+      state.isLogin = payload
     }
   },
   actions: {
@@ -85,6 +90,15 @@ export default new Vuex.Store({
           access_token: localStorage.getItem('access_token')
         },
         data: payload
+      })
+    },
+    checkout (context) {
+      return axios({
+        url: '/cart/checkout',
+        method: 'PATCH',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
       })
     }
   },
