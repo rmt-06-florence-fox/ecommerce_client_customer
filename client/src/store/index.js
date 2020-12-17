@@ -26,10 +26,7 @@ export default new Vuex.Store({
     gelAllProducts (context) {
       axios({
         url: 'product',
-        method: 'GET',
-        headers: {
-          access_token: localStorage.getItem('access_token')
-        }
+        method: 'GET'
       })
         .then(response => {
           context.commit('gelAllProducts', response.data)
@@ -56,21 +53,25 @@ export default new Vuex.Store({
         })
     },
     addToChart (context, id) {
-      axios({
-        url: 'charts/' + id,
-        method: 'POST',
-        headers: {
-          access_token: localStorage.getItem('access_token')
-        }
-      })
-        .then(({ data }) => {
-          console.log(data)
-          context.commit('addToChart', data)
+      if (localStorage.getItem('access_token')) {
+        axios({
+          url: 'charts/' + id,
+          method: 'POST',
+          headers: {
+            access_token: localStorage.getItem('access_token')
+          }
         })
-        .catch(err => {
-          router.push('/login')
-          console.log(err.response)
-        })
+          .then(({ data }) => {
+            console.log(data)
+            context.commit('addToChart', data)
+            this.dispatch('getAllCharts')
+          })
+          .catch(err => {
+            console.log(err.response)
+          })
+      } else {
+        router.push('/login')
+      }
     },
     plusChart (context, id) {
       axios({

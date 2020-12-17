@@ -20,10 +20,16 @@
 
 <script>
 export default {
+  data () {
+    return {
+      access_token: localStorage.getItem('access_token')
+    }
+  },
   name: 'Home',
   created () {
     this.$store.dispatch('gelAllProducts')
     this.$store.dispatch('getAllCharts')
+    this.access_token = localStorage.getItem('access_token')
   },
   computed: {
     allProducts () {

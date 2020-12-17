@@ -21,7 +21,7 @@
                   <br>
                   <button @click="minus(item.id)" type="button" class="btn btn-warning">-</button>
                     {{ item.quantity }}
-                  <button @click="plus(item.ProductId)" type="button" class="btn btn-primary">+</button>
+                  <button @click="plus(item.id)" type="button" class="btn btn-primary">+</button>
                 </td>
             </tr>
         </tbody>

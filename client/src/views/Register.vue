@@ -1,6 +1,6 @@
 <template>
   <div>
-        <form @submit.prevent="login">
+        <form @submit.prevent="register">
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Email address</label>
                 <input v-model="email" type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
@@ -20,7 +20,7 @@
 import axios from '../config/axiosinstance'
 
 export default {
-  name: 'Login',
+  name: 'Register',
   data () {
     return {
       email: '',
@@ -28,9 +28,9 @@ export default {
     }
   },
   methods: {
-    login () {
+    register () {
       axios({
-        url: 'login',
+        url: 'register',
         method: 'POST',
         data: {
           email: this.email,
@@ -38,8 +38,7 @@ export default {
         }
       })
         .then(response => {
-          localStorage.setItem('access_token', response.data.access_token)
-          this.$router.push('/')
+          this.$router.push('/login')
           console.log(response.data)
         })
         .catch(err => {
@@ -49,9 +48,6 @@ export default {
           this.email = ''
           this.password = ''
         })
-    },
-    register () {
-      this.$router.push('/register')
     }
   }
 }
