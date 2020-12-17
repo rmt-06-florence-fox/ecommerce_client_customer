@@ -8,6 +8,11 @@
             <div class="card-headers mt-3">
               <h3>Your Carts</h3>
             </div>
+            <div v-if="!carts.length">
+              <img src="../assets/empty_cart.svg" alt="" class="img-empty m-3">
+              <h4 class="m-3">Oopsss...</h4>
+              <h4>Your carts still empty !</h4>
+            </div>
             <div class="card-body" v-if="carts.length">
               <!-- Looping Product Card -->
               <Cart v-for="cart in carts" :key="cart.id" :cart="cart"></Cart>
@@ -86,5 +91,8 @@ export default {
 .btn-checkout{
   background-color: #2fd4f5 !important;
   width: 130px;
+}
+.img-empty{
+  width: 280px;
 }
 </style>

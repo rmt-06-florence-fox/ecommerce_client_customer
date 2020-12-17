@@ -163,9 +163,12 @@ export default new Vuex.Store({
         })
         .catch(err => {
           // console.log(err.response.data.messages)
-          err.response.data.messages.forEach((e) => {
-            Vue.toasted.error(e, { icon: 'times' })
-          })
+          if (err.response.data.messages && err.response.data.messages.length) {
+            err.response.data.messages.forEach((e) => {
+              Vue.toasted.error(e, { icon: 'times' })
+            })
+          } else if (err.response.data.message) Vue.toasted.error(err.response.data.message)
+          else console.log(err)
         })
     },
     fetchHistories (context) {

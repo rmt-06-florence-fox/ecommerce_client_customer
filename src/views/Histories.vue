@@ -2,8 +2,12 @@
   <div>
     <Navbar></Navbar>
     <h1 class="m-4">Your Outlay History</h1>
-    <!-- {{ histories }} -->
-    <div class="container">
+    <div v-if="!histories.length">
+      <img src="../assets/empty.svg" alt="" class="img-empty-history mb-5">
+      <h3>Oopss...</h3>
+      <h4>You Have Never Ordered !!!</h4>
+    </div>
+    <div class="container" v-if="histories.length">
       <table class="table">
         <thead>
           <th>No</th>
@@ -47,5 +51,10 @@ export default {
 </script>
 
 <style>
-
+  thead{
+    background-color: #77dcf0;
+  }
+  .img-empty-history{
+    width: 400px;
+  }
 </style>

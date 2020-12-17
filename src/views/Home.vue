@@ -31,6 +31,9 @@
         </div>
         <div class="container">
           <div class="row">
+            <div class="mt-5" v-if="!products.length">
+              <b-icon icon="arrow-clockwise" animation="spin" font-scale="4"></b-icon>
+            </div>
             <ProductCard class="mt-5 col-md-3 col-sm-6 g-4"
               v-for="product in products"
               :key="product.id"
