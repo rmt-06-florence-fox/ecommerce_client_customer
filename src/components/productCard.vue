@@ -1,6 +1,7 @@
 <template>
   <div class="column is-3">
-    <div class="card">
+    <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_hluo7ags.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop autoplay v-if="isLoading === true"/>
+    <div class="card" v-else>
       <div class="card-image">
         <figure class="image is-4by3">
           <img :src="list.image_url" alt="Placeholder image">
@@ -19,16 +20,17 @@
           <li><b>Stock(s): </b>{{list.stock}}</li>
         </div>
         <div class="buttons">
-          <a @click.prevent="addWishlist" class="button is-medium">
+          <a @click.prevent="addWishlist(list.id)" class="button is-medium">
             <span class="icon is-medium">
               <i class="fas fa-heart"></i>
             </span>
           </a>
-          <a @click.prevent="addToCart" class="button is-medium">
+          <a @click.prevent="addToCart(list.id)" class="button is-medium" v-if="stock > 0">
             <span class="icon is-medium">
               <i class="fas fa-shopping-cart"></i>
             </span>
           </a>
+          <p v-if="stock < 1">We're sorry, we out of stock.</p>
         </div>
       </div>
     </div>
@@ -38,7 +40,32 @@
 <script>
 export default {
   name: 'ProductCard',
+  data () {
+    return {
+      stock: this.list.stock,
+      isLoading: false
+    }
+  },
   props: ['list'],
+  methods: {
+    addToCart (id) {
+      this.isLoading = true
+      this.$store.dispatch('addCart', id)
+        .then(res => {
+          console.log(res)
+          this.$router.push('/yourCart')
+        })
+        .catch(err => {
+          console.log(err.response)
+        })
+        .finally(() => {
+          this.isLoading = false
+        })
+    },
+    addWishlist (id) {
+      console.log(id)
+    }
+  },
   computed: {
     priceRp: function () {
       let rupiah = ''

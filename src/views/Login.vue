@@ -64,7 +64,12 @@ export default {
       this.$store.dispatch('login', obj)
         .then(res => {
           // console.log(res.data)
-          this.$store.dispatch('fetchProduct')
+          localStorage.setItem('access_token', res.data.access_token)
+          this.$store.commit('CHANGE_IS_LOGIN', true)
+          return this.$store.dispatch('fetchProduct')
+        })
+        .then(res => {
+          this.$store.commit('FETCH_PRODUCTS', res.data)
           this.$router.push('/')
           this.isError = false
         })

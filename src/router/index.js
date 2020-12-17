@@ -4,6 +4,7 @@ import MainPage from '../views/MainPage.vue'
 import NotFound from '../views/NotFound.vue'
 import Register from '../views/Register.vue'
 import Login from '../views/Login.vue'
+import Cart from '../views/Cart.vue'
 
 Vue.use(VueRouter)
 
@@ -22,6 +23,11 @@ const routes = [
     path: '/login',
     name: 'Login',
     component: Login
+  },
+  {
+    path: '/yourCart',
+    name: 'YourCart',
+    component: Cart
   },
   {
     path: '*',

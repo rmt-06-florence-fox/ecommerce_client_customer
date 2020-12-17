@@ -2,7 +2,7 @@
   <nav class="navbar is-fixed-top is-light" role="navigation" aria-label="main navigation">
       <div class="navbar-brand">
         <div class="navbar-item pr-0">
-          <h4 class="navbar-item title is-4 is-primary">The Dhil-Commerce!</h4>
+          <router-link class="navbar-item title is-4 is-primary" to="/">The Dhil-Commerce!</router-link>
         </div>
         <a role="button" @click.prevent= "active" :class= "class1" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
           <span aria-hidden="true"></span>
