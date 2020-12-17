@@ -14,7 +14,8 @@ export default new Vuex.Store({
     carts: null,
     wishlist: null,
     addToWishlistSuccess: null,
-    addToWishlistFailed: null
+    addToWishlistFailed: null,
+    transactions: []
   },
   mutations: {
     set_errors (state, payload) {
@@ -40,6 +41,9 @@ export default new Vuex.Store({
     },
     set_addToWishlistSuccess (state, payload) {
       state.addToWishlistSuccess = payload
+    },
+    set_transactions (state, payload) {
+      state.transactions = payload
     }
   },
   actions: {
@@ -267,6 +271,21 @@ export default new Vuex.Store({
       }).catch(err => {
         console.log(err.response.data)
       })
+    },
+    getTransactions (context) {
+      axios({
+        url: '/customer/transactions',
+        method: 'get',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .then(response => {
+          context.commit('set_transactions', response.data)
+        })
+        .catch(err => {
+          console.log(err.response.data)
+        })
     },
     deleteWishlist (context, payload) {
       const swalWithBootstrapButtons = Vue.swal.mixin({

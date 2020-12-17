@@ -8,7 +8,7 @@
           <button @click="getWishlist" class="btn mr-1" style="background-color: #5ec0ca;">
             <router-link :to="{ name: 'Wishlist' }"><i class="fa fa-heart-o" style="font-size:24px; color:white"></i></router-link>
           </button>
-           <button class="btn mr-1" style="background-color: #5ec0ca;">
+           <button @click="getTransactions" class="btn mr-1" style="background-color: #5ec0ca;">
             <router-link :to="{ name: 'Transactions' }"><i class="fa fa-history" style="font-size:24px; color: white"></i></router-link>
           </button>
           <button @click="getCart" class="btn mr-1" style="background-color: #5ec0ca;">
@@ -32,6 +32,9 @@ export default {
     },
     getWishlist () {
       this.$store.dispatch('getWishlist')
+    },
+    getTransactions () {
+      this.$store.dispatch('getTransactions')
     }
   }
 }
