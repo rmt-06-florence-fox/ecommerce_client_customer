@@ -89,6 +89,20 @@ export default new Vuex.Store({
           context.dispatch('fetchCarts')
         })
         .catch(err => console.log(err))
+    },
+    checkoutCarts (context) {
+      axios({
+        method: 'POST',
+        url: 'cart/checkout',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .then(({ data }) => {
+          console.log(data)
+          context.dispatch('fetchCarts')
+        })
+        .catch(err => console.log(err))
     }
   },
   modules: {

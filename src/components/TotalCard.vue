@@ -15,7 +15,7 @@
     <h5>{{ totalPrice }}</h5>
   </div>
   <footer class="card-footer">
-    <a href="#" class="card-footer-item">checkout</a>
+    <button @click.prevent="checkout" class="card-footer-item">checkout</button>
   </footer>
 </div>
 </template>
@@ -23,7 +23,12 @@
 <script>
 export default {
   name: 'TotalCard',
-  props: ['totalPrice']
+  props: ['totalPrice'],
+  methods: {
+    checkout () {
+      this.$store.dispatch('checkoutCarts')
+    }
+  }
 }
 </script>
 
