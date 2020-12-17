@@ -1,11 +1,11 @@
 <template>
-  <div class="about">
-    <p>This is an product page</p>
+  <div class="WishList">
+    <h1>Your Wish List</h1>
     <mdb-container>
       <section class="text-center my-5">
-        <mdb-row class="justify-content-start">
+        <mdb-row class="justify-content-center">
           <ProductCard
-            v-for="product in productList"
+            v-for="product in productsOnWishList"
             :key="product.id"
             :product="product"
           ></ProductCard>
@@ -19,24 +19,25 @@
 import ProductCard from "../components/ProductCard";
 import { mdbContainer, mdbRow } from "mdbvue";
 export default {
-  name: "About",
+  name: "WishList",
   components: {
     ProductCard,
     mdbContainer,
-    mdbRow,
+    mdbRow
   },
   methods: {
     fetchData() {
       this.$store.dispatch("fetchData");
-    },
+    }
   },
   created() {
     this.fetchData();
   },
+
   computed: {
-    productList() {
-      return this.$store.state.productList;
-    },
-  },
+    productsOnWishList() {
+      return this.$store.getters.productsOnWishList;
+    }
+  }
 };
 </script>

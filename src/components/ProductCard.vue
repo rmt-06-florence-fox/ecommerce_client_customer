@@ -2,10 +2,7 @@
   <mdb-col lg="3" md="4" class="mb-lg-4 mb-4">
     <mdb-card wide ecommerce>
       <mdb-view overlay="white-slight" cascade>
-        <mdb-card-image
-          :src="product.image_url"
-          top
-        />
+        <mdb-card-image :src="product.image_url" top />
       </mdb-view>
       <mdb-card-body class="text-left" cascade>
         <a href="" class="text-muted">
@@ -21,38 +18,66 @@
         <mdb-card-footer color="white" textColor="black" class="px-1">
           <sup>IDR</sup>
           <span class="float-left font-weight-bold">
-            <h5>{{formatPrice(product.price)}}</h5>
+            <h5>{{ formatPrice(product.price) }}</h5>
           </span>
           <span class="float-right">
-            <a>
-              <mdb-tooltip trigger="hover" :options="{ placement: 'top' }">
-                <div class="tooltip">Add to cart</div>
-                <mdb-icon
-                  slot="reference"
-                  icon="shopping-cart"
-                  class="grey-text ml-3"
-                ></mdb-icon>
-              </mdb-tooltip>
+            <!-- ADD TO CHART ICON -->
+            <a
+              v-if="!product.isAddedToCart"
+              @click.prevent="addToCart(product.id)"
+            >
+              <mdb-icon
+                v-b-tooltip.hover
+                title="Add to cart"
+                icon="cart-plus"
+                class="grey-text ml-3"
+              ></mdb-icon>
             </a>
-            <a>
-              <mdb-tooltip trigger="hover" :options="{ placement: 'top' }">
-                <div class="tooltip">Share</div>
-                <mdb-icon
-                  slot="reference"
-                  icon="share-alt"
-                  class="grey-text ml-3"
-                ></mdb-icon>
-              </mdb-tooltip>
+            <a
+              v-if="product.isAddedToCart"
+              @click.prevent="removeFromCart(product.id)"
+            >
+              <mdb-icon
+                v-b-tooltip.hover
+                title="Remove from cart"
+                icon="cart-arrow-down"
+                class="blue-text ml-3"
+              ></mdb-icon>
             </a>
-            <a class="active">
-              <mdb-tooltip
-                trigger="hover"
-                class="active"
-                :options="{ placement: 'top' }"
-              >
-                <div class="tooltip">Added to watchlist</div>
-                <mdb-icon slot="reference" icon="heart" class="ml-3"></mdb-icon>
-              </mdb-tooltip>
+
+            <!-- SHARE ICON -->
+            <a>
+              <mdb-icon
+                v-b-tooltip.hover
+                title="Share"
+                slot="reference"
+                icon="share-alt"
+                class="grey-text ml-3"
+              ></mdb-icon>
+            </a>
+
+            <!-- WISHLIST ICON -->
+            <a
+              v-if="!product.onWishList"
+              @click.prevent="addToWishList(product.id)"
+            >
+              <mdb-icon
+                v-b-tooltip.hover
+                title="Add to Wishlist"
+                icon="heart"
+                class="ml-3"
+              ></mdb-icon>
+            </a>
+            <a
+              v-if="product.onWishList"
+              @click.prevent="removeFromWishList(product.id)"
+            >
+              <mdb-icon
+                v-b-tooltip.hover
+                title="Remove From Wishlist"
+                icon="heart"
+                class="red-text ml-3"
+              ></mdb-icon>
             </a>
           </span>
         </mdb-card-footer>
@@ -70,8 +95,7 @@ import {
   mdbCardTitle,
   mdbCardFooter,
   mdbIcon,
-  mdbTooltip,
-  mdbView,
+  mdbView
 } from "mdbvue";
 
 export default {
@@ -82,6 +106,38 @@ export default {
       const val = (value / 1).toFixed(0).replace(".", ",");
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     },
+
+    addToCart(id) {
+      let data = {
+        id: id,
+        status: true
+      };
+      this.$store.dispatch("addToCart", data.id);
+    },
+
+    removeFromCart(id) {
+      let data = {
+        id: id,
+        status: false
+      };
+      this.$store.dispatch("removeFromCart", data.id);
+    },
+
+    addToWishList(id) {
+      let data = {
+        id: id,
+        status: true
+      };
+      this.$store.dispatch("addToWishList", data.id);
+    },
+
+    removeFromWishList(id) {
+      let data = {
+        id: id,
+        status: false
+      };
+      this.$store.dispatch("removeFromWishList", data.id);
+    }
   },
   components: {
     mdbCol,
@@ -91,9 +147,8 @@ export default {
     mdbCardTitle,
     mdbCardFooter,
     mdbIcon,
-    mdbTooltip,
-    mdbView,
-  },
+    mdbView
+  }
 };
 </script>
 

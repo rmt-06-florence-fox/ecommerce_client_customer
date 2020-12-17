@@ -1,22 +1,34 @@
 <template>
   <div id="app">
     <Header></Header>
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+    <!-- <div id="nav">
+      <router-link to="/">Home</router-link> 
+    </div> -->
     <router-view />
   </div>
 </template>
 
 <script>
-import Header from './components/Header'
+import Header from "./components/Header";
 export default {
   name: "App",
-  components:{
+  components: {
     Header
+  },
+  computed: {
+    isLogin() {
+      return this.$store.state.isLogin;
+    }
+  },
+
+  created() {
+    if (!localStorage.access_token) {
+      this.$store.commit("SET_LOGIN", false);
+    } else {
+      this.$store.commit("SET_LOGIN", true);
+    }
   }
-}
+};
 </script>
 
 <style lang="scss">
@@ -24,7 +36,6 @@ export default {
 
 $image-path: "~@/../mdb/mdbvue/img";
 @import "~@/../mdb/mdbvue/scss/mdb-free.scss";
-
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -45,5 +56,9 @@ $image-path: "~@/../mdb/mdbvue/img";
       color: #42b983;
     }
   }
+}
+
+html {
+  width: 100vw;
 }
 </style>
