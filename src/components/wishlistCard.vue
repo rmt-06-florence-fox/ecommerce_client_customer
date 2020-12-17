@@ -1,5 +1,5 @@
 <template>
-  <div class="column is-2">
+  <div class="column is-3">
     <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_hluo7ags.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop autoplay v-if="isLoading === true"/>
     <div class="card" v-else>
       <div class="card-image">

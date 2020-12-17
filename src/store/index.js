@@ -10,7 +10,8 @@ export default new Vuex.Store({
     listProducts: [],
     listCarts: [],
     totalCheckout: 0,
-    wishlists: []
+    wishlists: [],
+    listCheckout: []
   },
   mutations: {
     CHANGE_IS_LOGIN (state, payload) {
@@ -27,6 +28,9 @@ export default new Vuex.Store({
     },
     FETCH_WISHLISTS (state, payload) {
       state.wishlists = payload
+    },
+    FETCH_CHECKOUT (state, payload) {
+      state.listCheckout = payload
     }
   },
   actions: {
@@ -145,6 +149,27 @@ export default new Vuex.Store({
       return axios({
         url: `/wishlists/${id}`,
         method: 'delete',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+    },
+    checkout (context, totalCheckout) {
+      return axios({
+        url: '/checkout',
+        method: 'post',
+        data: {
+          totalCheckout
+        },
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+    },
+    fetchCheckout (context) {
+      return axios({
+        url: '/checkout',
+        method: 'get',
         headers: {
           access_token: localStorage.getItem('access_token')
         }

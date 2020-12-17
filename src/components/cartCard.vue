@@ -2,7 +2,7 @@
   <div class="column is-10 pb-2">
     <div class="card">
       <div class="is-flex is-justify-content-center" v-if="isLoading === true">
-        <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_ctopYC.json"  background="transparent"  speed="1"  style="width: 180px; height: 180px;"  loop autoplay/>
+        <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_ctopYC.json"  background="transparent"  speed="1"  style="width: 140px; height: 140px;"  loop autoplay/>
       </div>
       <div class="card-content" v-else>
         <div class="media">
@@ -14,7 +14,10 @@
           <div class="media-content">
             <p class="title is-6" style="width: 300px">{{list.Product.name}}</p>
             <p class="subtitle is-7">{{list.Product.category}}</p>
-            <p class="is-size-7"><b>Price: </b>{{priceRp}} /each</p>
+            <ul>
+              <li class="is-size-7"><b>Price: </b>{{priceRp}} /each</li>
+              <li class="is-size-7"><b>Stock(s): </b>{{list.Product.stock}}</li>
+            </ul>
             <div class="columns pt-4 pl-3 is-grouped">
               <a class="" @click.prevent="minusItem(list.id)" v-if="list.totalItem > 1">
                 <span class="icon is-small">
