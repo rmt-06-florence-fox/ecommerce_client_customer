@@ -7,6 +7,7 @@ import Register from '../views/Register'
 import Dashboard from '../views/Dashboard'
 import Cart from '../views/Cart'
 import Wishlist from '../views/Wishlist'
+import Transactions from '../views/Transactions'
 
 Vue.use(VueRouter)
 
@@ -30,6 +31,11 @@ const routes = [
         path: '/customer/wishlist',
         name: 'Wishlist',
         component: Wishlist
+      },
+      {
+        path: '/customer/transactions',
+        name: 'Transactions',
+        component: Transactions
       }
     ]
   },

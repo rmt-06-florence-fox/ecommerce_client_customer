@@ -222,6 +222,52 @@ export default new Vuex.Store({
           console.log(err.response.data)
         })
     },
+    checkout (context) {
+      const swalWithBootstrapButtons = Vue.swal.mixin({
+        customClass: {
+          confirmButton: 'btn btn-success',
+          cancelButton: 'btn btn-danger'
+        },
+        buttonsStyling: false
+      })
+      swalWithBootstrapButtons.fire({
+        title: 'Checkout?',
+        text: "You won't be able to revert this!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Yes, checkout!',
+        cancelButtonText: 'No, cancel!',
+        reverseButtons: true
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axios({
+            url: '/customer/checkout',
+            method: 'put',
+            headers: {
+              access_token: localStorage.getItem('access_token')
+            },
+            data: {
+              carts: context.state.carts
+            }
+          })
+            .then(response => {
+              swalWithBootstrapButtons.fire(
+                'Successfully Checkout!',
+                'success'
+              )
+              context.dispatch('getCart')
+            })
+        } else {
+          swalWithBootstrapButtons.fire(
+            'Cancelled',
+            'Your product is safe :)',
+            'error'
+          )
+        }
+      }).catch(err => {
+        console.log(err.response.data)
+      })
+    },
     deleteWishlist (context, payload) {
       const swalWithBootstrapButtons = Vue.swal.mixin({
         customClass: {

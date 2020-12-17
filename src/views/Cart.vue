@@ -13,6 +13,7 @@
         <div class="card-body">
           <h3 class="card-title">Total</h3>
           <p class="card-text">{{total_price}}</p>
+          <button @click="checkout" class="btn btn-large btn-info">Checkout</button>
         </div>
       </div>
     </div>
@@ -26,6 +27,11 @@ export default {
   name: 'Cart',
   components: {
     CartCard
+  },
+  methods: {
+    checkout () {
+      this.$store.dispatch('checkout')
+    }
   },
   computed: {
     carts () {
