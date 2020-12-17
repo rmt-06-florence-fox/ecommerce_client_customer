@@ -29,7 +29,7 @@ export default {
       }
       this.$store.dispatch('changeQuantity', payload)
       this.$toasted.success('added')
-      this.$router.push('/carts')
+      // this.$router.push('/carts')
     }
   }
 }
