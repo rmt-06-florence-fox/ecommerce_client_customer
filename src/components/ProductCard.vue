@@ -1,6 +1,6 @@
 <template>
 <div class="columns mx-3 my-3">
-  <div class="card ">
+  <div class="card columns">
   <div class="card-content">
     <div class="media">
       <div class="media-content">

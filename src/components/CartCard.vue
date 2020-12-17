@@ -16,7 +16,7 @@
             <button @click.prevent="changeValue(1)" class="button">+</button>
           </div>
             <button
-              @click.prevent="deleteCart"
+              @click.prevent="deleteCart(cart.id)"
             class="button mt-2"> DELETE </button>
         </div>
       </div>
@@ -37,9 +37,8 @@ export default {
       }
       this.$store.dispatch('addToCart', payload)
     },
-    deleteCart () {
-      console.log(this.cart)
-      this.$store.dispatch('deleteCart', this.cart)
+    deleteCart (id) {
+      this.$store.dispatch('deleteCart', id)
     }
   }
 }
