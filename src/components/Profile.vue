@@ -1,6 +1,8 @@
 <template>
+<div>
+  <p><span uk-icon="user"></span>: {{ email }}</p><hr>
   <div class="profile">
-    <p>{{ email }}</p>
+  </div>
   </div>
 </template>
 

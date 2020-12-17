@@ -152,7 +152,7 @@ export default {
             icon: 'success',
             title: 'Register successfully'
           })
-          this.$router.push('/landing')
+          this.section = 'login'
         })
         .catch(err => {
           console.log(err)

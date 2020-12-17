@@ -3,8 +3,9 @@
     <div class="main-flex">
       <div class="col-2 sidenav uk-card-secondary uk-animation-slide-left">
         <div class="content-nav uk-card-secondary">
-          <span uk-icon="user"></span><span>: <Profile /></span>
-          <hr>
+          <!-- <span uk-icon="user"></span><span>: <Profile /></span>
+          <hr> -->
+          <Profile />
           <div class="category-title mt-4">
              <h6 class="title category mt-3">CATEGORIES</h6>
           </div>

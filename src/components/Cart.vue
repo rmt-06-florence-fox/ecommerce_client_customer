@@ -156,7 +156,7 @@ export default {
   color: black;
 }
 .action:hover {
-  color: #ff9966;
+  color: #20bf6b;
   transition: 300ms;
 }
 .uk-table-expand {
