@@ -2,18 +2,18 @@
   <div class="home">
     <Header></Header>
     <NavbarLogin></NavbarLogin>
-    <ItemCards></ItemCards>
+    <ItemCardsHome v-for="data in dataItems.data"
+    :key="data.id" :data="data"></ItemCardsHome>
     <router-view/>
     <Footer></Footer>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
 import Header from '../components/Header'
 import NavbarLogin from '../components/NavbarLogin'
 import Footer from '../components/Footer'
-import ItemCards from '../components/ItemCards'
+import ItemCardsHome from '../components/ItemCardsHome'
 
 export default {
   name: 'Home',
@@ -21,7 +21,20 @@ export default {
     Header,
     NavbarLogin,
     Footer,
-    ItemCards
+    ItemCardsHome
+  },
+  methods: {
+    fetchData () {
+      this.$store.dispatch('fetchData')
+    }
+  },
+  created () {
+    this.fetchData()
+  },
+  computed: {
+    dataItems () {
+      return this.$store.state.dataItems
+    }
   }
 }
 </script>

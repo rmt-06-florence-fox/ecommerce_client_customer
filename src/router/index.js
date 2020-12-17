@@ -4,6 +4,8 @@ import Home from '../views/Home.vue'
 import Login from '../views/FormLogin.vue'
 import Register from '../views/FormRegister.vue'
 import MainPage from '../views/MainPage.vue'
+import Category from '../components/Categorie.vue'
+import Cart from '../views/Cart.vue'
 
 Vue.use(VueRouter)
 
@@ -27,6 +29,16 @@ const routes = [
     path: '/mainpage',
     name: 'MainPage',
     component: MainPage
+  },
+  {
+    path: '/category',
+    name: 'Category',
+    component: Category
+  },
+  {
+    path: '/cart',
+    name: 'Cart',
+    component: Cart
   }
 ]
 

@@ -1,15 +1,18 @@
 <template>
-  <div>
+  <div class="home">
     <Header></Header>
     <NavbarLogout></NavbarLogout>
+    <ItemCards v-for="data in dataItems.data"
+    :key="data.id" :data="data"></ItemCards>
+    <router-view/>
     <Footer></Footer>
   </div>
-
 </template>
 
 <script>
 import Header from '../components/Header'
 import NavbarLogout from '../components/NavbarLogout'
+import ItemCards from '../components/ItemCards'
 import Footer from '../components/Footer'
 
 export default {
@@ -17,7 +20,21 @@ export default {
   components: {
     Header,
     NavbarLogout,
+    ItemCards,
     Footer
+  },
+  methods: {
+    fetchDataCart () {
+      this.$store.dispatch('fetchDataCart')
+    }
+  },
+  created () {
+    this.fetchDataCart()
+  },
+  computed: {
+    dataItems () {
+      return this.$store.state.dataCart
+    }
   }
 }
 </script>

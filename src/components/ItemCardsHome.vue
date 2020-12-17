@@ -1,18 +1,14 @@
 <template>
   <div class="container page-container">
-      <!-- {{data.quantity}} -->
       <main class="grid">
           <article>
-              <img :src="data.Product.image_url">
-              <button @click="deleteData" style="width:38px">del</button>
+              <img :src="data.image_url">
               <div class="text">
-                  <h3>{{data.Product.name}}</h3>
-                  <p>Rp {{data.Product.price}}</p>
-                  <p>Stock: {{data.Product.stock}}</p>
-                  <div class="text-center">
-                    <button style="width:40px" @click="minQuantity">Min</button> ||
-                    <button style="width:40px" @click="addQuantity">Add</button>
-                  </div>
+                  <p>{{data.Categorie.name}}</p>
+                  <h3>{{data.name}}</h3>
+                  <p>Rp {{data.price}}</p>
+                  <p>Stock: {{data.stock}}</p>
+                  <button @click="formLogin">Add tocart <i class="fa fa-cart-plus"></i></button>
               </div>
           </article>
       </main>
@@ -20,52 +16,12 @@
 </template>
 
 <script>
-import Swal from 'sweetalert2'
 export default {
-  name: 'ItemCards',
+  name: 'ItemCardsHome',
   props: ['data'],
   methods: {
-    minQuantity () {
-      const id = this.data.id
-      this.$store.dispatch('decrementDataCart', id)
-        .then(_ => {
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
-    addQuantity () {
-      const id = this.data.id
-      this.$store.dispatch('incrementDataCart', id)
-        .then(_ => {
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
-    deleteData () {
-      const id = this.data.id
-      Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
-      })
-        .then((result) => {
-          if (result.isConfirmed) {
-            this.$store.dispatch('deleteDataCart', id)
-          } else {
-            return true
-          }
-        })
-        .then(_ => {
-        })
-        .catch(err => {
-          console.log(err)
-        })
+    formLogin () {
+      this.$router.push('/login')
     }
   }
 }
