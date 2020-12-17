@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import LoginPage from '../views/LoginPage.vue'
 import RegisterPage from '../views/RegisterPage.vue'
 import CartPage from '../views/CartPage.vue'
+import NotFound from '../views/NotFound.vue'
 
 Vue.use(VueRouter)
 
@@ -27,6 +28,11 @@ const routes = [
     path: '/cart',
     name: 'cart',
     component: CartPage
+  },
+  {
+    path: '*',
+    name: '404NotFound',
+    component: NotFound
   }
 ]
 
