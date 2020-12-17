@@ -1,7 +1,7 @@
 <template>
   <div>
     <Navbar/>
-      <h1>404 NOT FOUND</h1>
+      <img src="https://www.dpmarketingcommunications.com/wp-content/uploads/2016/11/404-Page-Featured-Image.png" alt="" id="NotFound">
   </div>
 </template>
 
@@ -16,5 +16,7 @@ export default {
 </script>
 
 <style>
-
+  #NotFound {
+    margin-top: 70px;
+  }
 </style>
