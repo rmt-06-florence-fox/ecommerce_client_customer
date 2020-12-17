@@ -17,6 +17,15 @@ const routerGuard = (to, from, next) => {
   }
 }
 
+const loginGuard = (to, from, next) => {
+  const authenticated = localStorage.getItem('access_token')
+  if (authenticated) {
+    next({ name: 'Dashboard' })
+  } else {
+    next()
+  }
+}
+
 const routes = [
   {
     path: '/',
@@ -26,7 +35,8 @@ const routes = [
   {
     path: '/login',
     name: 'Login',
-    component: Login
+    component: Login,
+    beforeEnter: loginGuard
   },
   {
     path: '/cart',
@@ -37,12 +47,8 @@ const routes = [
   {
     path: '/register',
     name: 'Register',
-    component: Register
-  },
-  {
-    path: '/cart',
-    name: 'Cart',
-    component: Cart
+    component: Register,
+    beforeEnter: loginGuard
   },
   {
     path: '/about',

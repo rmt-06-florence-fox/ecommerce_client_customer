@@ -9,7 +9,7 @@
       <div class="media">
         <div class="media-content">
           <p class="title is-4">{{cart.Product.name}}</p>
-          <p class="subtitle is-6">{{cart.quantity}}</p>
+          <p class="subtitle">Rp.{{cart.totalPrice}}</p>
         </div>
       </div>
 
@@ -20,17 +20,19 @@
         <br>
         <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time> -->
         <form action="">
-          <button @click.prevent="addCart(cart.Product.id)" class="button is-link" :class="{ 'is-loading': isLoading }">+</button>
+          <button :disabled="cart.quantity===1" @click.prevent="decrement(cart.id)" class="button is-danger">-</button>
           <input
             type="number"
             v-model="cart.quantity"
             class="has-text-centered input"
             style="max-width: 100px"
           >
-          <button @click.prevent="decrement(cart.id)" class="button is-danger">-</button>
+          <button @click.prevent="addCart(cart.Product.id)" class="button is-link" :class="{ 'is-loading': isLoading }">+</button>
         </form>
-
       </div>
+      <button @click="destroyCart(cart.id)" class="button is-danger">
+        <i class="far fa-trash-alt"></i>
+      </button>
     </div>
   </div>
 </template>
@@ -70,9 +72,20 @@ export default {
           console.log(err)
         })
         .finally(_ => {
-          setTimeout(() => {
-            this.isLoading = false
-          }, 1000)
+          this.isLoading = false
+        })
+    },
+    destroyCart (id) {
+      this.isLoading = true
+      this.$store.dispatch('destroyCart', id)
+        .then(response => {
+          this.$store.dispatch('fetchCarts')
+        })
+        .catch(err => {
+          console.log(err)
+        })
+        .finally(_ => {
+          this.isLoading = false
         })
     }
   }

@@ -32,7 +32,9 @@
 
       <footer class="card-footer">
         <button @click.prevent="addCart(product.id)"
-          href="#" class="card-footer-item button is-info" :class="{'is-loading': isLoading}">
+          href="#" class="card-footer-item button is-info"
+          :disabled='product.stock === 0'
+          :class="{'is-loading': isLoading}">
           Add To Cart
         </button>
       </footer>
@@ -60,14 +62,13 @@ export default {
       this.$store.dispatch('addCart', { productId: id, price: this.product.price })
         .then(response => {
           this.$store.dispatch('fetchCarts')
+          this.$store.dispatch('fetchProducts')
         })
         .catch(err => {
           console.log(err)
         })
         .finally(_ => {
-          setTimeout(() => {
-            this.isLoading = false
-          }, 1000)
+          this.isLoading = false
         })
     },
     destroy (id) {

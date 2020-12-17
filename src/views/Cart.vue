@@ -11,7 +11,7 @@
         </div>
         <div class="column">
           <h1 class="title">Cart Total</h1>
-          <h3 class="subtitle">{{total}}</h3>
+          <h3 class="subtitle">Rp.{{total}}</h3>
           <button v-if="total !== 0" class="button is-link">Checkout</button>
         </div>
       </div>
