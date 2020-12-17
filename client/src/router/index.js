@@ -5,13 +5,14 @@ import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Product from '../views/Product.vue'
 import NotFound from '../views/404.vue'
+import Dashboard from '../views/Dashboard.vue'
+import Cart from '../views/Cart.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
     component: Home,
     children: [
       {
@@ -32,6 +33,22 @@ const routes = [
     ]
   },
   {
+    path: '/customer',
+    component: Dashboard,
+    children: [
+      {
+        path: '',
+        name: 'ListProduct',
+        component: Product
+      },
+      {
+        path: '/customer/carts',
+        name: 'Cart',
+        component: Cart
+      }
+    ]
+  },
+  {
     path: '*',
     component: NotFound
   }
@@ -47,7 +64,7 @@ router.beforeEach((to, from, next) => {
   const isAuthenticated = localStorage.access_token
   // if (to.name !== 'Login' && !isAuthenticated) next({ name: 'Login' })
   if (to.name === 'Login' && isAuthenticated) next({ name: 'Product' })
-  // else if (to.name === 'Cart' && !isAuthenticated) next({ name: 'Login' })
+  else if (to.name === 'Cart' && !isAuthenticated) next({ name: 'Login' })
   else next()
 })
 

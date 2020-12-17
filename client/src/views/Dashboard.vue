@@ -1,18 +1,18 @@
 <template>
     <div class="container">
-        <Navbar />
+        <NavDashboard />
         <router-view/>
         Gibson 2020
     </div>
 </template>
 
 <script>
-import Navbar from '../components/Navbar.vue'
+import NavDashboard from '../components/NavDashboard.vue'
 
 export default {
-  name: 'Home',
+  name: 'Dashboard',
   components: {
-    Navbar
+    NavDashboard
   }
 }
 </script>

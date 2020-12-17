@@ -5,20 +5,13 @@
         </div>
         <div class="nav">
             <button class="btn btn-primary"><router-link to="/login" class="text-white">Login</router-link></button>
-            <button class="btn btn-primary" @click="logout"><router-link to="/login" class="text-white">Logout</router-link></button>
         </div>
     </div>
 </template>
 
 <script>
 export default {
-  name: 'Navbar',
-  methods: {
-    logout () {
-      localStorage.clear()
-      this.$router.push('/login')
-    }
-  }
+  name: 'Navbar'
 }
 </script>
 
