@@ -11,7 +11,8 @@
       <div class="card-body">
         <h5 class="card-title bold"><strong>{{ cart.Product.name }}</strong></h5>
         <hr>
-        <p class="card-text btn btn-success">Stock: {{ cart.Product.price }}</p>
+        <p class="card-text btn btn-success">Price: {{ cart.Product.price }}</p>
+        <p class="btn btn-outline-primary"><small>Stock: {{ cart.Product.stock }} </small></p>
         <p class="card-text"><small class="text-muted">[total]: {{ cart.quantity }} x {{ cart.Product.price }} = {{ cart.total_unit }} </small></p>
           <p class="mb-1">amount: {{ quantity }}</p>
           <button class="btn btn-secondary" @click="increment">+</button>
