@@ -20,7 +20,12 @@
         <br>
         <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time> -->
         <form action="">
-          <button :disabled="cart.quantity===1" @click.prevent="decrement(cart.id)" class="button is-danger">-</button>
+          <button :disabled="cart.quantity===1"
+            @click.prevent="decrement(cart.id)"
+            :class="{ 'is-loading': isLoading }"
+            class="button is-danger">
+            -
+          </button>
           <input
             type="number"
             v-model="cart.quantity"

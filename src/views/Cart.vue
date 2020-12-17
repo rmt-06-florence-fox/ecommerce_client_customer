@@ -12,7 +12,7 @@
         <div class="column">
           <h1 class="title">Cart Total</h1>
           <h3 class="subtitle">Rp.{{total}}</h3>
-          <button v-if="total !== 0" class="button is-link">Checkout</button>
+          <button :class="{'is-loading': isLoading}" @click.prevent="checkout()" v-if="total !== 0" class="button is-link">Checkout</button>
         </div>
       </div>
     </div>
@@ -21,11 +21,17 @@
 
 <script>
 import CartCard from '../components/CartCard'
+import Swal from 'sweetalert2'
 
 export default {
   name: 'Cart',
   components: {
     CartCard
+  },
+  data () {
+    return {
+      isLoading: false
+    }
   },
   computed: {
     carts () {
@@ -33,6 +39,29 @@ export default {
     },
     total () {
       return this.$store.state.total
+    }
+  },
+  methods: {
+    checkout () {
+      console.log('click checkout')
+      this.isLoading = true
+      this.$store.dispatch('checkout')
+        .then(response => {
+          Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Checkout Success',
+            showConfirmButton: false,
+            timer: 500
+          })
+          this.$store.dispatch('fetchCarts')
+        })
+        .catch(err => {
+          console.log(err)
+        })
+        .finally(_ => {
+          this.isLoading = false
+        })
     }
   },
   created () {

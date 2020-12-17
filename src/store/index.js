@@ -217,6 +217,15 @@ export default new Vuex.Store({
         },
         data: payload
       })
+    },
+    checkout () {
+      return axios({
+        method: 'DELETE',
+        url: '/carts',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
     }
   },
   getters: {
