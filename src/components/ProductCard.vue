@@ -50,7 +50,7 @@ export default {
           } else {
             currentQuantity = data.data.quantity
           }
-          if (currentQuantity === obj.stock) {
+          if (currentQuantity >= obj.stock) {
             console.log('Tidak bisa add')
           } else {
             this.$store.dispatch('addCart', {

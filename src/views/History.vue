@@ -8,7 +8,7 @@
         <div class="container">
           <h1>Transactions History</h1>
           <button class="btn btn-danger" @click="clearHistory">Clear history</button>
-          <div class="mt-5">
+          <div class="mt-5 container w-50">
             <div>
               <div v-for="item in history" :key="item.id">
                 <b-card no-body class="overflow-hidden mt-3 card-text-center" style="max-width: 540px; height: 150px; ">
