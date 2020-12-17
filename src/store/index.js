@@ -24,14 +24,25 @@ export default new Vuex.Store({
     },
     setErrors (state, array) {
       state.errors = array
+      setTimeout(() => {
+        state.errors = []
+      }, 2500)
     },
     setSuccess (state, string) {
       state.successMessage = string
-      setTimeout(_ => {
+      setTimeout(() => {
         state.successMessage = ''
-      }, 1300)
+      }, 2500)
     },
     setCarts (state, array) {
+      array.sort((a, b) => {
+        if (a.category < b.category) {
+          return -1
+        } else if (a.category > b.category) {
+          return 1
+        }
+        return 0
+      })
       state.carts = array
     },
     setFilter (state, string) {
@@ -143,15 +154,15 @@ export default new Vuex.Store({
     },
     async deleteCart (context, id) {
       try {
-        const { data } = axios({
+        await axios({
           url: '/carts/' + id,
           method: 'DELETE',
           headers: { access_token: localStorage.getItem('access_token') }
         })
         context.dispatch('fetchMyCarts')
-        setTimeout(() => {
-          context.commit('setSuccess', data.message)
-        }, 450)
+        setTimeout(_ => {
+          context.commit('setSuccess', 'cart has been deleted')
+        }, 150)
       } catch (err) {
         context.commit('setErrors', err.response.data.messages)
       }

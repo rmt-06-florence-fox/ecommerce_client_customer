@@ -18,6 +18,7 @@ export default {
   },
   computed: {
     carts () {
+      // this.fetchCarts()
       return this.$store.state.carts
     }
   },

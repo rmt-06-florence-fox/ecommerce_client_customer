@@ -8,14 +8,16 @@
   >
     <b-card-body>
       <div class="row justify-content-end">
-        <b-icon icon="trash" variant="danger" class="" font-scale="2" @click="deleteCart"></b-icon>
+        <b-button variant="light"  @click="deleteCart">
+          <b-icon icon="trash" variant="danger" font-scale="2"></b-icon>
+        </b-button>
       </div>
       <h2 class="mb-0">{{product.name}}</h2>
       <b-card-text class="mb-3 h5">{{formattingPrice()}} / piece</b-card-text>
       <b-card-text> Stock available : {{product.stock}} </b-card-text>
       <div class="d-flex justify-content-start">
         <b-button @click="decrement">-</b-button>
-        <b-form>
+        <b-form @submit.prevent="">
           <b-form-input
             type="number"
             v-model="quantity"
