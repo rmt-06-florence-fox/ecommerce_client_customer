@@ -171,6 +171,27 @@ export default new Vuex.Store({
           Swal.fire({
             icon: 'error',
             title: 'Oops...',
+            text: 'Something went wrong'
+          })
+        })
+    },
+    increment (context, payload) {
+      const token = localStorage.getItem('access_token')
+      console.log(payload.quantity, 'ini dari store')
+      axios({
+        method: 'patch',
+        url: '/carts/' + payload.id,
+        data: { quantity: payload.quantity },
+        headers: { access_token: token }
+      })
+        .then(() => {
+          context.dispatch('fetchCart')
+        })
+        .catch(err => {
+          console.log(err)
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
             text: 'Please login first'
           })
         })

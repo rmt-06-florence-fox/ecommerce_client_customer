@@ -8,8 +8,8 @@
             <a @click.prevent="increment"><i class="fa fa-plus" style="cursor:pointer;"></i></a>
             <p class="card-text ml-3 mr-3" style="display:inline;">{{ quantity }}</p>
             <a @click.prevent="decrement"><i class="fa fa-minus" style="cursor:pointer;"></i></a>
+            <p class="card-text mt-3">{{ item.Product.price }}</p>
         </div>
-        <button @click="updateAmount" class="btn btn-primary mt-3"> update amount </button>
         <button @click="deleteCart" class="btn btn-danger mt-3 ml-2"> delete item </button>
     </div>
   </div>
@@ -30,12 +30,22 @@ export default {
       if (this.quantity >= this.item.Product.stock) {
         this.quantity = this.item.Product.stock
       }
+      const payload = {
+        id: this.item.id,
+        quantity: this.quantity
+      }
+      this.$store.dispatch('increment', payload)
     },
     decrement () {
       this.quantity--
       if (this.quantity < 1) {
         this.quantity = 1
       }
+      const payload = {
+        id: this.item.id,
+        quantity: this.quantity
+      }
+      this.$store.dispatch('increment', payload)
     },
     updateAmount () {
       const payload = {
