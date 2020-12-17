@@ -9,7 +9,9 @@ export default new Vuex.Store({
   state: {
     productList: [],
     message: "",
-    isLogin: false
+    isLogin: false,
+    showWishlist: false,
+    showProductDisplay: true
   },
   mutations: {
     SET_DATA(state, products) {
@@ -42,6 +44,16 @@ export default new Vuex.Store({
     },
     SET_LOGIN(state, payload) {
       state.isLogin = payload;
+    },
+
+    SET_DISPLAY(state, payload) {
+      if (payload == "WishList") {
+        state.showWishlist = true;
+        state.showProductDisplay = false;
+      } else {
+        state.showWishlist = false;
+        state.showProductDisplay = true;
+      }
     }
   },
   actions: {
@@ -70,9 +82,6 @@ export default new Vuex.Store({
           password: payload.password
         })
         .then(({ data }) => {
-          // commit('SET_LOGIN', true)
-          // localStorage.access_token = data.access_token
-          // localStorage.name = data.name
           console.log(data);
           router.push("/login");
         })
@@ -91,6 +100,9 @@ export default new Vuex.Store({
           const message = err.response.data.message;
           commit("SET_ERR_MESSAGE", message);
         });
+    },
+    showItem({ commit }, item) {
+      commit("SET_DISPLAY", item);
     },
 
     addToCart({ commit }, id) {

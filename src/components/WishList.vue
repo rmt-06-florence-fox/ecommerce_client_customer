@@ -1,6 +1,7 @@
 <template>
   <div class="WishList">
-    <h1>Your Wish List</h1>
+    <h3><u>Your Wish List</u></h3>
+    <hr />
     <mdb-container>
       <section class="text-center my-5">
         <mdb-row class="justify-content-center">
@@ -16,7 +17,7 @@
 </template>
 
 <script>
-import ProductCard from "../components/ProductCard";
+import ProductCard from "./ProductCard";
 import { mdbContainer, mdbRow } from "mdbvue";
 export default {
   name: "WishList",
@@ -25,14 +26,14 @@ export default {
     mdbContainer,
     mdbRow
   },
-  methods: {
-    fetchData() {
-      this.$store.dispatch("fetchData");
-    }
-  },
-  created() {
-    this.fetchData();
-  },
+  // methods: {
+  //   fetchWishList() {
+  //     this.$store.getters.productsOnWishList;
+  //   },
+  // },
+  // created() {
+  //   this.fetchWishList();
+  // },
 
   computed: {
     productsOnWishList() {

@@ -1,10 +1,11 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="dark" variant="dark">
-      <b-navbar-brand href="/" to="/">Muchsin Store</b-navbar-brand>
+      <b-navbar-brand href="/" @click.prevent="showItem('ProductDisplay')"
+        >Muchsin Store</b-navbar-brand
+      >
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav>
           <b-nav-item disabled text-muted
@@ -43,13 +44,9 @@
           </b-button-group>
           <b-nav-item-dropdown right v-if="isLogin == true">
             <!-- Using 'button-content' slot -->
-            <template #button-content>
-              {{ name }}
-            </template>
-            <b-dropdown-item
-              ><router-link to="/wishlist"
-                >WishList</router-link
-              ></b-dropdown-item
+            <template #button-content> Welcome, {{ name }} </template>
+            <b-dropdown-item class="ml-2" @click.prevent="showItem('WishList')"
+              >Wishlist</b-dropdown-item
             >
             <b-dropdown-item class="ml-2" @click="logout"
               >Log Out</b-dropdown-item
@@ -65,10 +62,12 @@
 export default {
   name: "Header",
 
+
   data() {
     return {
       name: localStorage.name
-    };
+    }
+      
   },
 
   components: {},
@@ -79,20 +78,24 @@ export default {
     },
     isLogin() {
       return this.$store.state.isLogin;
-    }
+    },
   },
 
   methods: {
     login() {
       this.$store.dispatch("login");
     },
+
+    showItem(item) {
+      this.$store.dispatch("showItem", item);
+    },
     showCheckoutModal() {
       this.$store.commit("showCheckoutModal", true);
     },
     logout() {
       this.$store.dispatch("logout");
-    }
-  }
+    },
+  },
 };
 </script>
 

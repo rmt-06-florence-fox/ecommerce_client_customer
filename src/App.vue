@@ -15,17 +15,19 @@ export default {
   components: {
     Header
   },
-  computed: {
-    isLogin() {
-      return this.$store.state.isLogin;
+  data(){
+    return{
+      user:''
     }
   },
 
   created() {
     if (!localStorage.access_token) {
-      this.$store.commit("SET_LOGIN", false);
+      this.$router.push('/login')
+      this.$store.commit("SET_LOGIN", false)
     } else {
-      this.$store.commit("SET_LOGIN", true);
+      this.$store.commit("SET_LOGIN", true)
+      // this.$router.push('/')
     }
   }
 };

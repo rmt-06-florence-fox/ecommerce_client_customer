@@ -1,6 +1,6 @@
 <template>
   <div class="ProductDisplay">
-    <h4><u>Best Collections</u></h4>
+    <h3><u>Best Collections</u></h3>
     <hr />
     <mdb-container>
       <section class="text-center my-5">
@@ -25,14 +25,6 @@ export default {
     ProductCard,
     mdbContainer,
     mdbRow
-  },
-  methods: {
-    fetchData() {
-      this.$store.dispatch("fetchData");
-    }
-  },
-  created() {
-    this.fetchData();
   },
   computed: {
     productList() {
