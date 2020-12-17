@@ -11,6 +11,8 @@ export default new Vuex.Store({
     categories: [],
     editData: null,
     carts: [],
+    transactions: [],
+    trans: null,
     totalPrice: 0,
     alert: false,
     errMessage: ''
@@ -24,6 +26,12 @@ export default new Vuex.Store({
     },
     setCarts (state, payload) {
       state.carts = payload
+    },
+    setTransactions (state, payload) {
+      state.transactions = payload
+    },
+    setTrans (state, payload) {
+      state.trans = payload
     },
     setTotalPrice (state, payload) {
       state.totalPrice = payload
@@ -88,7 +96,7 @@ export default new Vuex.Store({
     },
     logout () {
       localStorage.clear()
-      router.push({ name: 'Home' })
+      router.go()
     },
     getProducts (context) {
       axios({
@@ -182,6 +190,73 @@ export default new Vuex.Store({
           context.dispatch('getCart')
         })
         .catch(err => {
+          console.log(err)
+        })
+    },
+    deleteCart (context, id) {
+      axios({
+        method: 'DELETE',
+        url: `/carts/${id}`,
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .then(({ data }) => {
+          context.dispatch('getCart')
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    // Transaction
+    doCheckout (context, payload) {
+      const id = JSON.parse(localStorage.getItem('user')).id
+
+      axios({
+        method: 'POST',
+        url: `/transaction/${id}`,
+        data: payload,
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .then(({ data }) => {
+          context.dispatch('getCart')
+          router.push({ name: 'Payment', params: { id: data.codeTrans } })
+        })
+        .check(err => {
+          console.log(err)
+        })
+    },
+    getUserTransaction (context) {
+      const id = JSON.parse(localStorage.getItem('user')).id
+
+      axios({
+        method: 'GET',
+        url: `/transactions/${id}`,
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .then(({ data }) => {
+          context.commit('setTransactions', data)
+        })
+        .catch(({ err }) => {
+          console.log(err)
+        })
+    },
+    getOneTransaction (context, code) {
+      axios({
+        method: 'GET',
+        url: `/transaction/${code}`,
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .then(({ data }) => {
+          context.commit('setTrans', data)
+        })
+        .catch(({ err }) => {
           console.log(err)
         })
     }

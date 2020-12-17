@@ -1,12 +1,18 @@
 <template>
   <div>
-    <v-container>
+    <v-container fluid>
       <p class="display-3 font-weight-light text-center pa-4">
         SHOPPING CART
       </p>
       <v-row>
         <v-col :cols="12" md="9" sm="12">
-          <v-simple-table>
+          <v-simple-table style="background-color: lightgray" class="pa-12" v-if="carts.length == 0">
+            <tbody>
+              <h2 class="display-1"><b>Your cart is still empty</b></h2>
+              <p class="headline">Add items to cart and make it yours!</p>
+            </tbody>
+          </v-simple-table>
+          <v-simple-table v-if="carts.length > 0">
             <thead>
               <tr>
                 <th class="text-center">ITEM</th>
@@ -16,56 +22,45 @@
                 <th class="text-center"></th>
               </tr>
             </thead>
-            <tbody v-if="carts.length > 0">
-              <tr v-for="item in carts" :key="item.id">
-                <td>
-                  <v-list-item
-                    key="1"
-                  >
-                    <v-list-item-avatar>
-                      <v-img :src="item.Product.image_url"></v-img>
-                    </v-list-item-avatar>
-
-                    <v-list-item-content>
-                      <v-list-item-title >{{item.Product.name}}</v-list-item-title>
-                      <v-list-item-subtitle>{{item.Product.Category.name}}</v-list-item-subtitle>
-                    </v-list-item-content>
-                  </v-list-item>
-                </td>
-                <td>{{item.Product.price}}</td>
-                <td>
-                  <v-btn @click="minusCart(item.id)" icon>
-                    <v-icon small>
-                      mdi-minus-circle
-                    </v-icon>
-                  </v-btn>
-                  {{item.quantity}}
-                  <v-btn @click="plusCart(item.id)" icon>
-                    <v-icon small>
-                      mdi-plus-circle
-                    </v-icon>
-                  </v-btn>
-                </td>
-                <td>{{item.Product.price * item.quantity}}</td>
-                <td><a>X</a></td>
-              </tr>
+            <tbody v-for="item in carts" :key="item.id">
+              <CartRow :item="item">
+              </CartRow>
             </tbody>
           </v-simple-table>
         </v-col>
-        <v-col :cols="12" md="3" sm="12" style="background-color: lightgray">
-          <p class="headline">Order Summary</p>
+        <v-card class="pa-4" md="3" sm="12" elevation="5">
+          <v-card-title>
+            <p class="headline align-text-center"><b>Order Summary</b></p>
+          </v-card-title>
+          <v-form>
+            <v-text-field
+              label="Name"
+              placeholder="Enter your name"
+              outlined
+              v-model="name"
+            >
+            </v-text-field>
+            <v-textarea
+              outlined
+              label="Address"
+              placeholder="Enter your shipping address"
+              name="input-7-4"
+              v-model="address"
+            >
+            </v-textarea>
+          </v-form>
           <v-simple-table>
             <tbody>
               <tr>
                 <td>Order Total</td>
-                <td class="text-right" style="width: 50px;"><b>{{totalPrice}}</b></td>
+                <td class="text-right" style="width: 50px;"><b>Rp. {{totalPrice}}</b></td>
               </tr>
             </tbody>
           </v-simple-table>
-          <div class="text-center">
-            <v-btn class="primary white--text mt-5" outlined @click="checkout" :disabled="carts.length === 0">PROCEED TO CHECKOUT</v-btn>
-          </div>
-        </v-col>
+          <v-card-actions class="justify-center">
+            <v-btn class="primary white--text mt-5" outlined @click="checkout" :disabled="carts.length === 0">CHECKOUT</v-btn>
+          </v-card-actions>
+        </v-card>
       </v-row>
     </v-container>
   </div>
@@ -73,18 +68,39 @@
 
 <script>
 import { mapState } from 'vuex'
+import CartRow from '../components/CartRow'
 
 export default {
+  name: 'Cart',
+  data () {
+    return {
+      name: '',
+      address: '',
+      productsDetail: []
+    }
+  },
+  components: {
+    CartRow
+  },
   computed: mapState(['carts', 'totalPrice']),
   methods: {
-    minusCart (id) {
-      this.$store.dispatch('minusCart', id)
-    },
-    plusCart (id) {
-      this.$store.dispatch('plusCart', id)
-    },
     checkout () {
       console.log('checkout')
+      this.carts.map(el => {
+        this.productsDetail.push(`${el.Product.name} ${el.quantity} pcs`)
+      })
+
+      const email = JSON.parse(localStorage.getItem('user')).email
+
+      const payload = {
+        name: this.name,
+        email,
+        address: this.address,
+        products: this.productsDetail.join(', '),
+        total_price: this.totalPrice
+      }
+      this.$store.dispatch('doCheckout', payload)
+      this.productsDetail = []
     }
   },
   created () {

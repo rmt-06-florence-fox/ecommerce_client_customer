@@ -6,14 +6,14 @@
     dark
   >
     <v-toolbar-title>
-      <v-img
+      <!-- <v-img
         alt="Bukatoko Logo"
         class="shrink mr-2"
         contain
         src="../assets/BT-LOGO.png"
         transition="scale-transition"
         width="40"
-      />
+      /> -->
 
       <h2
         class="shrink mt-1 hidden-sm-and-down"
@@ -50,8 +50,21 @@
 
     <router-link to="/cart">
       <v-btn icon>
+        <v-badge
+          :content="carts.length"
+          :value="carts.length"
+          color="warning"
+          overlap
+        >
+          <v-icon>mdi-cart</v-icon>
+        </v-badge>
+      </v-btn>
+    </router-link>
+
+    <router-link to="/history">
+      <v-btn icon>
         <v-icon>
-          mdi-cart
+          mdi-history
         </v-icon>
       </v-btn>
     </router-link>
@@ -106,6 +119,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
   data () {
     return {
@@ -116,6 +130,11 @@ export default {
     logout () {
       this.$store.dispatch('logout')
     }
-  }
+  },
+  computed: mapState(['carts'])
 }
 </script>
+
+<style>
+  a {  text-decoration: none;}
+</style>

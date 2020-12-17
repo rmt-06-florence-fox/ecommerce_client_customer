@@ -4,6 +4,8 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Cart from '../views/Cart.vue'
+import Payment from '../views/Payment.vue'
+import History from '../views/History.vue'
 
 Vue.use(VueRouter)
 
@@ -35,6 +37,16 @@ const routes = [
     path: '/cart',
     name: 'Cart',
     component: Cart
+  },
+  {
+    path: '/payment/:id',
+    name: 'Payment',
+    component: Payment
+  },
+  {
+    path: '/history',
+    name: 'History',
+    component: History
   }
 ]
 
@@ -48,7 +60,7 @@ router.beforeEach((to, from, next) => {
   const isAuthenticated = localStorage.getItem('access_token')
   if ((to.name === 'Login' || to.name === 'Register') && isAuthenticated) {
     next({ name: 'Home' })
-  } else if (to.name === 'Cart' && !isAuthenticated) {
+  } else if ((to.name === 'Cart' || to.name === 'Payment' || to.name === 'History') && !isAuthenticated) {
     next({ name: 'Login' })
   } else {
     next()
