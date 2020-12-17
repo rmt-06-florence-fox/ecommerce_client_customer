@@ -15,7 +15,9 @@
             <label for="password-input">Password</label>
             <input type="password" class="form-control" v-model="password" id="password-input">
         </div>
-        <button type="submit" class="btn btn-info">Login</button>
+        <div class="d-grid gap-2 mt-4">
+          <button type="submit" class="btn btn-info">Login</button>
+        </div>
           <div align="center" style="margin: 10%">
               <span>
                   <small> Don't have an account? </small>

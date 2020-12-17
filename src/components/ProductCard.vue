@@ -6,7 +6,10 @@
         <h5 class="card-title">{{ product.name }}</h5>
         <p class="card-text">{{ product.price | currency }}</p>
         <p class="card-text">Stock : {{ product.stock }}</p>
-        <a href="#" class="btn btn-info">Add To Cart</a>
+        <a href="#" class="btn btn-info d-grid mt-2"
+        @click.prevent="addCart({ ProductId: product.id, price: product.price })">
+        Add To Cart
+        </a>
       </div>
     </div>
   </div>
@@ -21,6 +24,14 @@ export default {
       const token = localStorage.getItem('access_token')
       if (!token) {
         this.$router.push({ name: 'Login' })
+      }
+    },
+    addCart (payload) {
+      const token = localStorage.getItem('access_token')
+      if (!token) {
+        this.$router.push({ name: 'Login' })
+      } else {
+        this.$store.dispatch('addCart', payload)
       }
     }
   }

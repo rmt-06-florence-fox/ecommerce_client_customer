@@ -13,7 +13,9 @@
             <label for="password-register">Password</label>
             <input v-model="password" type="password" class="form-control">
         </div>
-        <button type="submit" class="btn btn-info">Register</button>
+        <div class="d-grid gap-2 mt-4">
+          <button type="submit" class="btn btn-info">Register</button>
+        </div>
       </form>
     </div>
   </div>
