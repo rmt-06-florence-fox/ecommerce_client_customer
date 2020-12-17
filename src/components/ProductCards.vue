@@ -1,7 +1,7 @@
 <template>
-  <div class="card col-3 m-2 border-0 shadow" style="width: 18rem;">
+  <div class="card m-2 border-0 shadow" style="width: 18rem;">
     <img :src="product.image_url" class="card-img-top mt-3 mx-auto" alt="...">
-    <div class="card-body text-center">
+    <div class="card-body">
         <small>{{ product.name }}</small><br>
         <small>Available Stock: {{ product.stock }} unit</small><br>
         <small>Price: Rp {{ convertPrice }}</small><br>

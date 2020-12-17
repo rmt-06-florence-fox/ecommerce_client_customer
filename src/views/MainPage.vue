@@ -19,7 +19,7 @@ export default {
   },
   computed: {
     listProducts () {
-      return this.$store.state.listProducts.data
+      return this.$store.getters.getCategory
     }
   },
   created () {

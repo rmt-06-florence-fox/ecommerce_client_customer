@@ -1,5 +1,5 @@
 <template>
-  <a class="dropdown-item" href="#" @click='getCategory(data.id)'>{{ data.category }}</a>
+  <a class="dropdown-item" href="#" @click='getCategory(data.category)'>{{ data.category }}</a>
 </template>
 
 <script>
@@ -7,8 +7,11 @@ export default {
   name: 'FilterList',
   props: ['data'],
   methods: {
-    getCategory (id) {
-      this.$store.getters.getCategoryById(id)
+    getCategory (category) {
+      if (this.$route.path !== '/') {
+        this.$router.push('/')
+      }
+      this.$store.commit('setFilter', category)
     }
   }
 }

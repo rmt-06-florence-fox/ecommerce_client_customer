@@ -61,7 +61,11 @@ export default {
   },
   methods: {
     goMainPage () {
-      this.$router.push('/')
+      if (this.$route.path === '/') {
+        this.$store.commit('setFilter', '')
+      } else {
+        this.$router.push('/')
+      }
     },
     goHistories () {
       this.$router.push('/histories')

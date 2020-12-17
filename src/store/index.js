@@ -11,7 +11,8 @@ export default new Vuex.Store({
     listCategories: [],
     listCarts: [],
     listTransactions: [],
-    isLogin: ''
+    isLogin: '',
+    setCategory: ''
   },
   mutations: {
     setListProducts (state, payload) {
@@ -30,7 +31,7 @@ export default new Vuex.Store({
       state.isLogin = payload
     },
     setFilter (state, payload) {
-      state.listProducts = payload
+      state.setCategory = payload
     }
   },
   actions: {
@@ -232,9 +233,11 @@ export default new Vuex.Store({
       }
       return total
     },
-    getCategoryById: (state) => (id) => {
-      console.log(state.listProducts.data.filter(product => product.Categories[0].id === id))
-      return state.listProducts.data.filter(product => product.Categories[0].id === id)
+    getCategory (state) {
+      if (state.setCategory === '') {
+        return state.listProducts.data
+      }
+      return state.listProducts.data.filter(product => product.Categories[0].category === state.setCategory)
     }
   }
 })
