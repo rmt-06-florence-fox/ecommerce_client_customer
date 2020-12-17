@@ -78,6 +78,7 @@ export default {
         .then(value => {
           this.$store.commit('set_carts', value.data.cart)
           this.$store.commit('set_totalPrice', value.data.totalPrice)
+          this.$router.push('/')
         })
         .catch(err => {
           swal('Error', err.response.data)

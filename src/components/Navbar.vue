@@ -14,6 +14,9 @@
                     <li class="nav-item" v-if="isLogin">
                         <router-link to="/cart" class="nav-link">Cart</router-link>
                     </li>
+                    <li class="nav-item" v-if="isLogin">
+                        <router-link to="/history" class="nav-link">History</router-link>
+                    </li>
                     <li class="nav-item dropdown">
                         <p class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             More

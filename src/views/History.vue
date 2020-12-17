@@ -5,25 +5,8 @@
           <lottie-player src="https://assets4.lottiefiles.com/animated_stickers/lf_tgs_g7ve4rc8.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;" loop  autoplay></lottie-player>
         </center>
       </div>
-      <!-- <div  v-else class="row mt-4 d-flex justify-content-around">
-          <div class="col-md-3">
-              <h1>Ini pertama</h1>
-          </div>
-          <div class="col-md-3">
-              <h1>Ini pertama</h1>
-          </div>
-          <div class="col-md-3">
-              <h1>Ini pertama</h1>
-          </div>
-          <div class="col-md-3">
-              <h1>Ini pertama</h1>
-          </div>
-          <div class="col-md-3">
-              <h1>Ini pertama</h1>
-          </div>
-      </div> -->
       <div v-else>
-          <h1>{{ histories }}</h1>
+          <!-- <h1>{{ histories }}</h1> -->
           <table class="table">
                 <thead>
                     <tr>
@@ -35,14 +18,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(histrory, i) in histories" :key="i">
-                    <th scope="row">
-                        <img :src="history.Product.image_url" alt="" style="max-width: 9rem; max-height: 16rem">
-                    </th>
-                    <td>{{ history.Product.name }}</td>
-                    <td>{{ history.quantity }}</td>
-                    <td>{{ convertMoney(histrory.quantity * histrory.Product.price) }}</td>
-                    <td>{{ history.updatedAt.split('T')[0] }}</td>
+                    <tr v-for="history in histories" :key="history.id">
+                        <th scope="row">
+                            <img :src="history.Product.image_url" alt="" style="max-width: 9rem; max-height: 16rem">
+                        </th>
+                        <td>{{ history.Product.name }}</td>
+                        <td>{{ history.quantity }}</td>
+                        <td>{{ convertMoney(history.quantity * history.Product.price) }}</td>
+                        <td>{{ history.updatedAt.split('T')[0] }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -67,7 +50,7 @@ export default {
     }
   },
   created () {
-    this.isLoading = false
+    this.isLoading = true
     this.$store.dispatch('getHistory')
       .then(value => {
         console.log(value.data)
