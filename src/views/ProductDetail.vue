@@ -11,9 +11,12 @@
         <h2>Stock: {{ stock }}</h2>
         <h2>Category: {{ product.Category.name }}</h2>
         <hr>
-        <div class="text-center mt-5">
-          <button class="btn ml-2 mb-1 btn-outline-danger" style="back" v-if="profile" @click="addwishlist" autofocus>Add To Wishlist</button>
-          <button class="btn btn-outline-info ml-2 mb-1" v-if="profile && product.stock > 0" @click="addtocart">Add To Cart</button>
+        <div class="text-center mt-5" v-if="profile">
+          <button class="btn ml-2 mb-1 btn-outline-danger" style="back" @click="addwishlist">Add To Wishlist</button>
+          <button class="btn btn-outline-info ml-2 mb-1" v-if="product.stock > 0" @click="addtocart">Add To Cart</button>
+        </div>
+        <div class="text-center mt-5" v-else>
+          <p>Please login first to buy this product</p>
         </div>
       </div>
       <div class="col-md-6" v-else>

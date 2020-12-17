@@ -22,8 +22,8 @@
 
           <input type="submit" class="btn btn-success" value="Register">
         </form>
-        <hr>
-        Register Using Google
+        <!-- <hr> -->
+        <!-- Register Using Google -->
       </div>
       <div class="col-sm-4"></div>
     </div>
@@ -50,9 +50,19 @@ export default {
           password: this.password
         }
       }).then(({ data }) => {
+        this.$swal({
+          icon: 'success',
+          title: 'Success Created an Account',
+          showConfirmButton: false,
+          timer: 1500
+        })
         this.$router.push('/login').catch(() => { })
       }).catch(err => {
-        console.log(err)
+        this.$swal({
+          icon: 'error',
+          title: 'Oops...',
+          text: err.response.data.message
+        })
       })
     }
   }
