@@ -13,7 +13,8 @@ export default new Vuex.Store({
     carts: [],
     isLoggedIn: localStorage.getItem('access_token'),
     isLoadingSearch: false,
-    total: 0
+    total: 0,
+    allCarts: []
   },
   mutations: {
     changeProducts (state, payload) {
@@ -38,6 +39,9 @@ export default new Vuex.Store({
     },
     changeCarts (state, payload) {
       state.carts = payload
+    },
+    changeAllCarts (state, payload) {
+      state.allCarts = payload
     },
     changeLogin (state) {
       state.isLoggedIn = localStorage.getItem('access_token')
@@ -222,6 +226,15 @@ export default new Vuex.Store({
       return axios({
         method: 'DELETE',
         url: '/carts',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+    },
+    fetchAllCart (context, payload) {
+      return axios({
+        method: 'GET',
+        url: '/carts/' + payload,
         headers: {
           access_token: localStorage.getItem('access_token')
         }

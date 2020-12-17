@@ -32,7 +32,12 @@
             class="has-text-centered input"
             style="max-width: 100px"
           >
-          <button @click.prevent="addCart(cart.Product.id)" class="button is-link" :class="{ 'is-loading': isLoading }">+</button>
+          <button @click.prevent="addCart(cart.Product.id)"
+            class="button is-link"
+            :disabled='currCart === cart.Product.stock'
+            :class="{ 'is-loading': isLoading }">
+            +
+          </button>
         </form>
       </div>
       <button @click="destroyCart(cart.id)" class="button is-danger">
@@ -50,7 +55,8 @@ export default {
   ],
   data () {
     return {
-      isLoading: false
+      isLoading: false,
+      currCart: 0
     }
   },
   methods: {
@@ -59,6 +65,7 @@ export default {
       this.$store.dispatch('decrementCart', { id: id, price: this.cart.Product.price })
         .then(response => {
           this.$store.dispatch('fetchCarts')
+          this.checkChart()
         })
         .catch(err => {
           console.log(err)
@@ -72,6 +79,7 @@ export default {
       this.$store.dispatch('addCart', { productId: id, price: this.cart.Product.price })
         .then(response => {
           this.$store.dispatch('fetchCarts')
+          this.checkChart()
         })
         .catch(err => {
           console.log(err)
@@ -92,7 +100,23 @@ export default {
         .finally(_ => {
           this.isLoading = false
         })
+    },
+    checkChart () {
+      this.currCart = 0
+      this.$store.dispatch('fetchAllCart', this.cart.ProductId)
+        .then(response => {
+          const carts = response.data.data
+          carts.forEach(cart => {
+            this.currCart += cart.quantity
+          })
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
+  },
+  created () {
+    this.checkChart()
   }
 }
 </script>

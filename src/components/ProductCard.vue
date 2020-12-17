@@ -33,7 +33,7 @@
       <footer class="card-footer">
         <button @click.prevent="addCart(product.id)"
           href="#" class="card-footer-item button is-info"
-          :disabled='product.stock === 0'
+          :disabled='currCart === product.stock || product.stock === 0'
           :class="{'is-loading': isLoading}">
           Add To Cart
         </button>
@@ -50,7 +50,9 @@ export default {
   ],
   data () {
     return {
-      isLoading: false
+      isLoading: false,
+      isAvailable: true,
+      currCart: 0
     }
   },
   methods: {
@@ -63,6 +65,7 @@ export default {
         .then(response => {
           this.$store.dispatch('fetchCarts')
           this.$store.dispatch('fetchProducts')
+          this.checkChart()
         })
         .catch(err => {
           console.log(err)
@@ -73,12 +76,28 @@ export default {
     },
     destroy (id) {
       this.$store.dispatch('destroy', id)
+    },
+    checkChart () {
+      this.currCart = 0
+      this.$store.dispatch('fetchAllCart', this.product.id)
+        .then(response => {
+          const carts = response.data.data
+          carts.forEach(cart => {
+            this.currCart += cart.quantity
+          })
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
   },
   computed: {
     isLoggedIn () {
       return this.$store.state.isLoggedIn
     }
+  },
+  created () {
+    this.checkChart()
   }
 }
 </script>

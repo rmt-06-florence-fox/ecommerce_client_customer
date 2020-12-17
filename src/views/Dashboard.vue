@@ -12,7 +12,6 @@
         <ProductCard
           v-for="product in filtered" :key="product.id"
           :product="product"
-          @toggleModal='activateModal'
           @destroy='destroy'
         />
       </div>
@@ -37,13 +36,6 @@ export default {
     }
   },
   methods: {
-    activateModal (id) {
-      this.$store.dispatch('fetchProductsById', id)
-    },
-    closeModal () {
-      this.$store.commit('changeIsActive')
-      this.fetchProducts()
-    },
     fetchProducts () {
       this.$store.dispatch('fetchProducts')
     },
@@ -54,6 +46,7 @@ export default {
   created () {
     this.fetchProducts()
     this.$store.dispatch('fetchCarts')
+    this.$store.dispatch('fetchAllCart')
   },
   computed: {
     products () {

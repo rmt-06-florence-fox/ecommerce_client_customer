@@ -28,9 +28,9 @@
             </router-link>
 
           </div>
-          <div v-if="isLoggedIn" class="buttons">
+          <div v-else class="buttons">
             <router-link to="/cart" class="button is-light">
-              <i class="fas fa-shopping-cart"></i>
+               <span><i class="fas fa-shopping-cart"></i></span>
             </router-link>
             <a @click.prevent="logout" class="button is-danger">
               Log Out
