@@ -4,6 +4,7 @@
     <div>
       <button v-if="$route.path=='/signup'" class="btn btn-sm btn-outline-success rounded-pill font-weight-bold text-dark" type="button" @click.prevent="toSignIn">Sign In</button>
       <button v-if="$route.path=='/'" class="btn btn-sm btn-outline-info rounded-pill font-weight-bold text-dark" type="button" @click.prevent="toSignUp">Sign Up</button>
+       <button v-if="$route.path!='/' && $route.path!='/signup'" class="btn btn-sm btn-outline-info rounded-pill font-weight-bold text-dark mr-3" type="button" @click.prevent="toCartPage">Cart</button>
       <button v-if="$route.path!='/' && $route.path!='/signup'" class="btn btn-sm btn-outline-danger rounded-pill font-weight-bold text-dark" type="button" @click.prevent="doSignOut">Sign Out</button>
     </div>
   </nav>
@@ -21,6 +22,9 @@ export default {
     },
     toMainPage () {
       this.$router.push('home')
+    },
+    toCartPage () {
+      this.$router.push('/cart')
     },
     doSignOut () {
       localStorage.clear()
