@@ -77,8 +77,7 @@ export default new Vuex.Store({
           access_token: localStorage.getItem('access_token')
         },
         data: {
-          ProductId: payload.ProductId,
-          quantity: 1
+          ProductId: payload.ProductId
         }
       })
         .then(({ data }) => {
