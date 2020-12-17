@@ -50,8 +50,6 @@ export default {
       console.log('login')
       this.$store.dispatch('register', { email: this.email, password: this.password })
         .then(response => {
-          const accessToken = response.data.access_token
-          localStorage.setItem('access_token', accessToken)
           Swal.fire({
             icon: 'success',
             title: 'Register Success',
