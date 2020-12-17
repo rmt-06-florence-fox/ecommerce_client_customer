@@ -77,8 +77,8 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title || 'ShopPal'
   const isAuthenticated = localStorage.access_token
-  if (to.name === 'Login' && isAuthenticated) next({ name: 'Home' })
-  else if (to.name === 'Register' && isAuthenticated) next({ name: 'Home' })
+  if ((to.name === 'Cart' || to.name === 'History') && !isAuthenticated) next({ name: 'Home' })
+  else if ((to.name === 'Register' || to.name === 'Login') && isAuthenticated) next({ name: 'Home' })
   else next()
 })
 
