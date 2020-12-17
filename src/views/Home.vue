@@ -29,7 +29,7 @@ export default {
     },
     fetchCart () {
       this.$store.dispatch('fetchCart')
-        .then(data => {
+        .then(({ data }) => {
           console.log('berhasil fetchCart')
           this.$store.commit('setCart', data)
         })
@@ -40,10 +40,10 @@ export default {
   },
   computed: {
     products () {
-      return this.$store.state.products.data
+      return this.$store.state.products
     },
     cart () {
-      return this.$store.state.cart.data
+      return this.$store.state.cart
     }
   },
   created () {

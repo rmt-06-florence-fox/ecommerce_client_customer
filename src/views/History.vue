@@ -57,7 +57,7 @@ export default {
   },
   computed: {
     history () {
-      return this.$store.state.history.data
+      return this.$store.state.history
     }
   }
 }

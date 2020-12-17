@@ -1,11 +1,13 @@
 <template>
   <div style="margin-top:90px">
+    <!-- <p>{{ cart }}</p> -->
     <div v-if="cart.length === 0">
       <h1 style="margin-top: 230px">Your cart is empty</h1>
       <img src="https://img.freepik.com/free-vector/happy-tiny-people-listening-spiritual-music_74855-5870.jpg?size=626&ext=jpg" alt="">
     </div>
     <div v-else>
        <div class="container" >
+         <!-- <p>{{ currentPrice.toLocaleString('id') }} {{ totalPrice.toLocaleString('id') }}</p> -->
         <div class="row">
           <div class="col">
             <CartsCard v-for="item in cart" :key="item.id" :item="item" :products="products" class="mt-4"></CartsCard>
@@ -39,9 +41,9 @@ export default {
   methods: {
     fetchCart () {
       this.$store.dispatch('fetchCart')
-        .then(data => {
+        .then(({ data }) => {
           this.$store.commit('setCart', data)
-          data.data.forEach(el => {
+          data.forEach(el => {
             this.totalPrice += el.quantity * el.price
           })
           this.$store.commit('setCurrentPrice', this.totalPrice)
@@ -101,10 +103,11 @@ export default {
   },
   computed: {
     cart () {
-      return this.$store.state.cart.data
+      console.log(this.$store.state.cart)
+      return this.$store.state.cart
     },
     products () {
-      return this.$store.state.products.data
+      return this.$store.state.products
     },
     addTotalPrice () {
       return this.$store.state.addTotalPrice

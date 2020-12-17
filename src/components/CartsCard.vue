@@ -1,6 +1,8 @@
 <template>
   <div>
+    <!-- <p>{{ new Intl.NumberFormat('ID').format(item.price) }}</p> -->
     <div>
+      <!-- <p>{{ item.price.toLocaleString('id') }} disini</p> -->
         <b-card no-body class="overflow-hidden" style="max-width: 540px; height: 150px">
             <b-row no-gutters>
             <b-col md="6">
@@ -11,7 +13,7 @@
             <b-col md="6">
                 <b-card-body>
                   <h4 class="text-left mb-3"><strong>{{ item.name }}</strong></h4>
-                  <h6 class="text-left mb-3"><strong>Rp {{ item.price.toLocaleString('id') }} @each</strong></h6>
+                  <h6 class="text-left mb-3"><strong>Rp {{ new Intl.NumberFormat('ID').format(item.price) }} @each</strong></h6>
                   <div v-for="(product, i) in products" :key="i">
                       <div v-if="product.id === item.ProductId && item.quantity >= product.stock">
                         <h6 class="text-left"><button class="mr-2 btn btn-primary p-1" @click="decrementItem(item)"><i class="fa fa-minus" style="font-size:15px"></i></button><strong>{{ item.quantity }}</strong><button disabled class="ml-2 btn btn-primary p-1" @click="addCart(item)"><i class="fa fa-plus " style="font-size:15px"></i></button><button class="ml-3 btn btn-danger" @click="removeCart(item.id)">Remove cart</button></h6>
@@ -44,11 +46,11 @@ export default {
         .then(data => {
           console.log('berhasil ditambahkan di carts card')
           this.$store.dispatch('fetchCart')
-            .then(data => {
+            .then(({ data }) => {
               this.$store.commit('setCart', data)
               this.$store.commit('setUpdatePrice', true)
               let total = 0
-              data.data.forEach(el => {
+              data.forEach(el => {
                 total += el.quantity * el.price
               })
               this.$store.commit('setCurrentPrice', total)
@@ -63,9 +65,9 @@ export default {
     },
     fetchCart () {
       this.$store.dispatch('fetchCart')
-        .then(data => {
+        .then(({ data }) => {
           this.$store.commit('setCart', data)
-          data.data.forEach(el => {
+          data.forEach(el => {
             this.$store.commit('addTotalPrice', el.quantity * el.price)
           })
         })
@@ -79,11 +81,11 @@ export default {
         this.$store.dispatch('destroyCart', item.id)
           .then(_ => {
             this.$store.dispatch('fetchCart')
-              .then(data => {
+              .then(({ data }) => {
                 this.$store.commit('setCart', data)
                 this.$store.commit('setUpdatePrice', true)
                 let total = 0
-                data.data.forEach(el => {
+                data.forEach(el => {
                   total += el.quantity * el.price
                 })
                 this.$store.commit('setCurrentPrice', total)
@@ -100,11 +102,11 @@ export default {
           .then(data => {
             console.log('berhasil dikurangi di carts card')
             this.$store.dispatch('fetchCart')
-              .then(data => {
+              .then(({ data }) => {
                 this.$store.commit('setCart', data)
                 this.$store.commit('setUpdatePrice', true)
                 let total = 0
-                data.data.forEach(el => {
+                data.forEach(el => {
                   total += el.quantity * el.price
                 })
                 this.$store.commit('setCurrentPrice', total)
@@ -123,11 +125,11 @@ export default {
       this.$store.dispatch('destroyCart', id)
         .then(_ => {
           this.$store.dispatch('fetchCart')
-            .then(data => {
+            .then(({ data }) => {
               this.$store.commit('setCart', data)
               this.$store.commit('setUpdatePrice', true)
               let total = 0
-              data.data.forEach(el => {
+              data.forEach(el => {
                 total += el.quantity * el.price
               })
               this.$store.commit('setCurrentPrice', total)

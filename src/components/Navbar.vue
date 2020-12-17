@@ -91,12 +91,12 @@ export default {
     },
     cart () {
       if (this.isLogin) {
-        this.$router.push('/cart')
+        this.$router.push('/cart').catch(() => {})
       }
     },
     historyCust () {
       if (this.isLogin) {
-        this.$router.push('/history')
+        this.$router.push('/history').catch(() => {})
       }
     },
     logout () {

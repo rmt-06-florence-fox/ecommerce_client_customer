@@ -72,7 +72,8 @@ export default new Vuex.Store({
         method: 'GET',
         url: '/products'
       })
-        .then(data => {
+        .then(({ data }) => {
+          console.log(data)
           context.commit('setProducts', data)
         })
         .catch(err => {
@@ -117,7 +118,7 @@ export default new Vuex.Store({
           access_token: localStorage.getItem('access_token')
         }
       })
-        .then(data => {
+        .then(({ data }) => {
           context.commit('setHistory', data)
         })
         .catch(err => {

@@ -50,8 +50,32 @@ export default {
           } else {
             currentQuantity = data.data.quantity
           }
-          if (currentQuantity >= obj.stock) {
-            console.log('Tidak bisa add')
+          console.log(currentQuantity)
+          if (obj.stock === 1) {
+            this.$store.dispatch('addCart', {
+              name: obj.name,
+              imageUrl: obj.imageUrl,
+              price: obj.price,
+              quantity: 1,
+              ProductId: obj.id
+            })
+              .then(data => {
+                console.log('berhasil ditambahkan')
+                this.disableAddToCart = false
+                this.$store.dispatch('fetchCart')
+                  .then(data => {
+                    this.$store.commit('setCart', data)
+                  })
+                  .catch(err => {
+                    console.log(err)
+                  })
+              })
+              .catch(err => {
+                console.log(err)
+              })
+          }
+          if (currentQuantity >= obj.stock - 1) {
+            return 'Tidak bisa add'
           } else {
             this.$store.dispatch('addCart', {
               name: obj.name,
