@@ -6,14 +6,15 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    products: [],
-    productById: '',
-    categories: [],
-    banners: [],
-    profile: '',
-    cart: '',
+    products: null,
+    productById: null,
+    categories: null,
+    banners: null,
+    profile: null,
+    cart: null,
     history: [],
-    wishlists: []
+    wishlists: [],
+    filteredCategories: []
   },
   mutations: {
     GETUSER (state, payload) {
@@ -39,6 +40,9 @@ export default new Vuex.Store({
     },
     GETWISHLISTS (state, payload) {
       state.wishlists = payload
+    },
+    FILTERINGCATEGORIES (state, payload) {
+      state.filteredCategories = payload
     }
   },
   actions: {
@@ -47,7 +51,7 @@ export default new Vuex.Store({
         method: 'get',
         url: '/products'
       }).then(({ data }) => {
-        context.commit('GETPRODUCTS', data)
+        context.commit('GETPRODUCTS', data.products)
       }).catch(err => {
         console.log(err)
       })
@@ -57,7 +61,7 @@ export default new Vuex.Store({
         method: 'get',
         url: '/products/' + payload.id
       }).then(({ data }) => {
-        context.commit('GETPRODUCTBYID', data)
+        context.commit('GETPRODUCTBYID', data.product)
       }).catch(err => {
         console.log(err)
       })
@@ -67,7 +71,7 @@ export default new Vuex.Store({
         method: 'get',
         url: '/categories'
       }).then(({ data }) => {
-        context.commit('GETCATEGORIES', data)
+        context.commit('GETCATEGORIES', data.categories)
       }).catch(err => {
         console.log(err)
       })
@@ -77,7 +81,7 @@ export default new Vuex.Store({
         method: 'get',
         url: '/banners'
       }).then(({ data }) => {
-        context.commit('GETBANNERS', data)
+        context.commit('GETBANNERS', data.banners)
       }).catch(err => {
         console.log(err)
       })
@@ -103,7 +107,7 @@ export default new Vuex.Store({
           access_token: localStorage.getItem('access_token')
         }
       }).then(({ data }) => {
-        context.commit('GETCART', data)
+        context.commit('GETCART', data.transaction)
       }).catch(err => {
         console.log(err)
       })
@@ -116,7 +120,7 @@ export default new Vuex.Store({
           access_token: localStorage.getItem('access_token')
         }
       }).then(({ data }) => {
-        context.commit('GETHISTORY', data)
+        context.commit('GETHISTORY', data.transactions)
       }).catch(err => {
         console.log(err)
       })
@@ -129,7 +133,7 @@ export default new Vuex.Store({
           access_token: localStorage.getItem('access_token')
         }
       }).then(({ data }) => {
-        context.commit('GETWISHLISTS', data)
+        context.commit('GETWISHLISTS', data.wishlists)
       }).catch(err => {
         console.log(err)
       })
@@ -145,7 +149,10 @@ export default new Vuex.Store({
       }).then(({ data }) => {
         context.dispatch('GETCART')
         context.dispatch('GETHISTORY')
+        context.dispatch('GETPRODUCTS')
       }).catch(err => {
+        context.dispatch('GETCART')
+        context.dispatch('GETPRODUCTS')
         console.log(err)
       })
     },
@@ -173,6 +180,7 @@ export default new Vuex.Store({
         }
       }).then(({ data }) => {
         context.dispatch('GETCART')
+        context.dispatch('GETPRODUCTS')
       }).catch(err => {
         console.log(err)
       })
@@ -191,6 +199,7 @@ export default new Vuex.Store({
         }
       }).then(({ data }) => {
         context.dispatch('GETCART')
+        context.dispatch('GETPRODUCTS')
       }).catch(err => {
         console.log(err)
       })
@@ -198,7 +207,7 @@ export default new Vuex.Store({
     DELETECART (context, payload) {
       const id = payload.id
       axios({
-        method: 'put',
+        method: 'delete',
         url: '/cart/' + id,
         headers: {
           access_token: localStorage.getItem('access_token')
@@ -212,7 +221,7 @@ export default new Vuex.Store({
     DELETEWISHLISTS (context, payload) {
       const id = payload.id
       axios({
-        method: 'put',
+        method: 'delete',
         url: '/wishlists/' + id,
         headers: {
           access_token: localStorage.getItem('access_token')
@@ -234,10 +243,54 @@ export default new Vuex.Store({
       }).then(({ data }) => {
         context.dispatch('GETWISHLISTS')
       }).catch(err => {
-        console.log(err)
+        console.log(err.response.data)
       })
     }
   },
   modules: {
+  },
+  getters: {
+    activebanner: (state) => {
+      if (state.banners) {
+        return state.banners.filter(e => e.status === true)
+      } else {
+        return null
+      }
+    },
+    filteredProduct: (state) => {
+      if (state.products) {
+        if (state.filteredCategories.length === 0) {
+          return state.products
+        } else {
+          return state.products.filter(e => {
+            for (let i = 0; i < state.filteredCategories.length; i++) {
+              const element = state.filteredCategories[i]
+              if (Number(element) === Number(e.CategoryId)) {
+                return e
+              }
+            }
+          })
+        }
+      } else {
+        return null
+      }
+    },
+    similarProduct: (state) => {
+      if (state.productById && state.products) {
+        const getbyCategory = state.products.filter(e => {
+          return Number(e.CategoryId) === Number(state.productById.CategoryId) && Number(e.id) !== state.productById.id
+        })
+        return getbyCategory.slice(0, 3)
+      } else {
+        return null
+      }
+    },
+    carts: (state) => {
+      if (state.cart) {
+        return state.cart.Products
+      } else {
+        return []
+      }
+    }
   }
 })
