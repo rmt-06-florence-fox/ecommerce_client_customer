@@ -20,6 +20,9 @@
                 <div class="spinner-border text-primary " role="status" v-if="isLoadingCheckout">
                   <span class="visually-hidden"></span>
                 </div>
+                <div v-else-if="!carts || carts.length === 0">
+                  <button href="#" class="btn btn-primary" disabled>Checkout Now</button>
+                </div>
                 <div v-else>
                   <button href="#" class="btn btn-primary" @click="checkout">Checkout Now</button>
                 </div>

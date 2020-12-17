@@ -65,27 +65,25 @@ export default {
         .then(willDelete => {
           if (willDelete) {
             this.loadingRemove = true
-            this.$store.dispatch('deleteCart', this.cart.id)
-              .then(value => {
-                swal({
-                  text: 'Cart has been deleted',
-                  title: 'Yeay',
-                  icon: 'success'
-                })
-                this.$store.dispatch('fetchCart')
-                  .then(value => {
-                    this.$store.commit('set_carts', value.data.cart)
-                    this.$store.commit('set_totalPrice', value.data.totalPrice)
-                  })
-                // this.cart = null
-                // this.$router.push('/')
-              })
-              .catch(err => {
-                swal('Error', `${err.response.data}`)
-              })
+            return this.$store.dispatch('deleteCart', this.cart.id)
           } else {
             swal('Your Product is save!')
           }
+        })
+        .then(value => {
+          swal({
+            text: 'Cart has been deleted',
+            title: 'Yeay',
+            icon: 'success'
+          })
+          return this.$store.dispatch('fetchCart')
+        })
+        .then(value => {
+          this.$store.commit('set_carts', value.data.cart)
+          this.$store.commit('set_totalPrice', value.data.totalPrice)
+        })
+        .catch(err => {
+          swal('Error', `${err.response.data}`)
         })
         .finally(() => {
           this.loadingRemove = false
