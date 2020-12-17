@@ -37,6 +37,7 @@ export default new Vuex.Store({
         .then((response) => {
           localStorage.setItem('access_token', response.data.access_token)
           localStorage.setItem('email', response.data.email)
+          context.commit('setCurrentUser', response.data.email)
           router.push('/')
         })
         .catch((error) => {
@@ -114,8 +115,9 @@ export default new Vuex.Store({
         headers: { access_token: localStorage.getItem('access_token') }
       })
         .then(response => {
-          console.log(response.data)
+          // console.log(response.data)
           // context.commit('setQuantity', response.data.quantity)
+          context.dispatch('fetchCartList')
         })
         .catch((error) => {
           console.log(error.response.data.message)
@@ -134,6 +136,7 @@ export default new Vuex.Store({
             'Cart has been deleted!',
             'success'
           )
+          context.dispatch('fetchCartList')
         })
         .catch((error) => {
           Swal.fire('Failed', `${error.response.data.message}`, 'error')

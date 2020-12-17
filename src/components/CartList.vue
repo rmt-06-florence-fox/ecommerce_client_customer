@@ -10,7 +10,7 @@
           <div class="col-4 px-5">
             <div class="card text-right" style="width: 18rem;">
             <div class="card-body">
-                <h5 class="card-title">Total bill</h5>
+                <h5 class="card-title btn btn-outline-success">Total payment</h5> <hr>
                 <p class="card-text">{{ carts.total }}</p>
                 <a href="#" class="btn btn-primary">Checkout</a>
             </div>
