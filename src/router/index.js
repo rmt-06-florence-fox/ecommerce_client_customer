@@ -4,6 +4,9 @@ import Home from '../views/Home.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/register.vue'
 import Cart from '../views/cart.vue'
+import TransactionHistory from '../views/TransactionHistory'
+import Wishlist from '../views/Wishlist'
+import notFoundPage from '../views/404.vue'
 
 Vue.use(VueRouter)
 
@@ -27,6 +30,20 @@ const routes = [
     path: '/cart',
     name: 'Cart',
     component: Cart
+  },
+  {
+    path: '/transactionHistory',
+    name: 'TransactionHistory',
+    component: TransactionHistory
+  },
+  {
+    path: '/Wishlist',
+    name: 'Wishlist',
+    component: Wishlist
+  },
+  {
+    path: '*',
+    component: notFoundPage
   }
 ]
 

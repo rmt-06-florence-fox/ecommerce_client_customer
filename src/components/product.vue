@@ -8,13 +8,13 @@
         <p class="card-text m-2" v-if="product.stock > 0" >Stock: {{product.stock}}</p>
         <p class="card-text m-2" v-if="product.stock == 0" >Stock Not Available</p>
       </div>
+      <img src="../assets/heart2.svg" @click="like(product.id)" alt="" class="bottom-left-icon">
       <div class="action-button">
         <button class="btn-danger" @click="addProducToCart(product.id)" v-if="loginStatus">Add to cart</button>
       </div>
       <img v-if="product.stock == 0" class="sold-out" src="../assets/sold-out.png">
     </div>
   </div>
-
 </template>
 
 <script>
@@ -75,6 +75,9 @@ export default {
     },
     addProducToCart (id) {
       this.$store.dispatch('addProductToCart', id)
+    },
+    like (id) {
+      this.$store.dispatch('like', id)
     }
   }
 }
@@ -102,5 +105,13 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
+}
+.bottom-left-icon {
+  width: 10%;
+  position: absolute;
+  top: 8px;
+  right: 16px;
+  font-size: 18px;
+  cursor:pointer;
 }
 </style>

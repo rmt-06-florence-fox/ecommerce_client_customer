@@ -41,7 +41,7 @@ export default {
 }
 .category-list ul {
   margin-left: 1px;
-  color: #24001e;
+  color: white;
   cursor: pointer;
 }
 .category-list ul:hover {

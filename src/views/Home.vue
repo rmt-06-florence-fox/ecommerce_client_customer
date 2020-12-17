@@ -1,6 +1,7 @@
 <template>
   <div class="home-page">
-    <div class="home-container">
+    <Banner></Banner>
+    <div class="container">
       <div class="home-left">
         <div class="category-list">
           <category @lemparCategoryName="lemparCategoryName"></category>
@@ -19,12 +20,14 @@
 // @ is an alias to /src
 import product from '../components/product.vue'
 import category from '../components/category.vue'
+import Banner from '../components/banner.vue'
 
 export default {
   name: 'Home',
   components: {
     product,
-    category
+    category,
+    Banner
   },
   data () {
     return {
@@ -45,27 +48,41 @@ export default {
   },
   created () {
     this.fetchProduct()
+    this.$store.dispatch('fetchBanner')
   },
   computed: {
     getProduct () {
       return this.$store.getters.filteredProduct(this.filterCategory)
+    },
+    getBanner () {
+      return this.$store.state.banners
+    },
+    getLoginStatus () {
+      return this.$store.state.loginStatus
     }
   }
 }
 </script>
 <style scoped>
-.home-container {
+.container {
   display: flex;
+  margin-top: 0;
 }
 .home-left {
-  /* background: #24001e; */
+  background: #24001e;
   width: 20%;
 }
 .container-product {
   display: flex;
-  justify-content:left;
+  justify-content:space-evenly;
   margin-left: 1rem;
   flex-wrap: wrap;
+}
+.banner {
+  height: 25vw
+}
+.banner img {
+  height: 25vw;
 }
 
 </style>

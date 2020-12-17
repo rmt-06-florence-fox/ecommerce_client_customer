@@ -8,10 +8,13 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    loginStatus: '',
     products: [],
     categories: [],
     banners: [],
-    carts: []
+    carts: [],
+    transactionHistory: [],
+    wishlists: []
   },
   mutations: {
     setProducts (state, payload) {
@@ -25,6 +28,18 @@ export default new Vuex.Store({
     },
     setCart (state, payload) {
       state.carts = payload
+    },
+    setTransactionHistory (state, payload) {
+      state.transactionHistory = payload
+    },
+    setWishlist (state, payload) {
+      state.wishlists = payload
+    },
+    setLoginStatusOn (state, payload) {
+      state.loginStatus = true
+    },
+    setLoginStatusOff (state, payload) {
+      state.loginStatus = false
     }
   },
   actions: {
@@ -89,102 +104,45 @@ export default new Vuex.Store({
           console.log(err)
         })
     },
-    editProduct (context, payload) {
+    increaseQuantity (context, payload) {
       axios({
-        url: `/products/${payload.id}`,
-        method: 'PUT',
-        headers: {
-          access_token: localStorage.access_token
-        },
-        data: {
-          name: payload.name,
-          image_url: payload.image_url,
-          price: payload.price,
-          stock: payload.stock,
-          categoryName: payload.categoryName
-        }
-      })
-        .then(res => {
-          Swal.fire(' Edit Product Success')
-          this.dispatch('fetchProduct')
-        })
-        .catch(err => {
-          Swal.fire('Edit Product Failed')
-          console.log(err)
-        })
-    },
-    deleteProduct (context, payload) {
-      axios({
-        url: `/products/${payload}`,
-        method: 'DELETE',
-        headers: {
-          access_token: localStorage.access_token
-        }
-      })
-        .then(res => {
-          this.dispatch('fetchProduct')
-        })
-        .catch(err => {
-          console.log(err)
-          Swal.fire(' Delete Failed')
-        })
-    },
-    addCategory (context, payload) {
-      axios({
-        url: '/category',
-        method: 'POST',
-        headers: {
-          access_token: localStorage.access_token
-        },
-        data: {
-          name: payload
-        }
-      })
-        .then(res => {
-          Swal.fire(' Create Category Success')
-          this.dispatch('fetchCategory')
-        })
-        .catch(err => {
-          console.log(err)
-          Swal.fire(' Add Category Failed')
-        })
-    },
-    increaseStock (context, payload) {
-      axios({
-        url: `/products/${payload.id}`,
+        url: `/cart/${payload.id}`,
         method: 'PATCH',
         headers: {
           access_token: localStorage.access_token
         },
         data: {
-          stock: payload.stock
+          quantity: payload.quantity
         }
       })
         .then(res => {
-          Swal.fire('Updated Stock Success')
+          context.dispatch('fetchCart')
+          Swal.fire('Updated quantity Success')
         })
         .catch(err => {
-          Swal.fire('Update stock Failed')
           console.log(err)
+          context.dispatch('fetchCart')
+          Swal.fire('Stock Not Available')
         })
     },
-    decreaseStock (context, payload) {
-      console.log('disini kan?', payload)
+    decreseQuantity (context, payload) {
       axios({
-        url: `/products/${payload.id}`,
+        url: `/cart/${payload.id}`,
         method: 'PATCH',
         headers: {
           access_token: localStorage.access_token
         },
         data: {
-          stock: payload.stock
+          quantity: payload.quantity
         }
       })
         .then(res => {
-          Swal.fire('Updated Stock Success')
+          context.dispatch('fetchCart')
+          Swal.fire('Updated Quantity Success')
         })
         .catch(err => {
-          Swal.fire('Update stock Failed')
+          context.dispatch('fetchCart')
+          Swal.fire('Update Quantity Failed')
           console.log(err)
         })
     },
@@ -203,65 +161,6 @@ export default new Vuex.Store({
           console.log(err)
         })
     },
-    addBanner (context, payload) {
-      axios({
-        url: '/banner',
-        method: 'POST',
-        headers: {
-          access_token: localStorage.access_token
-        },
-        data: {
-          title: payload.title,
-          image_url: payload.image_url,
-          status: payload.status
-        }
-      })
-        .then(res => {
-          Swal.fire(' Create Banner Success')
-          this.dispatch('fetchBanner')
-        })
-        .catch(err => {
-          Swal.fire('Create Banner Failed')
-          console.log(err)
-        })
-    },
-    editBanner (context, payload) {
-      axios({
-        url: `/banner/${payload.id}`,
-        method: 'PUT',
-        headers: {
-          access_token: localStorage.access_token
-        },
-        data: {
-          title: payload.title,
-          image_url: payload.image_url,
-          status: payload.status
-        }
-      })
-        .then(res => {
-          Swal.fire(' Edit Banner Success')
-          this.dispatch('fetchBanner')
-        })
-        .catch(err => {
-          Swal.fire('Edit Banner Failed')
-          console.log(err)
-        })
-    },
-    deleteBanner (context, payload) {
-      axios({
-        url: `/banner/${payload}`,
-        method: 'DELETE',
-        headers: {
-          access_token: localStorage.access_token
-        }
-      })
-        .then(res => {
-          this.dispatch('fetchBanner')
-        })
-        .catch(err => {
-          console.log(err)
-        })
-    },
     register (context, payload) {
       axios({
         url: '/register',
@@ -272,16 +171,18 @@ export default new Vuex.Store({
         }
       })
         .then(res => {
+          Swal.fire(' Register Success')
           console.log(res.data)
           router.push('/login')
         })
         .catch(err => {
+          Swal.fire(err.request.response)
           console.log(err)
         })
     },
     customerLogin (context, payload) {
       axios({
-        url: '/login',
+        url: '/customerLogin',
         method: 'POST',
         data: {
           email: payload.email,
@@ -289,11 +190,14 @@ export default new Vuex.Store({
         }
       })
         .then(res => {
+          Swal.fire('Welcome Back')
+          context.commit('setLoginStatusOn')
           localStorage.setItem('access_token', res.data.access_token)
           router.push('/')
         })
         .catch(err => {
-          console.log(err)
+          console.log(err.request.response)
+          Swal.fire(err.request.response)
         })
     },
     fetchCart (context) {
@@ -305,7 +209,6 @@ export default new Vuex.Store({
         }
       })
         .then(res => {
-          console.log(res.data)
           context.commit('setCart', res.data)
         })
         .catch(err => {
@@ -324,8 +227,115 @@ export default new Vuex.Store({
         }
       })
         .then(res => {
-          console.log(res.data)
+          Swal.fire('add product success')
           context.commit('setCart', res.data)
+        })
+        .catch(err => {
+          Swal.fire(err.request.response)
+        })
+    },
+    removeCart (context, payload) {
+      axios({
+        url: `/cart/${payload}`,
+        method: 'DELETE',
+        headers: {
+          access_token: localStorage.access_token
+        }
+      })
+        .then(res => {
+          Swal.fire('Remove Cart Success')
+          context.dispatch('fetchCart')
+        })
+        .catch(err => {
+          Swal.fire(err.request.response)
+          context.dispatch('fetchCart')
+          console.log(err)
+        })
+    },
+    checkout (context, payload) {
+      axios({
+        url: '/cart/checkout',
+        method: 'POST',
+        headers: {
+          access_token: localStorage.access_token
+        },
+        data: {
+          cartData: payload
+        }
+      })
+        .then(res => {
+          console.log(res)
+          Swal.fire('Checkout Success')
+          context.dispatch('fetchCart')
+        })
+        .catch(err => {
+          console.log(err)
+          context.dispatch('fetchCart')
+        })
+    },
+    fetchTransactionHistory (context) {
+      axios({
+        url: '/cart/transaction',
+        method: 'GET',
+        headers: {
+          access_token: localStorage.access_token
+        }
+      })
+        .then(res => {
+          console.log(res)
+          context.commit('setTransactionHistory', res.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    like (context, payload) {
+      axios({
+        url: '/wishlist',
+        method: 'POST',
+        headers: {
+          access_token: localStorage.access_token
+        },
+        data: {
+          ProductId: payload
+        }
+      })
+        .then(res => {
+          console.log(res)
+          Swal.fire('you like this product')
+        })
+        .catch(err => {
+          console.log(err)
+          Swal.fire(err.request.response)
+        })
+    },
+    fetchWishlist (context, payload) {
+      axios({
+        url: '/wishlist',
+        method: 'GET',
+        headers: {
+          access_token: localStorage.access_token
+        }
+      })
+        .then(res => {
+          console.log(res.data)
+          context.commit('setWishlist', res.data)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    unlike (context, id) {
+      axios({
+        url: `/wishlist/${id}`,
+        method: 'DELETE',
+        headers: {
+          access_token: localStorage.access_token
+        }
+      })
+        .then(res => {
+          Swal.fire('you remove this product fron wishlist')
+          context.dispatch('fetchWishlist')
         })
         .catch(err => {
           console.log(err)
