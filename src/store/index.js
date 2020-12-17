@@ -58,7 +58,7 @@ export default new Vuex.Store({
         }
       })
         .then(({ data }) => {
-          context.commit('fetchCart', data)
+          context.dispatch('fetchCart')
         })
         .catch(error => {
           console.log(error)
