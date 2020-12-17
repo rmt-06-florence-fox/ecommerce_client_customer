@@ -1,12 +1,17 @@
 <template>
   <div>
+    <Navbar/>
       <h1>404 NOT FOUND</h1>
   </div>
 </template>
 
 <script>
-export default {
+import Navbar from '../components/Navbar'
 
+export default {
+  components: {
+    Navbar
+  }
 }
 </script>
 

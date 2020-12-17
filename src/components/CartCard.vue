@@ -30,7 +30,11 @@ export default {
   },
   methods: {
     removeCart () {
-
+      const payload = {
+        id: this.Cart.id
+      }
+      this.$store.dispatch('removeCart', payload)
+      this.$store.dispatch('fetchCart')
     },
     addQuantity () {
       const payload = {
