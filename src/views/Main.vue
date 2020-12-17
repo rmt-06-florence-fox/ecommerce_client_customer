@@ -1,6 +1,6 @@
 <template>
-<div v-if="!currentUser">
-    <div class="home">
+<div>
+    <div v-if="!currentUser" class="home">
     <div class="jumbotron">
       <h1 class="display-4">Welcome to Mr Bee Ecommerce!</h1>
       <p class="lead">You are logged in as customer.</p>
