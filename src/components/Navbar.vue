@@ -1,6 +1,6 @@
 <template>
   <div>
-    <nav class="navbar navbar-light bg-light">
+    <nav class="navbar navbar-light bg-light" id="Navbar">
         <a class="navbar-brand" href="#">
             <img src="https://dewey.tailorbrands.com/production/brand_version_mockup_image/822/4281206822_be209932-fad6-4caa-8203-807240681ada.png?cb=1607775908" width="80" height="30" class="d-inline-block align-top" alt="" loading="lazy">
         </a>
@@ -47,5 +47,12 @@ export default {
 <style>
     .btn-login {
         margin-right: 10px;
+    }
+    #Navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 9999;
     }
 </style>

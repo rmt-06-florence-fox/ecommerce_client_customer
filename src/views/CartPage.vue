@@ -1,7 +1,7 @@
 <template>
   <div>
     <Navbar></Navbar>
-    <div class="row col-10 mx-auto">
+    <div class="row col-10 mx-auto" id="cart">
       <CartCard
         v-for="Cart in Carts"
         :key="Cart.id"
@@ -37,5 +37,7 @@ export default {
 </script>
 
 <style>
-
+  #cart {
+    margin-top: 70px;
+  }
 </style>

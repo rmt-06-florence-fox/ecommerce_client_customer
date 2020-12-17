@@ -1,13 +1,15 @@
 <template>
   <div>
     <Navbar></Navbar>
-    <Carousel></Carousel>
-    <div class="row col-8 mx-auto">
-      <ProductCard
-        v-for="Product in Products"
-        :key="Product.id"
-        :Product="Product"
-      ></ProductCard>
+    <div id="home">
+      <Carousel></Carousel>
+      <div class="row col-8 mx-auto">
+        <ProductCard
+          v-for="Product in Products"
+          :key="Product.id"
+          :Product="Product"
+        ></ProductCard>
+      </div>
     </div>
   </div>
 </template>
@@ -40,3 +42,9 @@ export default {
   }
 }
 </script>
+
+<style>
+  #home {
+    margin-top: 70px;
+  }
+</style>
