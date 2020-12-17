@@ -14,12 +14,13 @@
         transition="scale-transition"
         width="40"
       /> -->
-
-      <h2
-        class="shrink mt-1 hidden-sm-and-down"
-      >
-        Bukatoko
-      </h2>
+      <router-link to="/">
+        <h2
+          class="shrink mt-1"
+        >
+          Bukatoko
+        </h2>
+      </router-link>
     </v-toolbar-title>
     <v-text-field
       flat
@@ -31,14 +32,6 @@
     />
 
     <v-spacer></v-spacer>
-
-    <router-link to="/">
-      <v-btn icon>
-        <v-icon>
-          mdi-home
-        </v-icon>
-      </v-btn>
-    </router-link>
 
     <router-link to="/about">
       <v-btn icon>
@@ -101,7 +94,9 @@
         </v-icon>
       </v-btn>
 
-    <router-link to='/register'>
+    <router-link to='/register'
+      v-if="!token"
+    >
       <v-btn
         class="ma-2 white--text"
         color="secondary"

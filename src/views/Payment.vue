@@ -10,7 +10,7 @@
             <p class="title text-center"><b>Payment Total</b></p>
           </v-card-title>
           <v-card-text>
-            <p class="headline text-center"><b>Rp. {{ trans.total_price }} </b></p>
+            <p class="headline text-center"><b>{{ formatPrice(trans.total_price) }} </b></p>
           </v-card-text>
         </v-card>
       </v-col>
@@ -91,6 +91,18 @@ export default {
     this.$store.dispatch('getOneTransaction', this.$route.params.id)
   },
   methods: {
+    formatPrice (price) {
+      let result = ''
+      const strPrice = String(price)
+      for (let i = 0; i < strPrice.length; i++) {
+        if ((strPrice.length - i) % 3 === 0 && i !== 0) {
+          result += ',' + strPrice[i]
+        } else {
+          result += strPrice[i]
+        }
+      }
+      return `Rp. ${result}`
+    }
   },
   computed: mapState(['trans'])
 }

@@ -4,6 +4,7 @@
       class="mx-auto"
       color="grey lighten-4"
       max-width="600"
+      height="350"
     >
       <v-img
         :src="product.image_url"
@@ -25,7 +26,7 @@
       </v-img>
       <v-card-text class="text--primary">
         <div><a href="/product" style="text-decoration: none">{{product.name}}</a></div>
-        <div>Rp. {{product.price}}</div>
+        <div>{{ formatPrice(product.price) }}</div>
         <div>Stock: {{product.stock}}</div>
       </v-card-text>
     </v-card>
@@ -43,6 +44,18 @@ export default {
       }
 
       this.$store.dispatch('addToCart', payload)
+    },
+    formatPrice (price) {
+      let result = ''
+      const strPrice = String(price)
+      for (let i = 0; i < strPrice.length; i++) {
+        if ((strPrice.length - i) % 3 === 0 && i !== 0) {
+          result += ',' + strPrice[i]
+        } else {
+          result += strPrice[i]
+        }
+      }
+      return `Rp. ${result}`
     }
   }
 }

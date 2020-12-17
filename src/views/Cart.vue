@@ -53,7 +53,7 @@
             <tbody>
               <tr>
                 <td>Order Total</td>
-                <td class="text-right" style="width: 50px;"><b>Rp. {{totalPrice}}</b></td>
+                <td class="text-right" style="width: 50px;"><b>{{ formatPrice(totalPrice) }}</b></td>
               </tr>
             </tbody>
           </v-simple-table>
@@ -101,6 +101,18 @@ export default {
       }
       this.$store.dispatch('doCheckout', payload)
       this.productsDetail = []
+    },
+    formatPrice (price) {
+      let result = ''
+      const strPrice = String(price)
+      for (let i = 0; i < strPrice.length; i++) {
+        if ((strPrice.length - i) % 3 === 0 && i !== 0) {
+          result += ',' + strPrice[i]
+        } else {
+          result += strPrice[i]
+        }
+      }
+      return `Rp. ${result}`
     }
   },
   created () {

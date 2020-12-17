@@ -14,7 +14,7 @@
         </v-list-item-content>
       </v-list-item>
     </td>
-    <td>Rp. {{item.Product.price}}</td>
+    <td>{{formatPrice(item.Product.price)}}</td>
     <td>
       <v-btn @click="minusCart(item.id)" icon>
         <v-icon small>
@@ -28,7 +28,7 @@
         </v-icon>
       </v-btn>
     </td>
-    <td>Rp. {{item.Product.price * item.quantity}}</td>
+    <td>{{ formatPrice(item.Product.price * item.quantity) }}</td>
     <td>
       <v-btn @click="deleteCart(item.id)" icon>
         <v-icon medium>
@@ -81,6 +81,18 @@ export default {
 
       this.$store.dispatch('deleteCart', id)
       this.closeDelete()
+    },
+    formatPrice (price) {
+      let result = ''
+      const strPrice = String(price)
+      for (let i = 0; i < strPrice.length; i++) {
+        if ((strPrice.length - i) % 3 === 0 && i !== 0) {
+          result += ',' + strPrice[i]
+        } else {
+          result += strPrice[i]
+        }
+      }
+      return `Rp. ${result}`
     }
   },
   watch: {
