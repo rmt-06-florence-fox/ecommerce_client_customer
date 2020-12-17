@@ -17,7 +17,7 @@
           <tr>
             <th scope="col"></th>
             <th scope="col">Product Name</th>
-            <th scope="col">Stock Left</th>
+            <th scope="col">Stock Available</th>
             <th scope="col">Unit Price</th>
             <th scope="col">Amount</th>
             <th scope="col">Total Price</th>

@@ -1,7 +1,7 @@
 <template>
   <tr>
     <td>
-      <img style="height: 20rem" :src="cart.Product.image_url" :alt="cart.Product.image_url">
+      <img style="height: 16rem; max-width: 9rem" :src="cart.Product.image_url" :alt="cart.Product.image_url">
     </td>
     <td class="centering">{{cart.Product.name}}</td>
     <td class="centering">{{cart.Product.stock}}</td>
