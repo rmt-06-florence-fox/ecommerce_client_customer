@@ -1,6 +1,11 @@
 <template>
   <div>
-    <TopBar />
+    <div class="sticky-top">
+      <TopBar />
+      <div class="d-flex justify-content-end mt-3 mr-3">
+        <b-button variant="dark" @click="checkout"> Check Out </b-button>
+      </div>
+    </div>
     <div class="d-flex flex-column justify-content-start w-75">
       <CartCard v-for="cart in carts" :key="cart.id" :cart="cart" />
     </div>
@@ -25,6 +30,9 @@ export default {
   methods: {
     fetchCarts () {
       this.$store.dispatch('fetchMyCarts')
+    },
+    checkout () {
+      this.$store.dispatch('checkout')
     }
   },
   created () {

@@ -17,6 +17,11 @@ export default new Vuex.Store({
   },
   mutations: {
     setProducts (state, array) {
+      array = array.filter(product => {
+        if (product.stock > 0) {
+          return product
+        }
+      })
       state.products = array
     },
     setBanners (state, array) {
@@ -175,6 +180,22 @@ export default new Vuex.Store({
           headers: { access_token: localStorage.getItem('access_token') }
         })
         context.commit('setBanners', data)
+      } catch (err) {
+        context.commit('setErrors', err.response.data.messages)
+      }
+    },
+    async checkout (context) {
+      try {
+        const { data } = await axios({
+          url: '/carts',
+          method: 'DELETE',
+          headers: { access_token: localStorage.getItem('access_token') }
+        })
+        context.dispatch('fetchMyCarts')
+        context.dispatch('fetchProducts')
+        setTimeout(_ => {
+          context.commit('setSuccess', data.message)
+        }, 430)
       } catch (err) {
         context.commit('setErrors', err.response.data.messages)
       }

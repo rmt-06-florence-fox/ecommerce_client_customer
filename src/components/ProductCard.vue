@@ -12,7 +12,7 @@
 
     <b-card-body>
       <b-card-title class="mb-3">{{formattingPrice()}}</b-card-title>
-      <b-card-text> Stock available : {{product.Stock}} </b-card-text>
+      <b-card-text> Stock available : {{product.stock}} </b-card-text>
     </b-card-body>
 
     <b-card-body class="row justify-content-center">
