@@ -1,6 +1,6 @@
 <template>
 <div class="hero-body">
-  <div class="row is-two-fifth">
+  <div class="columns is-two-fifth">
     <product-card
       v-for="product in products"
       :key="product.id"

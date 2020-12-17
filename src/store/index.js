@@ -103,6 +103,21 @@ export default new Vuex.Store({
           context.dispatch('fetchCarts')
         })
         .catch(err => console.log(err))
+    },
+    deleteCart (context, payload) {
+      axios({
+        method: 'DELETE',
+        url: `cart/${payload}`,
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .then(_ => {
+          console.log('successfully deleted')
+          context.dispatch('fetchCarts')
+        })
+        .catch(err => console.log(err))
+      console.log(payload)
     }
   },
   modules: {

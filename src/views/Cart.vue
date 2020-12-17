@@ -1,9 +1,9 @@
 <template>
   <div class="hero-body">
     <div class="container">
-      <div class="column is-two-fifth">
+      <div class="columns is-two-fifth">
         <cart-card
-          class="mb-4"
+          class="mx-3 my-3"
           v-for="cart in carts"
           :key="cart.id"
           :cart="cart"
