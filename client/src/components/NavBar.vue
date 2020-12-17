@@ -2,8 +2,8 @@
     <div id="nav">
         <router-link to="/">Home</router-link>
         <router-link to="/chart">Chart {{ allCharts.length }}</router-link>
-        <router-link to="/login" v-if="!access_token">Login</router-link>
-        <a href="" @click="logout" v-if="access_token">Logout</a>
+        <router-link to="/login" v-if="!token">Login</router-link>
+        <a href="" @click="logout" v-if="token">Logout</a>
     </div>
 </template>
 
@@ -18,6 +18,13 @@ export default {
   computed: {
     allCharts () {
       return this.$store.state.charts
+    },
+    token () {
+      if (localStorage.access_token) {
+        return true
+      } else {
+        return false
+      }
     }
   },
   created () {

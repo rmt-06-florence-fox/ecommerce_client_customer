@@ -86,7 +86,7 @@ export default new Vuex.Store({
           console.log(data)
         })
         .catch(err => {
-          console.log(err)
+          console.log(err.response.data)
         })
     },
     minusChart (context, id) {
@@ -122,7 +122,7 @@ export default new Vuex.Store({
           this.dispatch('getAllCharts')
           console.log(data)
         })
-        .err(err => {
+        .catch(err => {
           console.log(err.response.data)
         })
     }
