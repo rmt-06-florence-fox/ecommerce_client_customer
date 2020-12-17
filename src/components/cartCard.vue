@@ -1,40 +1,42 @@
 <template>
-  <div class="pb-2">
+  <div class="column is-10 pb-2">
     <div class="card">
-      <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_ctopYC.json"  background="transparent"  speed="1"  style="width: 200px; height: 200px;"  loop autoplay v-if="isLoading === true"/>
+      <div class="is-flex is-justify-content-center" v-if="isLoading === true">
+        <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_ctopYC.json"  background="transparent"  speed="1"  style="width: 180px; height: 180px;"  loop autoplay/>
+      </div>
       <div class="card-content" v-else>
         <div class="media">
-          <div class="media-left">
-            <figure class="image is-3by2" style="width: 200px">
+          <div class="media-left pt-3">
+            <figure class="image is-3by2" style="width: 100px">
               <img :src="list.Product.image_url" alt="Placeholder image">
             </figure>
           </div>
           <div class="media-content">
-            <p class="title is-5" style="width: 300px">{{list.Product.name}}</p>
-            <p class="subtitle is-6">{{list.Product.category}}</p>
-            <p><b>Price: </b>{{priceRp}} /each</p>
-            <div class="columns pt-4 pl-3">
-              <a class="button is-small" @click.prevent="minusItem(list.id)" v-if="list.totalItem > 1">
+            <p class="title is-6" style="width: 300px">{{list.Product.name}}</p>
+            <p class="subtitle is-7">{{list.Product.category}}</p>
+            <p class="is-size-7"><b>Price: </b>{{priceRp}} /each</p>
+            <div class="columns pt-4 pl-3 is-grouped">
+              <a class="" @click.prevent="minusItem(list.id)" v-if="list.totalItem > 1">
                 <span class="icon is-small">
                   <i class="fas fa-chevron-left"></i>
                 </span>
               </a>
-              <div class="" style="width:30px; text-align: center">
+              <div class="is-size-7" style="width:30px; text-align: center">
                 {{list.totalItem}}
               </div>
-              <a class="button is-small" @click.prevent="plusItem(list.id)" v-if="list.totalItem < stock">
+              <a class="" @click.prevent="plusItem(list.id)" v-if="list.totalItem < stock">
                 <span class="icon is-small">
                   <i class="fas fa-chevron-right"></i>
                 </span>
               </a>
-            </div>
-          </div>
-          <div class="media-content">
-              <a class="button is-medium" @click.prevent="deleteItem(list.id)">
-                <span class="icon is-medium">
+              <a class="pl-4" @click.prevent="deleteItem(list.id)">
+                <span class="icon is-small">
                   <i class="fas fa-trash"></i>
                 </span>
               </a>
+            </div>
+          </div>
+            <div class="media-content">
             </div>
         </div>
       </div>

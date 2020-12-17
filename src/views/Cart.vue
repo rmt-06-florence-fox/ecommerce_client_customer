@@ -1,15 +1,14 @@
 <template>
   <div class="YourCart">
     <div class="container" style="min-height: 100vh">
-      <div style="height: 4.5rem"/>
+      <div style="height: 5rem"/>
       <div class="container is-flex is-justify-content-center is-align-items-center" style="height: 90vh" v-if="isLoading === true">
         <lottie-player src="https://assets9.lottiefiles.com/packages/lf20_1LhsaB.json"  background="transparent"  speed="1"  style="width: 400px; height: 400px;"  loop autoplay/>
       </div>
       <div v-else>
-        <h3 class="title is-3 pt-5 pl-5">Your Carts</h3>
+        <h3 class="title is-4 pt-5">Your Carts, please check before you get it!</h3>
         <div class="columns">
-          <!-- uu -->
-          <div class="column is-half">
+          <div class="column">
             <div>
               <CartCard
               v-for= "Cart in listCarts" :key= "Cart.id"
@@ -18,8 +17,11 @@
             </div>
           </div>
           <div class="column">
-            <h3 class="subtitle is-3">Your total price is</h3>
-            <h2 class="title is-2">{{priceRp}}</h2>
+            <h3 class="subtitle is-4">Your total price is</h3>
+            <h2 class="title is-4">{{priceRp}}</h2>
+          </div>
+          <div class="column is-flex is-justify-content-center">
+            <lottie-player src="https://assets8.lottiefiles.com/packages/lf20_pHl01w.json"  background="transparent"  speed="1"  style="width: 500px; height: 500px;"  loop autoplay/>
           </div>
         </div>
       </div>

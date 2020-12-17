@@ -1,32 +1,32 @@
 <template>
-  <div class="column is-3">
+  <div class="column is-2">
     <lottie-player src="https://assets1.lottiefiles.com/packages/lf20_hluo7ags.json"  background="transparent"  speed="1"  style="width: 300px; height: 300px;"  loop autoplay v-if="isLoading === true"/>
     <div class="card" v-else>
       <div class="card-image">
-        <figure class="image is-4by3">
+        <figure class="image is-3by2">
           <img :src="list.image_url" alt="Placeholder image">
         </figure>
       </div>
       <div class="card-content">
         <div class="media">
           <div class="media-content">
-            <p class="title is-5">{{list.name}}</p>
-            <p class="subtitle is-6">{{list.category}}</p>
+            <p class="title is-7">{{list.name}}</p>
+            <p class="subtitle is-7">{{list.category}}</p>
           </div>
         </div>
 
         <div class="content" style="list-style-type: none">
-          <li><b>Price: </b>{{priceRp}}</li>
-          <li><b>Stock(s): </b>{{list.stock}}</li>
+          <li class="is-size-7"><b>Price: </b>{{priceRp}}</li>
+          <li class="is-size-7"><b>Stock(s): </b>{{list.stock}}</li>
         </div>
         <div class="buttons">
-          <a @click.prevent="addWishlist(list.id)" class="button is-medium">
-            <span class="icon is-medium">
+          <a @click.prevent="addWishlist(list.id)" class="button is-small">
+            <span class="icon is-small">
               <i class="fas fa-heart"></i>
             </span>
           </a>
-          <a @click.prevent="addToCart(list.id)" class="button is-medium" v-if="list.stock > 0">
-            <span class="icon is-medium">
+          <a @click.prevent="addToCart(list.id)" class="button is-small" v-if="list.stock > 0">
+            <span class="icon is-small">
               <i class="fas fa-shopping-cart"></i>
             </span>
           </a>

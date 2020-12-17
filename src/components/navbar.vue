@@ -28,11 +28,11 @@
                   <i class="fas fa-shopping-cart"></i>
                 </span>
               </router-link>
-              <!-- <router-link class="button is-large is-light" to="/yourTransaction">
+              <router-link class="button is-large is-light" to="/yourTransaction">
                 <span class="icon is-large">
                   <i class="fas fa-cash-register"></i>
                 </span>
-              </router-link> -->
+              </router-link>
             </div>
           </div>
           <div class="navbar-item">
