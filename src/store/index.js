@@ -229,7 +229,7 @@ export default new Vuex.Store({
         })
         .catch(err => {
           context.commit('SET_errors', {
-            red: err.response.data.message,
+            red: err.response.data.message + '/ please login first',
             green: '',
             yellow: '',
             blue: ''
