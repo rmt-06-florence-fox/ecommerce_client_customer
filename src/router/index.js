@@ -23,17 +23,17 @@ const routes = [
         component: Product
       },
       {
-        path: '/customer/cart',
+        path: 'cart',
         name: 'ShoppingCart',
         component: Cart
       },
       {
-        path: '/customer/wishlist',
+        path: 'wishlist',
         name: 'Wishlist',
         component: Wishlist
       },
       {
-        path: '/customer/transactions',
+        path: 'transactions',
         name: 'Transactions',
         component: Transactions
       }
@@ -67,6 +67,16 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+router.beforeEach((to, from, next) => {
+  const isAuthenticated = localStorage.getItem('access_token')
+  if (to.name !== 'Login' && to.name !== 'Product' && to.name !== 'Register') {
+    if (!isAuthenticated) {
+      next({ name: 'Login' })
+    } else {
+      next()
+    }
+  } else next()
 })
 
 export default router

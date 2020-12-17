@@ -12,7 +12,10 @@
         <strong>Failed!</strong> {{addToCartFailed}}
       </div>
     </div>
-    <div class="row">
+    <div class="row" v-if="!wishlists.length">
+      <img src="https://2.bp.blogspot.com/-QfSOClZc8r0/XNr6srFlzjI/AAAAAAAAGlA/lzs505eFFiEdyAytzKkMabdUTihKywcqwCLcBGAs/s1600/EXAM360%2B-%2BNo%2BWishlist.png" width="800">
+    </div>
+    <div class="row" v-else>
       <WishlistCard
       v-for="(wishlist, i) in wishlists"
       :key="i"

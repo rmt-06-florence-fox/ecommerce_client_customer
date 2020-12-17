@@ -1,7 +1,10 @@
 <template>
   <div class="container mt-3">
     <div class="row">
-      <div class="col-7">
+      <div class="col-7" v-if="!carts.length">
+        <img src="https://freepikpsd.com/wp-content/uploads/2019/10/empty-cart-png-Transparent-Images.png" width="800">
+      </div>
+      <div class="col-7" v-if="carts.length">
       <CartCard
       v-for="(cart, i) in carts"
       :key="i"

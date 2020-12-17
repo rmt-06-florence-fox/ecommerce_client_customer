@@ -18,12 +18,20 @@ export default {
   props: ['product'],
   methods: {
     addToCart () {
-      this.$store.commit('set_addToCartSuccess', null)
-      this.$store.commit('set_addToCartFailed', null)
-      this.$store.dispatch('addToCart', this.product)
+      if (localStorage.getItem('access_token')) {
+        this.$store.commit('set_addToCartSuccess', null)
+        this.$store.commit('set_addToCartFailed', null)
+        this.$store.dispatch('addToCart', this.product)
+      } else {
+        this.$router.push('/login')
+      }
     },
     addToWishlist () {
-      this.$store.dispatch('addToWishlist', this.product)
+      if (localStorage.getItem('access_token')) {
+        this.$store.dispatch('addToWishlist', this.product)
+      } else {
+        this.$router.push('/login')
+      }
     }
   },
   computed: {

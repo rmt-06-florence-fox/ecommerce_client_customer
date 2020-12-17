@@ -60,6 +60,9 @@ export default new Vuex.Store({
         })
         .catch(err => {
           context.commit('set_errors', err.response.data)
+          setTimeout(() => {
+            context.commit('set_errors', null)
+          }, 1500)
         })
     },
     register (context, payload) {
@@ -73,6 +76,9 @@ export default new Vuex.Store({
         })
         .catch(err => {
           context.commit('set_errors', err.response.data)
+          setTimeout(() => {
+            context.commit('set_errors', null)
+          }, 1500)
         })
     },
     logout (context) {
@@ -101,9 +107,15 @@ export default new Vuex.Store({
       })
         .then(response => {
           context.commit('set_addToCartSuccess', 'Success add item to your cart!')
+          setTimeout(() => {
+            context.commit('set_addToCartSuccess', null)
+          }, 1500)
         })
         .catch(err => {
           context.commit('set_addToCartFailed', err.response.data.message)
+          setTimeout(() => {
+            context.commit('set_addToCartFailed', null)
+          }, 1500)
         })
     },
     getCart (context) {
@@ -206,12 +218,18 @@ export default new Vuex.Store({
       })
         .then(response => {
           context.commit('set_addToWishlistSuccess', 'Success add item to your wishlist!')
+          setTimeout(() => {
+            context.commit('set_addToWishlistSuccess', null)
+          }, 1500)
         })
         .catch(err => {
           context.commit('set_addToWishlistFailed', err.response.data.message)
+          setTimeout(() => {
+            context.commit('set_addToWishlistFailed', null)
+          }, 1500)
         })
     },
-    getWishlist (context, payload) {
+    getWishlist (context) {
       axios({
         url: '/customer/wishlist',
         method: 'get',
