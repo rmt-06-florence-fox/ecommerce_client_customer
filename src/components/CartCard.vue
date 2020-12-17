@@ -33,10 +33,18 @@ export default {
 
     },
     addQuantity () {
-      this.quantity++
+      const payload = {
+        ProductId: this.Cart.Product.id,
+        quantity: this.quantity++
+      }
+      this.$store.dispatch('updateCart', payload)
     },
     reduceQuantity () {
-      this.quantity = this.quantity--
+      const payload = {
+        ProductId: this.Cart.Product.id,
+        quantity: this.quantity--
+      }
+      this.$store.dispatch('updateCart', payload)
     }
   },
   props: ['Cart']
