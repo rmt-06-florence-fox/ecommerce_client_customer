@@ -90,17 +90,13 @@ export default {
         this.productsDetail.push(`${el.Product.name} ${el.quantity} pcs`)
       })
 
-      const email = JSON.parse(localStorage.getItem('user')).email
-
       const payload = {
         name: this.name,
-        email,
         address: this.address,
         products: this.productsDetail.join(', '),
         total_price: this.totalPrice
       }
       this.$store.dispatch('doCheckout', payload)
-      this.productsDetail = []
     },
     formatPrice (price) {
       let result = ''

@@ -63,7 +63,7 @@
     </router-link>
 
     <router-link to='/login'
-      v-if="!token"
+      v-if="!isLogin"
     >
       <v-btn
         class="ma-2 white--text"
@@ -82,7 +82,7 @@
       <v-btn
         class="ma-2 white--text"
         color="secondary"
-        v-if="token"
+        v-if="isLogin"
         @click="logout"
       >
         Logout
@@ -95,7 +95,7 @@
       </v-btn>
 
     <router-link to='/register'
-      v-if="!token"
+      v-if="!isLogin"
     >
       <v-btn
         class="ma-2 white--text"
@@ -118,7 +118,6 @@ import { mapState } from 'vuex'
 export default {
   data () {
     return {
-      token: localStorage.getItem('access_token')
     }
   },
   methods: {
@@ -126,7 +125,7 @@ export default {
       this.$store.dispatch('logout')
     }
   },
-  computed: mapState(['carts'])
+  computed: mapState(['carts', 'isLogin'])
 }
 </script>
 

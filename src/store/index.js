@@ -15,7 +15,8 @@ export default new Vuex.Store({
     trans: null,
     totalPrice: 0,
     alert: false,
-    errMessage: ''
+    errMessage: '',
+    isLogin: false
   },
   mutations: {
     setProducts (state, payload) {
@@ -41,6 +42,9 @@ export default new Vuex.Store({
     },
     errMessage (state, message) {
       state.errMessage = message
+    },
+    setLogin (state, data) {
+      state.isLogin = data
     }
   },
   actions: {
@@ -75,8 +79,8 @@ export default new Vuex.Store({
         data: payload
       })
         .then(({ data }) => {
-          localStorage.setItem('user', JSON.stringify(data.user))
           localStorage.setItem('access_token', data.access_token)
+          context.commit('setLogin', true)
           router.push({ name: 'Home' })
         })
         .catch((err) => {
@@ -94,8 +98,9 @@ export default new Vuex.Store({
           context.dispatch('changeAlert')
         })
     },
-    logout () {
+    logout (context) {
       localStorage.clear()
+      context.commit('setLogin', false)
       router.go()
     },
     getProducts (context) {
@@ -146,11 +151,9 @@ export default new Vuex.Store({
         })
     },
     getCart (context) {
-      const id = JSON.parse(localStorage.getItem('user')).id
-
       axios({
         method: 'GET',
-        url: `/carts/${id}`,
+        url: '/carts',
         headers: {
           access_token: localStorage.getItem('access_token')
         }
@@ -210,11 +213,9 @@ export default new Vuex.Store({
     },
     // Transaction
     doCheckout (context, payload) {
-      const id = JSON.parse(localStorage.getItem('user')).id
-
       axios({
         method: 'POST',
-        url: `/transaction/${id}`,
+        url: '/transaction',
         data: payload,
         headers: {
           access_token: localStorage.getItem('access_token')
@@ -229,11 +230,9 @@ export default new Vuex.Store({
         })
     },
     getUserTransaction (context) {
-      const id = JSON.parse(localStorage.getItem('user')).id
-
       axios({
         method: 'GET',
-        url: `/transactions/${id}`,
+        url: '/transactions',
         headers: {
           access_token: localStorage.getItem('access_token')
         }

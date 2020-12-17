@@ -39,7 +39,7 @@
               </tr>
               <tr>
                 <td><p class="subtitle-1 align-center">Date Purchased:</p></td>
-                <td class="text-right"><p class="subtitle-1">{{ trans.createdAt }}</p></td>
+                <td class="text-right"><p class="subtitle-1">{{ moment(trans.createdAt).format('MMMM Do YYYY') }}</p></td>
               </tr>
             </tbody>
           </v-simple-table>

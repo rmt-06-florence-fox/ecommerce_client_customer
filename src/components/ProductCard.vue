@@ -39,7 +39,6 @@ export default {
   methods: {
     addToCart (id) {
       const payload = {
-        UserId: JSON.parse(localStorage.getItem('user')).id,
         ProductId: id
       }
 
