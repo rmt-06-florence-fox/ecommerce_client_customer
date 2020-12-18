@@ -2,12 +2,22 @@
   <div class="container-fluid">
   <div class="row">
     <div class="col-3" v-for="product in products" :key="product.id">
-      <div class="card bg-dark text-white mt-4">
+      <div class="card bg-dark text-white mt-4" style="box-shadow: 0px 0px 15px;">
         <img :src="product.image_url" class="card-img" style="height: 260px">
-        <div class="card-img-overlay">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-          <p class="card-text">Last updated 3 mins ago</p>
+        <div class="card-img-overlay" style="text-align: left; margin-top: 150px;">
+          <h6 class="card-title" style="margin-bottom: 1px;">{{ product.name }}</h6>
+          <p class="card-text" style="margin-bottom: 1px;">{{ product.price | currency }}</p>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control col-2" placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="button-addon2" :value="product.stock" disabled>
+            <button class="btn btn-outline-warning btn-sm" type="button" id="button-addon2"
+            @click="addToCart(
+              {
+                ProductId: product.id,
+                price: product.price
+              }
+            )"
+            >add to <i class="fas fa-shopping-cart fa-lg" id="cart"></i></button>
+          </div>
         </div>
       </div>
     </div>
@@ -22,6 +32,21 @@ export default {
   data () {
     return {
     }
+  },
+  methods: {
+    addToCart (payload) {
+      const token = localStorage.getItem('access_token')
+      if (!token) {
+        this.$snotify.info({
+          Please: 'Login or Register First'
+        })
+      } else {
+        this.$store.dispatch('addToCart', payload)
+        this.$snotify.success({
+          Success: 'add to cart'
+        })
+      }
+    }
   }
 }
 </script>
@@ -29,32 +54,6 @@ export default {
 <style>
 * { box-sizing: border-box; }
 
-body { font-family: sans-serif; }
+body { font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif }
 
-.carousel {
-  background: #111111;
-}
-
-.carousel-cell {
-  width: 40%;
-  height: 500px;
-  margin-right: 10px;
-  background: #333;
-}
-
-.carousel-cell-image {
-  display: block;
-  max-height: 100%;
-  margin: 0 auto;
-  max-width: 100%;
-  opacity: 0;
-  -webkit-transition: opacity 0.4s;
-          transition: opacity 0.4s;
-}
-
-/* fade in lazy loaded image */
-.carousel-cell-image.flickity-lazyloaded,
-.carousel-cell-image.flickity-lazyerror {
-  opacity: 1;
-}
 </style>

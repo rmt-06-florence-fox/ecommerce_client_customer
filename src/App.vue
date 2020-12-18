@@ -1,6 +1,7 @@
 <template>
   <div id="app" style="background-color: #85380B;">
       <Navbar />
+      <vue-snotify></vue-snotify>
     <router-view/>
   </div>
 </template>
