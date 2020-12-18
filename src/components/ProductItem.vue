@@ -33,9 +33,9 @@ export default {
           ProductId: this.product.id,
           quantity: 1
         }
-        console.log(payload)
         this.$store.dispatch('addCart', payload)
           .then(() => {
+            console.log('disini');
             this.$swal(
               'Success',
               'Success Add to cart',
