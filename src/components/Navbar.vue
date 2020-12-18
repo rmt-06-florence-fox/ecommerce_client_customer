@@ -15,11 +15,13 @@
         </div>
         <div class="hidden md:block">
           <div class="ml-4 flex items-center md:ml-6">
+            <router-link to="/wishlist">
             <button class="p-1 space-x-1 text-white flex flex-row hover:text-gray-400">
               <span class="">Wishlist</span>
               <!-- Heroicon name: bell -->
               <i class="lni lni-heart h-6 w-6 flex items-center"></i>
             </button>
+            </router-link>
             <router-link to="/cart">
             <button class="p-1 space-x-1 text-white flex flex-row hover:text-gray-400">
               <span class="">Cart</span>

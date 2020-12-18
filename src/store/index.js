@@ -14,7 +14,8 @@ export default new Vuex.Store({
     carts: [],
     totalPrice: [],
     addCartErr: null,
-    postCheckout: false
+    postCheckout: false,
+    wishlists: null
   },
   mutations: {
     setUser (state, value) {
@@ -63,6 +64,9 @@ export default new Vuex.Store({
     },
     setpostCheckout (state, value) {
       state.postCheckout = value
+    },
+    setWishlists (state, value) {
+      state.wishlists = value
     }
   },
   actions: {
@@ -171,6 +175,31 @@ export default new Vuex.Store({
           }
           console.log(error.config)
         })
+    },
+    loadWishLists (context) {
+      axios({
+        method: 'get',
+        url: '/product/wishlist',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .then(res => {
+          context.commit('setWishlists', res.data)
+        })
+    },
+    deleteWish (context, id) {
+      axios({
+        method: 'delete',
+        url: `/product/wishlist/${id}`,
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .then(res => {
+          console.log(res.data)
+          context.dispatch('loadWishLists')
+        })
     }
   },
   modules: {
@@ -208,6 +237,9 @@ export default new Vuex.Store({
     },
     getSmallBanners: state => {
       return state.banners.filter(el => el.size === 'sm')
+    },
+    getWishedProduct: state => id => {
+      return state.products.find(el => el.id === id)
     }
   }
 })

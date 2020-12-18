@@ -13,7 +13,7 @@
     <div class="fixed inset-0 transition-opacity" aria-hidden="true">
       <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
     </div>
-
+    <ErrorCard v-if="addCartErr" />
     <!-- This element is to trick the browser into centering the modal contents. -->
     <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
     <!--
@@ -94,11 +94,15 @@
 import { mapState } from 'vuex'
 import axios from '../config/axios'
 import { directive as onClickaway } from 'vue-clickaway'
+import ErrorCard from '../components/ErrorCard'
 
 export default {
   name: 'Login',
   directives: {
     onClickaway: onClickaway
+  },
+  components: {
+    ErrorCard
   },
   data () {
     return {
@@ -129,7 +133,27 @@ export default {
         .then(res => {
           localStorage.setItem('access_token', res.data.access_token)
           this.$store.dispatch('loadUser')
+          this.$store.dispatch('loadWishLists')
           this.$router.push('/')
+        })
+        .catch(error => {
+          this.$store.commit('setAddCartErr', error.response.data.error)
+          setTimeout(() => { this.$store.commit('setAddCartErr', null) }, 3000)
+          if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            console.log(error.response.data)
+            console.log(error.response.status)
+            console.log(error.response.headers)
+          } else if (error.request) {
+            // The request was made but no response was received
+            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+            // http.ClientRequest in node.js
+            console.log(error.request)
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', error.message)
+          }
         })
     },
     away () {
@@ -152,11 +176,31 @@ export default {
           this.$store.dispatch('loadUser')
           this.$router.push('/')
         })
+        .catch(error => {
+          this.$store.commit('setAddCartErr', error.response.data.errors[0])
+          setTimeout(() => { this.$store.commit('setAddCartErr', null) }, 3000)
+          if (error.response) {
+            // The request was made and the server responded with a status code
+            // that falls out of the range of 2xx
+            console.log(error.response.data)
+            console.log(error.response.status)
+            console.log(error.response.headers)
+          } else if (error.request) {
+            // The request was made but no response was received
+            // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+            // http.ClientRequest in node.js
+            console.log(error.request)
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            console.log('Error', error.message)
+          }
+        })
     }
   },
   computed: {
     ...mapState({
-      title: 'title'
+      title: 'title',
+      addCartErr: 'addCartErr'
     }),
     buttonTitle () {
       return this.showReg === false ? 'register' : 'login'
