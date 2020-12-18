@@ -103,7 +103,10 @@ export default new Vuex.Store({
           access_token: localStorage.getItem('access_token')
         }
       })
-        .then(() => context.dispatch('fetchCart'))
+        .then(() => {
+          context.dispatch('fetchCart')
+          context.dispatch('getPrice')
+        })
         .catch(err => console.log(err))
     },
     getPrice (context, payload) {

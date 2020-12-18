@@ -1,18 +1,16 @@
 <template>
   <div>
     <div class="container mt-5">
-      <div class="row">
-        <div class="col-4 shadow mt-5" style="height: 140px">
-          <button type="submit" class="btn btn-primary mt-4" @click.prevent="checkout">Checkout</button>
-          <div class="card-body">
-            <h5 class="card-title">Price: {{totalPrice}}</h5>
-          </div>
+      <div class="col-3 shadow mt-5" style="height: 140px">
+        <button type="submit" class="btn btn-primary mt-4" @click.prevent="checkout">Checkout</button>
+        <div class="card-body">
+          <h5 class="card-title">Price: {{totalPrice}}</h5>
         </div>
-        <div>
-          <h1 class="text-center">Your Cart</h1>
-          <div class="row mx-auto d-flex justify-content-center" style="width: 100%">
-            <CartCard v-for="cart in yourCart" :cart="cart" :key="cart.id"/>
-          </div>
+      </div><br><br>
+      <div class="mt-3">
+        <h1 class="text-center">Your Cart</h1>
+        <div class="row mx-auto d-flex justify-content-center" style="width: 100%">
+          <CartCard v-for="cart in yourCart" :cart="cart" :key="cart.id"/>
         </div>
       </div>
     </div>
