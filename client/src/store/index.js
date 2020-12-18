@@ -8,7 +8,7 @@ Vue.use(Vuex)
 
 const Toast = Swal.mixin({
   toast: true,
-  position: 'top-end',
+  position: 'top',
   showConfirmButton: false,
   timer: 1000,
   timerProgressBar: true,
@@ -42,7 +42,6 @@ export default new Vuex.Store({
         method: 'GET'
       })
         .then(res => {
-          console.log(res.data)
           context.commit('SET_DATA_PRODUCTS', res.data.data)
         })
         .catch(err => {
@@ -63,7 +62,6 @@ export default new Vuex.Store({
             icon: 'success',
             title: 'Your account has been Registered'
           })
-          console.log(res.data)
         })
         .catch(err => {
           console.log(err)
@@ -78,7 +76,6 @@ export default new Vuex.Store({
         }
       })
         .then(res => {
-          console.log(res.data)
           context.commit('SET_DATA_CARTS', res.data)
         })
         .catch(err => {
@@ -87,7 +84,7 @@ export default new Vuex.Store({
     },
     addToCart (context, payload) {
       axios({
-        url: 'http://localhost:3000/carts/add',
+        url: 'http://localhost:3000/carts',
         method: 'POST',
         data: {
           ProductId: payload
@@ -97,7 +94,6 @@ export default new Vuex.Store({
         }
       })
         .then(res => {
-          console.log(res.data)
           Swal.fire({
             icon: 'success',
             title: 'Success',
@@ -106,16 +102,24 @@ export default new Vuex.Store({
         })
         .catch(err => {
           console.log(err)
-          Swal.fire({
-            icon: 'error',
-            title: 'Oops...',
-            text: 'Out of stock'
-          })
+          if (localStorage.getItem('access_token')) {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'Out of stock'
+            })
+          } else {
+            Swal.fire({
+              icon: 'error',
+              title: 'Oops...',
+              text: 'You need to login first'
+            })
+          }
         })
     },
     updateCart (context, payload) {
       axios({
-        url: 'http://localhost:3000/carts/update',
+        url: 'http://localhost:3000/carts',
         method: 'PATCH',
         data: {
           cartId: payload.cartId,
@@ -126,7 +130,6 @@ export default new Vuex.Store({
         }
       })
         .then(res => {
-          console.log(res.data)
           if (payload.addOrRemove === 'add') {
             Toast.fire({
               icon: 'success',
@@ -146,14 +149,13 @@ export default new Vuex.Store({
     },
     removeCart (context, payload) {
       axios({
-        url: `http://localhost:3000/carts/delete/${payload}`,
+        url: `http://localhost:3000/carts/${payload}`,
         method: 'DELETE',
         headers: {
           access_token: localStorage.getItem('access_token')
         }
       })
         .then(res => {
-          console.log(res.data)
           Toast.fire({
             icon: 'success',
             title: 'Success to remove from cart'
@@ -174,7 +176,6 @@ export default new Vuex.Store({
         }
       })
         .then(res => {
-          console.log(res.data)
           Toast.fire({
             icon: 'success',
             title: 'Signed in successfully'

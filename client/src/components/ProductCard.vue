@@ -17,7 +17,6 @@ export default {
   props: ['product'],
   methods: {
     addToCart (idProduct) {
-      console.log(idProduct)
       this.$store.dispatch('addToCart', idProduct)
     }
   }

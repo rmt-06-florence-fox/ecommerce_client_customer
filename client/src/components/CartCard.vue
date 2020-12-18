@@ -30,7 +30,6 @@ export default {
       this.$store.dispatch('updateCart', payload)
     },
     removeCart (cartId) {
-      console.log(cartId)
       this.$store.dispatch('removeCart', cartId)
     }
   }
