@@ -11,7 +11,7 @@
             <h5 style="margin-top: -5px">@stock: {{cart.Product.stock}}</h5>
             <h5 style="margin-top: -5px">total: {{ cart.total | currency }}</h5>
             <div class="btn-group" role="group" aria-label="Basic example">
-              <button type="button" class="btn btn-outline-secondary" @click="updateStock({ ProductId: cart.ProductId, Price: cart.Product.price, isPlus: 'min', id: cart.id })"><i class="fas fa-minus"></i></button>
+              <button type="button" class="btn btn-outline-secondary" @click="updateStock({ ProductId: cart.ProductId, Price: cart.Product.price, isPlus: 'min', id: cart.id, qty: cart.quantity })"><i class="fas fa-minus"></i></button>
               <button type="button" class="btn btn-outline-secondary" disabled >{{ cart.quantity }}</button>
               <button type="button" class="btn btn-outline-secondary" @click="updateStock({ ProductId: cart.ProductId, Price: cart.Product.price, isPlus: 'plus', id: cart.id })" v-if="cart.Product.stock > 0"><i class="fas fa-plus"></i></button>
               <button type="button" class="btn btn-outline-secondary" v-if="cart.Product.stock < 1" disabled><i class="fas fa-plus"></i></button>
@@ -37,7 +37,13 @@ export default {
       this.$store.dispatch('deleteCartById', id)
     },
     updateStock (payload) {
-      this.$store.dispatch('updateStock', payload)
+      if (payload.qty === 1 && payload.isPlus === 'min') {
+        this.$snotify.info({
+          sure: '? please press button to delete'
+        })
+      } else {
+        this.$store.dispatch('updateStock', payload)
+      }
     }
   }
 }
