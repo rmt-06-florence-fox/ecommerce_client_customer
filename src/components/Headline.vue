@@ -9,7 +9,7 @@
 
 <script>
 export default {
-  name: "HelloWorld",
+  name: "Headline",
   props: {
     msg: String
   }

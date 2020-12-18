@@ -1,7 +1,7 @@
 <template>
   <!-- Material form login -->
   <div class="container col-sm-3 text-center">
-    <img class="mb-3 text-center" id="logo" src="../assets/logo.png" />
+    <img class="mb-3 text-center custom-logo" src="../assets/logo.png" />
     <hr />
     <form @submit.prevent="login">
       <p class="h4 text-center mb-4">Please Log in</p>
@@ -36,10 +36,10 @@ export default {
     return {
       form: {
         email: "",
-        password: ""
+        password: "",
       },
 
-      show: true
+      show: true,
     };
   },
   methods: {
@@ -56,17 +56,17 @@ export default {
       this.$nextTick(() => {
         this.show = true;
       });
-    }
+    },
   },
   components: {
     mdbInput,
-    mdbBtn
-  }
+    mdbBtn,
+  },
 };
 </script>
 
 <style>
-#logo {
+.custom-logo {
   height: 100px;
   width: 100px;
 }

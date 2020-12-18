@@ -15,10 +15,3 @@ export default {
   }
 };
 </script>
-
-<style>
-.login {
-  align-items: center;
-  height: 100vh;
-}
-</style>

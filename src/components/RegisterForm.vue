@@ -1,7 +1,7 @@
 <template>
   <!-- Material form Register -->
   <div class="container col-sm-3 text-center">
-    <img class="mb-3 text-center" id="logo" src="../assets/logo.png" />
+    <img class="mb-3 text-center custom-logo" src="../assets/logo.png" />
     <hr />
     <form @submit.prevent="register">
       <p class="h4 text-center mb-4">Register</p>
@@ -43,10 +43,10 @@ export default {
       form: {
         name: "",
         email: "",
-        password: ""
+        password: "",
       },
 
-      show: true
+      show: true,
     };
   },
   methods: {
@@ -64,17 +64,17 @@ export default {
       this.$nextTick(() => {
         this.show = true;
       });
-    }
+    },
   },
   components: {
     mdbInput,
-    mdbBtn
-  }
+    mdbBtn,
+  },
 };
 </script>
 
 <style>
-#logo {
+.custom-logo {
   height: 100px;
   width: 100px;
 }

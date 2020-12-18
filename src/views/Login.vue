@@ -19,6 +19,7 @@ export default {
 <style>
 .login {
   align-items: center;
-  height: 100vh;
+  height: 100%;
+  margin-top: 50px;
 }
 </style>

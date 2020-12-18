@@ -10,33 +10,53 @@ export default new Vuex.Store({
     productList: [],
     message: "",
     isLogin: false,
+    showCart: false,
     showWishlist: false,
     showProductDisplay: true
   },
   mutations: {
     SET_DATA(state, products) {
-      // state.productList = payload;
+
       state.productList = [];
       products.forEach(product => {
         product.isAddedToCart = false;
         product.onWishList = false;
+        product.onCart= 0;
         state.productList.push(product);
       });
     },
     SET_CART(state, id) {
+      if (state.isLogin == false) {
+        router.push('/login')
+      } else {
+        state.productList.forEach(product => {
+          if (id === product.id) {
+            product.isAddedToCart = !product.isAddedToCart;
+          } else if (id === "all") {
+            product.isAddedToCart = false;
+            product.onCart=0;
+          }
+        })
+      }
+    },
+    COUNT_CART(state, payload){
       state.productList.forEach(product => {
-        if (id === product.id) {
-          product.isAddedToCart = !product.isAddedToCart;
-        }
-      });
+        if (payload === product.id) {
+          product.onCart = payload.count
+        } 
+      })
     },
 
     SET_WISHLIST(state, id) {
-      state.productList.forEach(product => {
-        if (id === product.id) {
-          product.onWishList = !product.onWishList;
-        }
-      });
+      if (state.isLogin == false) {
+        router.push('/login')
+      } else {
+        state.productList.forEach(product => {
+          if (id === product.id) {
+            product.onWishList = !product.onWishList;
+          }
+        });
+      }
     },
 
     SET_ERR_MESSAGE(state, payload) {
@@ -49,10 +69,16 @@ export default new Vuex.Store({
     SET_DISPLAY(state, payload) {
       if (payload == "WishList") {
         state.showWishlist = true;
+        state.showCart = false;
+        state.showProductDisplay = false;
+      } else if (payload == "Cart") {
+        state.showCart = true;
+        state.showWishlist = false;
         state.showProductDisplay = false;
       } else {
-        state.showWishlist = false;
         state.showProductDisplay = true;
+        state.showWishlist = false;
+        state.showCart = false;
       }
     }
   },
@@ -82,7 +108,7 @@ export default new Vuex.Store({
           password: payload.password
         })
         .then(({ data }) => {
-          console.log(data);
+          console.log(data.message)
           router.push("/login");
         })
         .catch(err => {
@@ -124,6 +150,12 @@ export default new Vuex.Store({
     logout({ commit }) {
       localStorage.clear();
       commit("SET_LOGIN", false);
+    },
+    removeCart({ commit }) {
+      commit("SET_CART", "all");
+    },
+    countCartItem({commit}, data){
+      commit('COUNT_CART', data)
     }
   },
   getters: {
@@ -131,6 +163,14 @@ export default new Vuex.Store({
       return state.productList.filter(product => {
         return product.onWishList;
       });
+    },
+    productsAddedToCart: state => {
+      return state.productList.filter(product => {
+        return product.isAddedToCart;
+      });
+    },
+    countItemOnCart: (state) => (id) => {
+      return state.productList.find(product => product.id === id)
     }
   },
   modules: {}

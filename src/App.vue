@@ -13,23 +13,21 @@ import Header from "./components/Header";
 export default {
   name: "App",
   components: {
-    Header
+    Header,
   },
-  data(){
-    return{
-      user:''
-    }
+  data() {
+    return{}
   },
 
   created() {
     if (!localStorage.access_token) {
-      this.$router.push('/login')
-      this.$store.commit("SET_LOGIN", false)
+      // this.$router.push('/login')
+      this.$store.commit("SET_LOGIN", false);
     } else {
-      this.$store.commit("SET_LOGIN", true)
-      // this.$router.push('/')
+      this.$store.commit("SET_LOGIN", true);
+      // this.$router.push("/");
     }
-  }
+  },
 };
 </script>
 

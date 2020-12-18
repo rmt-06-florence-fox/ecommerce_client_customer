@@ -9,10 +9,9 @@
           <h6>Category</h6>
         </a>
 
-        <mdb-card-title class="title">
-          <a href=""
-            ><h5>{{ product.name }}</h5></a
-          >
+        <mdb-card-title class="title cyan-text">
+          
+            <h5>{{ product.name }}</h5>
         </mdb-card-title>
 
         <mdb-card-footer color="white" textColor="black" class="px-1">
