@@ -10,6 +10,7 @@ export default new Vuex.Store({
     products: [],
     carts: [],
     statusLogin: false,
+    totalPrice: 0,
     access_token: localStorage.getItem('access_token')
   },
   mutations: {
@@ -21,6 +22,14 @@ export default new Vuex.Store({
     },
     setCarts (state, payload) {
       state.carts = payload
+    },
+    setTotal (state, payload) {
+      let totalPrice = 0
+      state.carts.forEach(el => {
+        totalPrice += el.total
+      })
+      console.log(totalPrice)
+      state.totalPrice = totalPrice
     }
   },
   actions: {
@@ -74,6 +83,7 @@ export default new Vuex.Store({
       })
         .then(({ data }) => {
           context.commit('setCarts', data)
+          context.commit('setTotal')
         })
         .catch(err => {
           console.log(err)
@@ -90,7 +100,6 @@ export default new Vuex.Store({
       })
         .then(({ data }) => {
           context.dispatch('fetchProduct')
-          context.dispatch('fetchCart')
         })
         .catch(err => {
           console.log(err)
@@ -103,7 +112,7 @@ export default new Vuex.Store({
         url: `/carts/${payload.id}`,
         data: {
           ProductId: payload.ProductId,
-          total: payload.total,
+          price: payload.total,
           status: payload.status
         },
         headers: {

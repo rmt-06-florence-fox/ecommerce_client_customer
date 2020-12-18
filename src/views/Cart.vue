@@ -18,8 +18,8 @@
             <h3>Total Price</h3>
           </div>
           <div class="card-body">
-            <h5 class="card-title">Info card title</h5>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <h5 class="card-title">{{ total }}</h5>
+            <p class="card-text"></p>
           </div>
         </div>
       </div>
@@ -43,6 +43,9 @@ export default {
   computed: {
     carts () {
       return this.$store.state.carts
+    },
+    total () {
+      return this.$store.state.totalPrice
     }
   },
   created () {
