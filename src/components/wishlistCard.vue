@@ -49,27 +49,57 @@ export default {
       this.isLoading = true
       this.$store.dispatch('addCart', id)
         .then(res => {
-          console.log(res)
-          this.$router.push('/yourCart')
+          this.$swal.fire({
+            title: 'Item added to cart!',
+            text: 'You can add more or just check you cart',
+            icon: 'success'
+          })
         })
         .catch(err => {
-          console.log(err.response)
+          this.$swal.fire({
+            icon: 'error',
+            title: `${err.response.status} ${err.response.statusText}`,
+            text: `${err.response.data.message}`,
+            timer: 5000
+          })
         })
         .finally(() => {
           this.isLoading = false
         })
     },
     deleteWishlist (id) {
-      this.isLoading = true
-      this.$store.dispatch('deleteWishlist', id)
+      this.$swal.fire({
+        title: 'Are you sure to remove?',
+        text: "Maybe it's not your wish right?",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+      })
+        .then((result) => {
+          if (result.isConfirmed) {
+            this.isLoading = true
+            return this.$store.dispatch('deleteWishlist', id)
+          }
+        })
         .then(res => {
           return this.$store.dispatch('fetchWishlists')
         })
         .then(res => {
+          this.$swal.fire({
+            title: 'Deleted',
+            text: "It's already deleted, let's find another wish!",
+            icon: 'success'
+          })
           this.$store.commit('FETCH_WISHLISTS', res.data)
         })
         .catch(err => {
-          console.log(err)
+          this.$swal.fire({
+            icon: 'error',
+            title: `${err.response.status} ${err.response.statusText}`,
+            text: `${err.response.data.message}`,
+            timer: 5000
+          })
         })
         .finally(() => {
           this.isLoading = false

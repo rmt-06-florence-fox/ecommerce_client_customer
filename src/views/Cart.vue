@@ -52,17 +52,39 @@ export default {
   },
   methods: {
     checkout (totalCheckout) {
-      this.isLoading = true
-      this.$store.dispatch('checkout', totalCheckout)
+      this.$swal.fire({
+        title: 'Do you wanna to checkout?',
+        text: 'Please check again before you buy',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+      })
+        .then((result) => {
+          if (result.isConfirmed) {
+            this.isLoading = true
+            return this.$store.dispatch('checkout', totalCheckout)
+          }
+        })
         .then(res => {
           return this.$store.dispatch('fetchCart')
         })
         .then(res => {
           this.$store.commit('FETCH_CARTS', res.data[0])
           this.$store.commit('FETCH_TOTAL_CHECKOUT', res.data[1])
+          this.$swal.fire({
+            title: 'Success!',
+            text: 'Thank you for buy product, now you can check your checkout on your transaction',
+            icon: 'success'
+          })
         })
         .catch(err => {
-          console.log(err)
+          this.$swal.fire({
+            icon: 'error',
+            title: `${err.response.status} ${err.response.statusText}`,
+            text: `${err.response.data.message}`,
+            timer: 5000
+          })
         })
         .finally(() => {
           this.isLoading = false
@@ -80,7 +102,12 @@ export default {
         this.$store.commit('FETCH_TOTAL_CHECKOUT', res.data[1])
       })
       .catch(err => {
-        console.log(err)
+        this.$swal.fire({
+          icon: 'error',
+          title: `${err.response.status} ${err.response.statusText}`,
+          text: `${err.response.data.message}`,
+          timer: 5000
+        })
       })
       .finally(() => {
         this.isLoading = false

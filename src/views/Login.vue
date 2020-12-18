@@ -65,11 +65,18 @@ export default {
         .then(res => {
           // console.log(res.data)
           localStorage.setItem('access_token', res.data.access_token)
+          localStorage.setItem('username', res.data.name)
           this.$store.commit('CHANGE_IS_LOGIN', true)
           return this.$store.dispatch('fetchProduct')
         })
         .then(res => {
           this.$store.commit('FETCH_PRODUCTS', res.data)
+          this.$swal.fire({
+            icon: 'success',
+            title: `Welcome, ${localStorage.username}`,
+            text: 'Happy Shopping!',
+            timer: 5000
+          })
           this.$router.push('/')
           this.isError = false
         })

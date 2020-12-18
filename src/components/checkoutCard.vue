@@ -6,7 +6,7 @@
       </div>
       <div class="card-content" v-else>
         <div class="media">
-          <div class="media-left pt-3">
+          <div class="media-left pt-5">
             <figure class="image is-3by2" style="width: 100px">
               <img :src="list.Product.image_url" alt="Placeholder image">
             </figure>
@@ -17,6 +17,7 @@
             <ul>
               <li class="is-size-7"><b>Total Price: </b>{{priceRp}}</li>
               <li class="is-size-7"><b>Total item(s): </b>{{list.totalItem}}</li>
+              <li class="is-size-7"><b>Checkout Date: </b>{{list.createdAt.split('T')[0]}}</li>
             </ul>
           </div>
             <div class="media-content">

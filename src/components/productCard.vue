@@ -30,7 +30,7 @@
               <i class="fas fa-shopping-cart"></i>
             </span>
           </a>
-          <p v-if="list.stock < 1">We're sorry, we out of stock.</p>
+          <p v-if="list.stock < 1" class="is-size-7" style="width: 110px">We're sorry, we out of stock.</p>
         </div>
       </div>
     </div>
@@ -51,10 +51,22 @@ export default {
       this.isLoading = true
       this.$store.dispatch('addCart', id)
         .then(res => {
-          this.$router.push('/yourCart')
+          this.$swal.fire({
+            title: 'Item added to cart!',
+            text: 'You can add more or just check you cart',
+            icon: 'success'
+          })
         })
         .catch(err => {
-          console.log(err.response)
+          this.$swal.fire({
+            icon: 'error',
+            title: `${err.response.status} ${err.response.statusText}`,
+            text: `${err.response.data.message}`,
+            timer: 5000
+          })
+          if (!localStorage.access_token) {
+            this.$router.push('/login')
+          }
         })
         .finally(() => {
           this.isLoading = false
@@ -68,10 +80,22 @@ export default {
         })
         .then(res => {
           this.$store.commit('FETCH_WISHLISTS', res.data)
-          this.$router.push('/yourWishlist')
+          this.$swal.fire({
+            title: 'Wishlist added!',
+            text: 'I hope you can buy that one day',
+            icon: 'success'
+          })
         })
         .catch(err => {
-          console.log(err.response)
+          this.$swal.fire({
+            icon: 'error',
+            title: `${err.response.status} ${err.response.statusText}`,
+            text: `${err.response.data.message}`,
+            timer: 5000
+          })
+          if (!localStorage.access_token) {
+            this.$router.push('/login')
+          }
         })
         .finally(() => {
           this.isLoading = false

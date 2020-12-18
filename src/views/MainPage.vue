@@ -43,7 +43,12 @@ export default {
         this.$store.commit('FETCH_PRODUCTS', res.data)
       })
       .catch(err => {
-        console.log(err)
+        this.$swal.fire({
+          icon: 'error',
+          title: `${err.response.status} ${err.response.statusText}`,
+          text: `${err.response.data.message}`,
+          timer: 5000
+        })
       })
       .finally(() => {
         this.isLoading = false

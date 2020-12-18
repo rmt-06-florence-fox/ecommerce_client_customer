@@ -69,7 +69,12 @@ export default {
           this.$store.commit('FETCH_TOTAL_CHECKOUT', res.data[1])
         })
         .catch(err => {
-          console.log(err)
+          this.$swal.fire({
+            icon: 'error',
+            title: `${err.response.status} ${err.response.statusText}`,
+            text: `${err.response.data.message}`,
+            timer: 5000
+          })
         })
         .finally(() => {
           this.isLoading = false
@@ -86,24 +91,51 @@ export default {
           this.$store.commit('FETCH_TOTAL_CHECKOUT', res.data[1])
         })
         .catch(err => {
-          console.log(err)
+          this.$swal.fire({
+            icon: 'error',
+            title: `${err.response.status} ${err.response.statusText}`,
+            text: `${err.response.data.message}`,
+            timer: 5000
+          })
         })
         .finally(() => {
           this.isLoading = false
         })
     },
     deleteItem (id) {
-      this.isLoading = true
-      this.$store.dispatch('deleteCart', id)
+      this.$swal.fire({
+        title: 'Are you sure to remove?',
+        text: "Cause I think this's good on you",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+      })
+        .then((result) => {
+          if (result.isConfirmed) {
+            this.isLoading = true
+            return this.$store.dispatch('deleteCart', id)
+          }
+        })
         .then(res => {
           return this.$store.dispatch('fetchCart')
         })
         .then(res => {
+          this.$swal.fire({
+            title: 'Deleted',
+            text: "It's already deleted, now you can find another",
+            icon: 'success'
+          })
           this.$store.commit('FETCH_CARTS', res.data[0])
           this.$store.commit('FETCH_TOTAL_CHECKOUT', res.data[1])
         })
         .catch(err => {
-          console.log(err)
+          this.$swal.fire({
+            icon: 'error',
+            title: `${err.response.status} ${err.response.statusText}`,
+            text: `${err.response.data.message}`,
+            timer: 5000
+          })
         })
         .finally(() => {
           this.isLoading = false

@@ -67,28 +67,36 @@ export default {
       }
     },
     logout () {
-      this.$store.commit('CHANGE_IS_LOGIN', false)
-      localStorage.clear()
-      this.$router.push('/login')
-      // this.$swal.fire({
-      //   title: 'Are you sure?',
-      //   text: "After this, you won't allowed to access this site!",
-      //   icon: 'warning',
-      //   showCancelButton: true,
-      //   confirmButtonColor: '#d33',
-      //   confirmButtonText: 'Yes'
-      // }).then((result) => {
-      //   if (result.isConfirmed) {
-      // this.$swal.fire(
-      //   'logging out',
-      //   'Thank you admin, have a nice day',
-      //   'success'
-      // )
-      //     this.$store.commit('CHANGE_IS_LOGIN', false)
-      //     localStorage.clear()
-      //     this.$router.push('/login')
-      //   }
-      // })
+      this.$swal.fire({
+        title: 'Are you sure to logout?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+      })
+        .then((result) => {
+          if (result.isConfirmed) {
+            this.$swal.fire({
+              title: 'logging out',
+              text: 'Thank you, have a nice day',
+              icon: 'success'
+            })
+            this.$store.commit('CHANGE_IS_LOGIN', false)
+            localStorage.clear()
+            return this.$store.dispatch('fetchProduct')
+          }
+        })
+        .then(res => {
+          this.$store.commit('FETCH_PRODUCTS', res.data)
+        })
+        .catch(err => {
+          this.$swal.fire({
+            icon: 'error',
+            title: `${err.response.status} ${err.response.statusText}`,
+            text: `${err.response.data.message}`,
+            timer: 5000
+          })
+        })
     }
   },
   created () {

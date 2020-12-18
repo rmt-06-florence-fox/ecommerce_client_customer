@@ -72,6 +72,12 @@ export default {
       this.$store.dispatch('register', obj)
         .then(res => {
           // console.log(res.data)
+          this.$swal.fire({
+            icon: 'success',
+            title: 'Congrats, you registered',
+            text: 'Now, you just login!',
+            timer: 5000
+          })
           this.$router.push('/login')
           this.isError = false
         })
