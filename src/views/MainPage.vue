@@ -2,8 +2,7 @@
     <div>
         <Header></Header>
         <NavbarLogout></NavbarLogout>
-        <ItemCart v-for="data in dataItems.data"
-        :key="data.id" :data="data"></ItemCart>
+        <ItemCart></ItemCart>
         <Footer></Footer>
     </div>
 </template>
@@ -32,11 +31,6 @@ export default {
     const accesToken = localStorage.getItem('acces_token')
     if (!accesToken) {
       this.cekLocalStorage()
-    }
-  },
-  computed: {
-    dataItems () {
-      return this.$store.state.dataItems
     }
   }
 }

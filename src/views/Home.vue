@@ -2,8 +2,8 @@
   <div class="home">
     <Header></Header>
     <NavbarLogin></NavbarLogin>
-    <ItemCardsHome v-for="data in dataItems.data"
-    :key="data.id" :data="data"></ItemCardsHome>
+    <Category></Category>
+    <ItemCardsHome></ItemCardsHome>
     <router-view/>
     <Footer></Footer>
   </div>
@@ -14,6 +14,7 @@ import Header from '../components/Header'
 import NavbarLogin from '../components/NavbarLogin'
 import Footer from '../components/Footer'
 import ItemCardsHome from '../components/ItemCardsHome'
+import Category from '../components/Categorie'
 
 export default {
   name: 'Home',
@@ -21,7 +22,8 @@ export default {
     Header,
     NavbarLogin,
     Footer,
-    ItemCardsHome
+    ItemCardsHome,
+    Category
   },
   methods: {
     fetchData () {
@@ -30,11 +32,6 @@ export default {
   },
   created () {
     this.fetchData()
-  },
-  computed: {
-    dataItems () {
-      return this.$store.state.dataItems
-    }
   }
 }
 </script>

@@ -57,6 +57,7 @@ export default {
   },
   methods: {
     submitRegister () {
+      console.log('cek')
       const payload = {
         email: this.email,
         password: this.password

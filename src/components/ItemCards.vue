@@ -1,17 +1,20 @@
 <template>
-  <div class="container page-container">
-      <!-- {{data.quantity}} -->
+  <div class="container">
       <main class="grid">
-          <article>
+          <article
+            v-for="data in dataItems.data"
+            :key="data.id">
+              <button class="delButton" @click="deleteData(data.id)" style="width:38px"><b>X</b></button>
               <img :src="data.Product.image_url">
-              <button @click="deleteData" style="width:38px">del</button>
               <div class="text">
                   <h3>{{data.Product.name}}</h3>
                   <p>Rp {{data.Product.price}}</p>
-                  <p>Stock: {{data.Product.stock}}</p>
+                  <div class="row">
+                      <p> <b>Stock:</b> {{data.Product.stock}} || <b>Order:</b> {{data.quantity}}</p>
+                  </div>
                   <div class="text-center">
-                    <button style="width:40px" @click="minQuantity">Min</button> ||
-                    <button style="width:40px" @click="addQuantity">Add</button>
+                    <button style="width:40px" @click="minQuantity(data.id)">Min</button> ||
+                    <button style="width:40px" @click="addQuantity(data.id)">Add</button>
                   </div>
               </div>
           </article>
@@ -23,28 +26,30 @@
 import Swal from 'sweetalert2'
 export default {
   name: 'ItemCards',
-  props: ['data'],
   methods: {
-    minQuantity () {
-      const id = this.data.id
+    fetchDataCart () {
+      this.$store.dispatch('fetchDataCart')
+    },
+
+    minQuantity (id) {
       this.$store.dispatch('decrementDataCart', id)
         .then(_ => {
+          this.fetchDataCart()
         })
         .catch(err => {
           console.log(err)
         })
     },
-    addQuantity () {
-      const id = this.data.id
+    addQuantity (id) {
       this.$store.dispatch('incrementDataCart', id)
         .then(_ => {
+          this.fetchDataCart()
         })
         .catch(err => {
           console.log(err)
         })
     },
-    deleteData () {
-      const id = this.data.id
+    deleteData (id) {
       Swal.fire({
         title: 'Are you sure?',
         text: "You won't be able to revert this!",
@@ -62,10 +67,19 @@ export default {
           }
         })
         .then(_ => {
+          this.fetchDataCart()
         })
         .catch(err => {
           console.log(err)
         })
+    }
+  },
+  created () {
+    this.fetchDataCart()
+  },
+  computed: {
+    dataItems () {
+      return this.$store.state.dataCart
     }
   }
 }
@@ -77,13 +91,13 @@ body {
 }
 
 .grid {
-    margin-top: 43px;
-    margin-left: 80px;
-    margin-right: 60px;
-    margin-bottom: 43px;
+    margin-top: 4%;
+    margin-left: 10%;
+    margin-right: 0%;
+    margin-bottom: 1%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-gap: 40px;
+    grid-gap: 1px;
     align-items: center;
 }
 
@@ -93,8 +107,8 @@ body {
     box-shadow: 2px 2px 6px 0px black;
     border-radius: 20px;
     text-align: center;
-    width: 200px;
-    height: 280px;
+    width: 280px;
+    height: 370px;
     transition: transform .3s;
 }
 
@@ -109,7 +123,11 @@ body {
     border-top-left-radius: 20px;
     height: 172px;
 }
-
+.delButton {
+  margin-top: 10px;
+  margin-left: 220px;
+  height: 27px;
+}
 .text {
     padding: 0px 20px 20px;
     font-size: 12px;

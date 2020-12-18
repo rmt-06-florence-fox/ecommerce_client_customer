@@ -2,8 +2,7 @@
   <div class="home">
     <Header></Header>
     <NavbarLogout></NavbarLogout>
-    <ItemCards v-for="data in dataItems.data"
-    :key="data.id" :data="data"></ItemCards>
+    <ItemCards></ItemCards>
     <router-view/>
     <Footer></Footer>
   </div>
@@ -30,11 +29,6 @@ export default {
   },
   created () {
     this.fetchDataCart()
-  },
-  computed: {
-    dataItems () {
-      return this.$store.state.dataCart
-    }
   }
 }
 </script>

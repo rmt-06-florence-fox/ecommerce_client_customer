@@ -25,16 +25,16 @@ export default new Vuex.Store({
     registerCustomer ({ commit }, payload) {
       return axios({
         method: 'post',
-        url: 'http://localhost:3000/registercustomer',
+        url: 'http://localhost:3000/register/customer',
         data: payload
       })
     },
 
     login ({ commit }, payload) {
-      // console.log(payload)
+      console.log(payload)
       return axios({
         method: 'post',
-        url: 'http://localhost:3000/logincustomer',
+        url: 'http://localhost:3000/login/customer',
         data: payload
       })
     },

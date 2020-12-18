@@ -1,7 +1,9 @@
 <template>
-  <div class="container page-container">
+  <div>
       <main class="grid">
-          <article>
+          <article
+            v-for="data in dataItems.data"
+            :key="data.id">
               <img :src="data.image_url">
               <div class="text">
                   <p>{{data.Categorie.name}}</p>
@@ -18,25 +20,36 @@
 <script>
 export default {
   name: 'ItemCardsHome',
-  props: ['data'],
   methods: {
     formLogin () {
       this.$router.push('/login')
+    },
+    fetchData () {
+      this.$store.dispatch('fetchData')
+    }
+  },
+  created () {
+    this.fetchData()
+  },
+  computed: {
+    dataItems () {
+      return this.$store.state.dataItems
     }
   }
+
 }
 </script>
 
-<style>
+<style scoped>
 body {
     background: white;
 }
 
 .grid {
-    margin-top: 43px;
-    margin-left: 80px;
-    margin-right: 60px;
-    margin-bottom: 43px;
+    margin-top: 4%;
+    margin-left: 20%;
+    margin-right: 20%;
+    margin-bottom: 1%;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-gap: 40px;
@@ -49,8 +62,8 @@ body {
     box-shadow: 2px 2px 6px 0px black;
     border-radius: 20px;
     text-align: center;
-    width: 200px;
-    height: 280px;
+    width: 280px;
+    height: 370px;
     transition: transform .3s;
 }
 

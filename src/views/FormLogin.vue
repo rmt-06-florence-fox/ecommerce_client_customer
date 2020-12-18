@@ -63,7 +63,8 @@ export default {
     submitLogin () {
       const objData = {
         email: this.email,
-        password: this.password
+        password: this.password,
+        role: 'customer'
       }
       this.$store.dispatch('login', objData)
         .then(({ data }) => {

@@ -1,6 +1,6 @@
 <template>
-      <!-- {{data}} -->
-    <div>
+  <div>
+      {{ data }}
       <main class="grid">
           <article
             v-for="data in dataItems.data"
@@ -11,47 +11,27 @@
                   <h3>{{data.name}}</h3>
                   <p>Rp {{data.price}}</p>
                   <p>Stock: {{data.stock}}</p>
-                  <button @click="addToCart(data.id)">Add tocart<i class="fa fa-cart-plus"></i></button>
+                  <button @click="formLogin">Add tocart <i class="fa fa-cart-plus"></i></button>
               </div>
           </article>
       </main>
-    </div>
-
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'ItemCart',
+  name: 'ItemCardsHome',
+  props: ['data'],
   methods: {
+    formLogin () {
+      this.$router.push('/login')
+    },
     fetchData () {
       this.$store.dispatch('fetchData')
-    },
-    addToCart (id) {
-      const objProduct = {
-        ProductId: id
-      }
-      this.$store.dispatch('addDataCart', objProduct)
-        .then(data => {
-          this.$store.dispatch('fetchData')
-          this.$store.dispatch('fetchDataCart')
-          this.$router.push('/mainpage')
-        })
-        .catch(err => {
-          console.log(err)
-        })
     }
   },
   created () {
     this.fetchData()
-    const accesToken = localStorage.getItem('acces_token')
-    if (!accesToken) {
-      this.cekLocalStorage()
-    }
-  },
-  computed: {
-    dataItems () {
-      return this.$store.state.dataItems
-    }
   }
 }
 </script>

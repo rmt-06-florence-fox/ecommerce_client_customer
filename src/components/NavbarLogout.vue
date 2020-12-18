@@ -8,9 +8,9 @@
             </div>
             <div>
                 <ul class="center-navbar">
-                    <li><a href="#">Wishlist</a></li>
+                    <li><a @click="wishlist" href="#">Wishlist</a></li>
                     <li><a @click="cart" href="#">Cart</a></li>
-                    <li><a href="#">History</a></li>
+                    <li><a @click="history" href="#">History</a></li>
                 </ul>
             </div>
             <div>
@@ -26,15 +26,25 @@
 export default {
   name: 'NavbarLogout',
   methods: {
+    fetchData () {
+      this.$store.dispatch('fetchData')
+    },
     logout () {
       localStorage.clear()
       this.$router.push('/')
+      this.$store.dispatch('fetchData')
     },
     mainPage () {
       this.$router.push('/mainpage')
     },
     cart () {
       this.$router.push('/cart')
+    },
+    wishlist () {
+      this.$router.push('/maintenance')
+    },
+    history () {
+      this.$router.push('/maintenance')
     }
   }
 }

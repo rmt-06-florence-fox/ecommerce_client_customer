@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="page-container">
         <div id="footer-custom">
             <div>
                 <hr>
@@ -57,6 +57,10 @@ export default {
 h3 {
     font-size: 20px;
 }
+#page-container {
+  position: relative;
+  min-height: 89vh;
+}
 .center-footer {
     display: flex;
     justify-content: center;
@@ -92,7 +96,7 @@ h3 {
     width:100%
 }
 #footer-custom {
-    position: fixed;
+    position: absolute;
     left: 0;
     bottom: 0;
     width: 100%;
