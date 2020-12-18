@@ -21,7 +21,7 @@
             <i class='fas fa-plus-circle' style='color: #10ac84'></i>
             </button>
           </div>
-            <button @click.prevent="deleteCart(cart.id)" type="button" class="btn btn-outline-danger btn-sm ml-4"><i class='far fa-trash-alt'></i></button>
+            <button @click.prevent="deleteCart(cart.id)" type="button" class="btn btn-outline-danger btn-sm ml-2"><i class='far fa-trash-alt'></i></button>
           </div>
       </div>
     </div>
@@ -38,7 +38,11 @@ export default {
     },
     editCart (payload) {
       console.log(payload, '<<<<<')
-      this.$store.dispatch('updateCart', payload)
+      if (this.cart.quantity === 1) {
+        this.$store.dispatch('deleteCart', payload.id)
+      } else {
+        this.$store.dispatch('updateCart', payload)
+      }
     }
   }
 }

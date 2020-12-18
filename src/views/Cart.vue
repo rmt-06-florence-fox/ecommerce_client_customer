@@ -2,7 +2,8 @@
   <div id="cart" class="container-fluid">
     <div class="row no-gutters">
       <div class="col-sm-8">
-        <div class="card w-85" style="margin-right: 10%">
+        <h1 v-if="carts.length === 0">Your cart is empty</h1>
+        <div class="card w-85" style="margin-right: 3%">
           <div class="card-body overflow-auto" style="height: 80vh">
             <CartList
             v-for="cart in carts"
@@ -18,8 +19,8 @@
             <h3>Total Price</h3>
           </div>
           <div class="card-body">
-            <h5 class="card-title">{{ total }}</h5>
-            <p class="card-text"></p>
+            <h5 class="card-title">{{ total | currency }}</h5>
+            <button @click="checkout" type="button" class="btn btn-outline-info">Checkout</button>
           </div>
         </div>
       </div>
@@ -38,6 +39,9 @@ export default {
   methods: {
     fetchCart () {
       this.$store.dispatch('fetchCart')
+    },
+    checkout () {
+      this.$router.push({ name: 'Home' })
     }
   },
   computed: {
