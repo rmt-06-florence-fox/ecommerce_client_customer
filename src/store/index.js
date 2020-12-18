@@ -25,7 +25,7 @@ export default new Vuex.Store({
     fetchProducts (context) {
       axios({
         method: 'get',
-        url: 'http://localhost:3001/products'
+        url: ' https://e-commerce-marcella.herokuapp.com/products'
       })
         .then(({ data }) => {
           context.commit('changeProducts', data)
@@ -37,7 +37,7 @@ export default new Vuex.Store({
     fetchCart (context) {
       axios({
         method: 'get',
-        url: 'http://localhost:3001/cart',
+        url: ' https://e-commerce-marcella.herokuapp.com/cart',
         headers: {
           access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhQG1haWwuY29tIiwicm9sZSI6ImN1c3RvbWVyIiwiaWF0IjoxNjA4MDEwNDIzfQ.dc0a_L2gSitGqTx5w8ZqsoqLZ2QDKQLIZ6fl1WCbVxI'
         }
@@ -52,7 +52,7 @@ export default new Vuex.Store({
     paidProduct (context) {
       axios({
         method: 'get',
-        url: 'http://localhost:3001/cart/history',
+        url: ' https://e-commerce-marcella.herokuapp.com/cart/history',
         headers: {
           access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhQG1haWwuY29tIiwicm9sZSI6ImN1c3RvbWVyIiwiaWF0IjoxNjA4MDEwNDIzfQ.dc0a_L2gSitGqTx5w8ZqsoqLZ2QDKQLIZ6fl1WCbVxI'
         }
@@ -67,7 +67,7 @@ export default new Vuex.Store({
     checkout (context) {
       return axios({
         method: 'patch',
-        url: 'http://localhost:3001/cart',
+        url: ' https://e-commerce-marcella.herokuapp.com/cart',
         headers: {
           access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhQG1haWwuY29tIiwicm9sZSI6ImN1c3RvbWVyIiwiaWF0IjoxNjA4MDEwNDIzfQ.dc0a_L2gSitGqTx5w8ZqsoqLZ2QDKQLIZ6fl1WCbVxI'
         }
@@ -76,7 +76,7 @@ export default new Vuex.Store({
     addToCart (context, payload) {
       return axios({
         method: 'post',
-        url: `http://localhost:3001/cart/add/${payload.id}`,
+        url: ` https://e-commerce-marcella.herokuapp.com/cart/add/${payload.id}`,
         headers: {
           access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhQG1haWwuY29tIiwicm9sZSI6ImN1c3RvbWVyIiwiaWF0IjoxNjA4MDEwNDIzfQ.dc0a_L2gSitGqTx5w8ZqsoqLZ2QDKQLIZ6fl1WCbVxI'
         },
@@ -88,7 +88,7 @@ export default new Vuex.Store({
     login (context, payload) {
       return axios({
         method: 'post',
-        url: 'http://localhost:3001/login',
+        url: ' https://e-commerce-marcella.herokuapp.com/login',
         data: {
           email: payload.email,
           password: payload.password
@@ -98,7 +98,7 @@ export default new Vuex.Store({
     register (context, payload) {
       return axios({
         method: 'post',
-        url: 'http://localhost:3001/register',
+        url: ' https://e-commerce-marcella.herokuapp.com/register',
         data: {
           email: payload.email,
           password: payload.password
@@ -108,7 +108,7 @@ export default new Vuex.Store({
     deleteFromCart (context, id) {
       return axios({
         method: 'delete',
-        url: `http://localhost:3001/cart/${id}`,
+        url: ` https://e-commerce-marcella.herokuapp.com/cart/${id}`,
         headers: {
           access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhQG1haWwuY29tIiwicm9sZSI6ImN1c3RvbWVyIiwiaWF0IjoxNjA4MDEwNDIzfQ.dc0a_L2gSitGqTx5w8ZqsoqLZ2QDKQLIZ6fl1WCbVxI'
         }
@@ -117,7 +117,7 @@ export default new Vuex.Store({
     updateQty (context, payload) {
       return axios({
         method: 'patch',
-        url: `http://localhost:3001/cart/${payload.id}`,
+        url: ` https://e-commerce-marcella.herokuapp.com/cart/${payload.id}`,
         headers: {
           access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZW1haWwiOiJhQG1haWwuY29tIiwicm9sZSI6ImN1c3RvbWVyIiwiaWF0IjoxNjA4MDEwNDIzfQ.dc0a_L2gSitGqTx5w8ZqsoqLZ2QDKQLIZ6fl1WCbVxI'
         },
