@@ -1,23 +1,32 @@
 <template>
   <div class="container-fluid p-3 my-3 bg-dark text-white" id="form">
-    <navbar />
     <h1> Home </h1>
     <div id="card">
-      <product-home-card />
-      <product-home-card />
-      <product-home-card />
+      <product-home-card v-for="product in products" :key="product.id" :product="product" />
     </div>
   </div>
 </template>
 
 <script>
-import Navbar from '../components/Navbar.vue'
 import ProductHomeCard from '../components/ProductHomeCard.vue'
 // @ is an alias to /src
 
 export default {
-  components: { ProductHomeCard, Navbar },
-  name: 'Home'
+  components: { ProductHomeCard },
+  name: 'Home',
+  computed: {
+    products () {
+      return this.$store.state.products
+    }
+  },
+  methods: {
+    fetchProducts () {
+      this.$store.dispatch('fetchProducts')
+    }
+  },
+  created () {
+    this.fetchProducts()
+  }
 }
 </script>
 

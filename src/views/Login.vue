@@ -17,7 +17,34 @@
 
 <script>
 export default {
-  name: 'Login'
+  name: 'Login',
+  data () {
+    return {
+      email: '',
+      password: ''
+    }
+  },
+  methods: {
+    login () {
+      const payload = {
+        email: this.email,
+        password: this.password
+      }
+      this.$store.dispatch('login', payload)
+        .then(({ data }) => {
+          localStorage.setItem('access_token', data.access_token)
+          this.$router.push('/home')
+        })
+        .catch(({ err }) => {
+          console.log(err)
+        })
+    }
+  },
+  created () {
+    if (localStorage.access_token) {
+      this.$router.push('/home')
+    }
+  }
 }
 </script>
 

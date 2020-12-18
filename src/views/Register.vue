@@ -17,7 +17,33 @@
 
 <script>
 export default {
-  name: 'Register'
+  name: 'Register',
+  data () {
+    return {
+      email: '',
+      password: ''
+    }
+  },
+  methods: {
+    register () {
+      const payload = {
+        email: this.email,
+        password: this.password
+      }
+      this.$store.dispatch('register', payload)
+        .then(({ data }) => {
+          this.$router.push('/login')
+        })
+        .catch(({ err }) => {
+          console.log(err)
+        })
+    }
+  },
+  created () {
+    if (localStorage.access_token) {
+      this.$router.push('/home')
+    }
+  }
 }
 </script>
 

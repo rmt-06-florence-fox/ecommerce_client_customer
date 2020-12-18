@@ -5,6 +5,7 @@ import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Cart from '../views/Cart.vue'
 import MainPage from '../views/MainPage.vue'
+import History from '../views/History.vue'
 
 Vue.use(VueRouter)
 
@@ -20,16 +21,22 @@ const routes = [
     component: Register
   },
   {
-    path: '',
-    name: 'MainPage',
+    path: '/',
     component: MainPage,
     children: [
       {
-        path: '/',
+        path: 'home',
+        name: 'Home',
         component: Home
       },
       {
-        path: '/cart',
+        path: 'history',
+        name: 'History',
+        component: History
+      },
+      {
+        path: 'cart',
+        name: 'Cart',
         component: Cart
       }
     ]
