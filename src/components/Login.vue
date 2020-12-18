@@ -1,6 +1,7 @@
 <template>
   <div class="container">
       <div class="columns is-centered">
+      <h1>Login</h1>
         <div class="column is-5-tablet is-4-desktop is-3-widescreen">
           <form @submit.prevent="login" class="box">
             <div class="field">

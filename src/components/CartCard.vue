@@ -1,28 +1,28 @@
 <template>
   <div class="card">
-  <div class="card-content">
-    <div class="media">
-      <div class="media-content">
-        <div class="media-center">
-          <figure class="image is-96x96">
-            <img :src="cart.Product.image_url" alt="Placeholder image">
-          </figure>
-        </div>
-        <div class="content">
-          <h5>{{ cart.Product.name }}</h5>
-          <h5>{{ cart.Product.price }}</h5>
-          <div class="row">
-            <button @click.prevent="changeValue(-1)" class="button">-</button>{{ cart.quantity }}
-            <button @click.prevent="changeValue(1)" class="button">+</button>
+    <div class="card-content">
+      <div class="media">
+        <div class="media-content">
+          <div class="media-center">
+            <figure class="image is-4by3">
+              <img :src="cart.Product.image_url" alt="Placeholder image">
+            </figure>
           </div>
-            <button
-              @click.prevent="deleteCart(cart.id)"
-            class="button mt-2"> DELETE </button>
+          <div class="content">
+            <h5>{{ cart.Product.name }}</h5>
+            <h5>{{ cart.Product.price }}</h5>
+            <div class="row">
+              <button @click.prevent="changeValue(-1)" class="button">-</button>{{ cart.quantity }}
+              <button @click.prevent="changeValue(1)" class="button">+</button>
+            </div>
+              <button
+                @click.prevent="deleteCart(cart.id)"
+              class="button mt-2"> DELETE </button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>

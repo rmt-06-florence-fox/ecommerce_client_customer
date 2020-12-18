@@ -1,32 +1,29 @@
 <template>
-<div class="columns mx-3 my-3">
-  <div class="card columns">
-  <div class="card-content">
-    <div class="media">
-      <div class="media-content">
-        <div class="media is-justify-content-center">
-          <figure class="image is-96x96">
-            <img :src="product.image_url" alt="Placeholder image">
-          </figure>
-        </div>
-        <div class="content">
-          <small>product name:</small>
-          <h5>{{ product.name }}</h5>
-          <small>product stock:</small>
-          <h5>{{ product.stock }}</h5>
-          <small>product price:</small>
-          <h5>{{ product.price }}</h5>
-        </div>
-        <button
-          @click.prevent="addToCart"
-          class="button">
-          add to cart
-        </button>
+<div class="column mx-3 my-3">
+  <div class="card">
+    <div class="card-image">
+      <figure class="image is-4by3">
+        <img :src="product.image_url" alt="Image" />
+      </figure>
+    </div>
+    <div class="card-content">
+      <div class="content is-small">
+        <small>product name:</small>
+        <h5>{{ product.name }}</h5>
+        <small>product stock:</small>
+        <h5>{{ product.stock }}</h5>
+        <small>product price:</small>
+        <h5>{{ product.price }}</h5>
       </div>
     </div>
+    <footer class="card-footer">
+      <button @click.prevent="addToCart" class="card-footer-item">
+        add to cart
+      </button>
+    </footer>
   </div>
 </div>
-</div>
+
 </template>
 
 <script>
@@ -46,4 +43,7 @@ export default {
 </script>
 
 <style scoped>
+card {
+  width: 50%
+}
 </style>
