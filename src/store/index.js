@@ -60,12 +60,12 @@ export default new Vuex.Store({
           // Vue.swal('Login Success')
           localStorage.setItem('access_token', data.access_token)
           localStorage.setItem('email', data.email)
-          this.$store.dispatch('fetchCart')
+          this.dispatch('fetchCart')
           this.$route.push('/')
         })
         .catch(({ err }) => {
           // const message = response.data.message
-          // console.log(response.data.message)
+          console.log(err.response.data.message)
           if (err) {
             Vue.swal('Failed to Login', `${err.response.data.message}`, 'error')
           }
@@ -187,7 +187,7 @@ export default new Vuex.Store({
         }
       })
         .then(() => {
-          this.fetchCart()
+          con.dispatch('fetchCart')
           this.$route.go('/')
           if (this.state.cart.length === 0) {
             this.$route.push('/')

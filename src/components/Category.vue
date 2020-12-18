@@ -25,7 +25,7 @@
                   {{ formatPrice(prod.price) }}
                 </mdb-card-text>
                 <mdb-card-text
-                v-if="prod.stock === 0"
+                v-if="prod.stock === 1"
                 class="text-left text-danger">No stock available</mdb-card-text>
                 <mdb-card-text
                 v-else-if="prod.stock < 10"
