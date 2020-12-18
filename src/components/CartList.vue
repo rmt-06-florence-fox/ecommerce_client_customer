@@ -23,7 +23,7 @@
 <script>
 export default {
   name: 'CartList',
-  props: ['cart', 'i'],
+  props: ['cart'],
   computed: {
     price () {
       return 'Rp. ' + this.cart.Product.price.toFixed().replace(/(\d)(?=(\d\d\d)+(?!\d))/g, '$1.')

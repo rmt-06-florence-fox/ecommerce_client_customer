@@ -4,10 +4,10 @@
     <div class="col-md-8-center">
       <ul class="list-unstyled">
         <CartList
-            v-for="(cart, i) in carts.products"
+            v-for="cart in carts.products"
             :key="cart.id"
             :cart="cart"
-            :i="i+1"></CartList>
+            ></CartList>
       </ul>
     </div>
     <div class="col-md-4 ml-5">
@@ -20,9 +20,9 @@
 </template>
 
 <script>
-import CartList from './CartList.vue'
+import CartList from '../components/CartList.vue'
 export default {
-  name: 'CartsTabel',
+  name: 'Carts',
   components: { CartList },
   computed: {
     carts () {

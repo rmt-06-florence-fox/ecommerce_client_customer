@@ -5,8 +5,8 @@
       <div class="card-body">
         <h5 class="card-title">{{ wishlist.Product.name }}</h5>
         <p class="card-text">{{ price }}</p>
-        <p><span class="badge badge-success">Stock: {{ wishlist.Product.stock }}</span></p>
         <div v-if="wishlist.Product.stock">
+        <p><span class="badge badge-success">Stock: {{ wishlist.Product.stock }}</span></p>
           <button @click=addCart(wishlist.Product.id) class="btn btn-primary">Add to cart</button>
         </div>
         <p v-else><span class="badge badge-danger">Sold Out</span></p>
@@ -25,6 +25,13 @@ export default {
     }
   },
   methods: {
+    addCart (id) {
+      const payload = {
+        id,
+        quantity: 1
+      }
+      this.$store.dispatch('addOrUpdateCart', payload)
+    },
     delWishlist (id) {
       this.$store.dispatch('delWishlist', id)
     }

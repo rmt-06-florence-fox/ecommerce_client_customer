@@ -95,7 +95,7 @@ export default new Vuex.Store({
               showConfirmButton: false,
               timer: 1500
             })
-          } else if (router.history.current.name === 'Home') {
+          } else if ((router.history.current.name === 'Home' || router.history.current.name === 'Wishlist')) {
             Swal.fire({
               icon: 'success',
               title: 'Add to Cart Success!',

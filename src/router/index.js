@@ -3,7 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/LoginPage'
 import Register from '../views/RegisterPage'
-import Cart from '../components/CartsTabel'
+import Cart from '../views/Carts'
 import History from '../views/History'
 import Wishlist from '../views/Wishlists'
 
