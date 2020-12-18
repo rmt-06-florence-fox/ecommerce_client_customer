@@ -38,7 +38,7 @@ export default new Vuex.Store({
   actions: {
     fetchProducts (context) {
       axios({
-        url: 'http://localhost:3000/products',
+        url: 'https://e-commerce-server-hacktiv8rmt6.herokuapp.com/products',
         method: 'GET'
       })
         .then(res => {
@@ -50,7 +50,7 @@ export default new Vuex.Store({
     },
     register (context, payload) {
       axios({
-        url: 'http://localhost:3000/register',
+        url: 'https://e-commerce-server-hacktiv8rmt6.herokuapp.com/register',
         method: 'POST',
         data: {
           email: payload.email,
@@ -69,7 +69,7 @@ export default new Vuex.Store({
     },
     fetchCarts (context) {
       axios({
-        url: 'http://localhost:3000/carts',
+        url: 'https://e-commerce-server-hacktiv8rmt6.herokuapp.com/carts',
         method: 'GET',
         headers: {
           access_token: localStorage.getItem('access_token')
@@ -84,7 +84,7 @@ export default new Vuex.Store({
     },
     addToCart (context, payload) {
       axios({
-        url: 'http://localhost:3000/carts',
+        url: 'https://e-commerce-server-hacktiv8rmt6.herokuapp.com/carts',
         method: 'POST',
         data: {
           ProductId: payload
@@ -119,7 +119,7 @@ export default new Vuex.Store({
     },
     updateCart (context, payload) {
       axios({
-        url: 'http://localhost:3000/carts',
+        url: 'https://e-commerce-server-hacktiv8rmt6.herokuapp.com/carts',
         method: 'PATCH',
         data: {
           cartId: payload.cartId,
@@ -149,7 +149,7 @@ export default new Vuex.Store({
     },
     removeCart (context, payload) {
       axios({
-        url: `http://localhost:3000/carts/${payload}`,
+        url: `https://e-commerce-server-hacktiv8rmt6.herokuapp.com/carts/${payload}`,
         method: 'DELETE',
         headers: {
           access_token: localStorage.getItem('access_token')
@@ -168,7 +168,7 @@ export default new Vuex.Store({
     },
     login (context, payload) {
       axios({
-        url: 'http://localhost:3000/loginCustomer',
+        url: 'https://e-commerce-server-hacktiv8rmt6.herokuapp.com/loginCustomer',
         method: 'POST',
         data: {
           email: payload.email,
