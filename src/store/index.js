@@ -25,7 +25,7 @@ export default new Vuex.Store({
     registerCustomer ({ commit }, payload) {
       return axios({
         method: 'post',
-        url: 'http://localhost:3000/register/customer',
+        url: 'https://bukapalak.herokuapp.com/register/customer',
         data: payload
       })
     },
@@ -34,7 +34,7 @@ export default new Vuex.Store({
       console.log(payload)
       return axios({
         method: 'post',
-        url: 'http://localhost:3000/login/customer',
+        url: 'https://bukapalak.herokuapp.com/login/customer',
         data: payload
       })
     },
@@ -42,7 +42,7 @@ export default new Vuex.Store({
     fetchData ({ commit }) {
       axios({
         method: 'get',
-        url: 'http://localhost:3000/products'
+        url: 'https://bukapalak.herokuapp.com/products'
       })
         .then(({ data }) => {
           console.log(data)
@@ -56,7 +56,7 @@ export default new Vuex.Store({
     fetchCategory ({ commit }) {
       axios({
         method: 'get',
-        url: 'http://localhost:3000/categorie'
+        url: 'https://bukapalak.herokuapp.com/categorie'
       })
         .then(({ data }) => {
           commit('getCategory', data)
@@ -69,7 +69,7 @@ export default new Vuex.Store({
     fetchDataCart ({ commit }) {
       axios({
         method: 'get',
-        url: 'http://localhost:3000/userproduct',
+        url: 'https://bukapalak.herokuapp.com/userproduct',
         headers: {
           acces_token: localStorage.acces_token
         }
@@ -85,7 +85,7 @@ export default new Vuex.Store({
     addDataCart ({ commit }, payload) {
       return axios({
         method: 'post',
-        url: 'http://localhost:3000/userproduct/' + payload.ProductId,
+        url: 'https://bukapalak.herokuapp.com/userproduct/' + payload.ProductId,
         headers: {
           acces_token: localStorage.acces_token
         },
@@ -96,7 +96,7 @@ export default new Vuex.Store({
     decrementDataCart ({ commit }, id) {
       return axios({
         method: 'patch',
-        url: 'http://localhost:3000/userproduct/decrement/' + id,
+        url: 'https://bukapalak.herokuapp.com/userproduct/decrement/' + id,
         headers: {
           acces_token: localStorage.acces_token
         }
@@ -106,7 +106,7 @@ export default new Vuex.Store({
     incrementDataCart ({ commit }, id) {
       return axios({
         method: 'patch',
-        url: 'http://localhost:3000/userproduct/increment/' + id,
+        url: 'https://bukapalak.herokuapp.com/userproduct/increment/' + id,
         headers: {
           acces_token: localStorage.acces_token
         }
@@ -117,7 +117,7 @@ export default new Vuex.Store({
       console.log('000000-0')
       return axios({
         method: 'delete',
-        url: 'http://localhost:3000/userproduct/' + id,
+        url: 'https://bukapalak.herokuapp.com/userproduct/' + id,
         headers: {
           acces_token: localStorage.acces_token
         }
