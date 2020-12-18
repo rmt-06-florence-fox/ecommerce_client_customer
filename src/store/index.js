@@ -9,9 +9,13 @@ export default new Vuex.Store({
     category: null,
     categories: [],
     products: [],
-    carts: [],
+    inStockCarts: [],
+    noStockCarts: [],
     total: 0,
     histories: [],
+    inStockWishlists: [],
+    noStockWishlists: [],
+    arrProductId: [],
     searchKey: {},
     isAuthenticated: false
   },
@@ -25,8 +29,11 @@ export default new Vuex.Store({
     SET_PRODUCTS (state, payload) {
       state.products = payload
     },
-    SET_CARTS (state, payload) {
-      state.carts = payload
+    SET_INSTOCK_CARTS (state, payload) {
+      state.inStockCarts = payload
+    },
+    SET_NOSTOCK_CARTS (state, payload) {
+      state.noStockCarts = payload
     },
     SET_TOTAL (state, payload) {
       state.total = payload
@@ -39,6 +46,15 @@ export default new Vuex.Store({
     },
     SET_IS_AUTHENTICATED (state, payload) {
       state.isAuthenticated = payload
+    },
+    SET_INSTOCK_WISHLISTS (state, payload) {
+      state.inStockWishlists = payload
+    },
+    SET_NOSTOCK_WISHLISTS (state, payload) {
+      state.noStockWishlists = payload
+    },
+    SET_WISHLIST_PRODUCTS (state, payload) {
+      state.arrProductId = payload
     }
   },
   actions: {
@@ -71,12 +87,20 @@ export default new Vuex.Store({
         .get('/carts', { headers: { access_token: localStorage.getItem('access_token') } })
         .then(({ data }) => {
           let total = 0
+          let inStockCarts = []
+          let noStockCarts = []
           data.map((cart) => {
-            if (cart.Product.stock > 0) {
+            if (cart.Product.stock === 0) {
+              noStockCarts.push(cart)
+            } else if (cart.Product.stock > 0) {
+              inStockCarts.push(cart)
+            }
+            if (cart.Product.stock > 0 && cart.quantity <= cart.Product.stock) {
               total += cart.quantity * cart.Product.price
             }
           })
-          commit('SET_CARTS', data)
+          commit('SET_INSTOCK_CARTS', inStockCarts)
+          commit('SET_NOSTOCK_CARTS', noStockCarts)
           commit('SET_TOTAL', total)
         })
         .catch((err) => {
@@ -93,9 +117,50 @@ export default new Vuex.Store({
           console.log(err)
         })
     },
+    fetchWishlists ({ commit }) {
+      return axios
+        .get('/wishlists', { headers: { access_token: localStorage.getItem('access_token') } })
+        .then(({ data }) => {
+          const arrProductId = []
+          const inStockWishlists = []
+          const noStockWishlists = []
+          data.map((wishlist) => {
+            if (wishlist.Product.stock === 0) {
+              noStockWishlists.push(wishlist)
+            } else if (wishlist.Product.stock > 0) {
+              inStockWishlists.push(wishlist)
+            }
+            arrProductId.push(wishlist.Product.id)
+          })
+          commit('SET_INSTOCK_WISHLISTS', inStockWishlists)
+          commit('SET_NOSTOCK_WISHLISTS', noStockWishlists)
+          commit('SET_WISHLIST_PRODUCTS', arrProductId)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
     addCart (context, payload) {
       return axios
         .post(`/carts/${payload}`, {}, {
+          headers: { access_token: localStorage.getItem('access_token') }
+        })
+    },
+    addWishlist (context, payload) {
+      return axios
+        .post(`/wishlists/${payload}`, {}, {
+          headers: { access_token: localStorage.getItem('access_token') }
+        })
+    },
+    deleteWishlist (context, payload) {
+      return axios
+        .delete(`/wishlists/${payload}`, {}, {
+          headers: { access_token: localStorage.getItem('access_token') }
+        })
+    },
+    deleteWishlistFromProduct (context, payload) {
+      return axios
+        .delete(`/wishlists/ProductId/${payload}`, {}, {
           headers: { access_token: localStorage.getItem('access_token') }
         })
     },

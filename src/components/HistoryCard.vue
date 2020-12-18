@@ -42,11 +42,10 @@ export default {
         })
         .catch((err) => {
           console.log(err)
-          this.messages = err.response.data.messages
+          this.message = err.response.data.message
           this.error = true
           // this.$nextTick(()=> {
-          //   console.log(this.$refs.error)
-          //    this.$refs.error[0].$el.scrollIntoView();
+          //    this.$refs.error.$el.scrollIntoView();
           // });
         })
     }

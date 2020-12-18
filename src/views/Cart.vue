@@ -1,10 +1,16 @@
 <template>
   <div class="row justify-center">
-    <div class="col-sm col-md-4" v-if="total">
-      <CartCard v-for="cart in carts" :key="cart.id" :cart="cart">
+    <div class="col-sm col-md-4" v-if="inStockCarts.length">
+      <CartCard v-for="cart in inStockCarts" :key="cart.id" :cart="cart">
       </CartCard>
+      <div v-if="noStockCarts.length">
+        <h5 v-if="noStockCarts.length === 1">The following product is out of stock.</h5>
+        <h5 v-else>The following products are out of stock.</h5>
+        <CartCard v-for="cart in noStockCarts" :key="cart.id" :cart="cart">
+        </CartCard>
+      </div>
     </div>
-    <div class="col-sm col-md-4 ml-3 mr-2" v-if="!total">
+    <div class="col-sm col-md-4 ml-3 mr-2" v-if="!inStockCarts.length && !noStockCarts.length">
       <div class="card mt-4">
         <div class="card-body">
           <h5 class="card-title">No items in your cart.</h5>
@@ -12,7 +18,7 @@
         </div>
       </div>
     </div>
-    <div class="col-sm col-md-4 ml-3 mr-2" v-if="total">
+    <div class="col-sm col-md-4 ml-3 mr-2" v-if="inStockCarts.length">
       <div class="card mt-4">
         <div class="card-body">
           <h5 class="card-title">TOTAL</h5>
@@ -47,8 +53,11 @@ export default {
     }
   },
   computed: {
-    carts () {
-      return this.$store.state.carts
+    inStockCarts () {
+      return this.$store.state.inStockCarts
+    },
+    noStockCarts () {
+      return this.$store.state.noStockCarts
     },
     total () {
       return this.$store.state.total

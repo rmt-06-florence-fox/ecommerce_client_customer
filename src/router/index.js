@@ -6,7 +6,7 @@ import MainPage from '../views/MainPage'
 import Home from '../views/Home'
 import Cart from '../views/Cart'
 import History from '../views/History'
-// import Banners from '../views/Banners'
+import Wishlist from '../views/Wishlist'
 import NotFoundPage from '../views/NotFoundPage'
 
 Vue.use(VueRouter)
@@ -39,6 +39,14 @@ const routes = [
         component: History,
         meta: {
           title: 'ShopPal - Transaction History'
+        }
+      },
+      {
+        path: '/wishlist',
+        name: 'Wishlist',
+        component: Wishlist,
+        meta: {
+          title: 'ShopPal - Wishlist'
         }
       }
     ]
@@ -77,7 +85,7 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title || 'ShopPal'
   const isAuthenticated = localStorage.access_token
-  if ((to.name === 'Cart' || to.name === 'History') && !isAuthenticated) next({ name: 'Home' })
+  if ((to.name === 'Cart' || to.name === 'History' || to.name === 'Wishlist') && !isAuthenticated) next({ name: 'Home' })
   else if ((to.name === 'Register' || to.name === 'Login') && isAuthenticated) next({ name: 'Home' })
   else next()
 })
