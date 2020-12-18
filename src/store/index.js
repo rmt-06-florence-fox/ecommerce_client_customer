@@ -11,6 +11,8 @@ export default new Vuex.Store({
     products: [],
     banners: [],
     carts: [],
+    histories: [],
+    wishlists: [],
     authenticated: localStorage.getItem('access_token')
   },
   mutations: {
@@ -25,6 +27,12 @@ export default new Vuex.Store({
     },
     setQuantity (state, payload) {
       state.quantity = payload
+    },
+    setWishlists (state, payload) {
+      state.wishlists = payload
+    },
+    setHistories (state, payload) {
+      state.histories = payload
     },
     setAuthenticated (state, payload) {
       state.authenticated = payload
@@ -177,6 +185,103 @@ export default new Vuex.Store({
           Swal.fire({
             icon: 'error',
             title: 'Delete Carts Failed!',
+            text: err.response.data.message,
+            showConfirmButton: false,
+            timer: 1500
+          })
+        })
+    },
+    fetchHistories (context) {
+      axios({
+        method: 'get',
+        url: '/history',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .then(({ data }) => {
+          context.commit('setHistories', data.history)
+        })
+        .catch(err => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Show Histories Failed!',
+            text: err.response.data.message,
+            showConfirmButton: false,
+            timer: 1500
+          })
+        })
+    },
+    fetchWishlists (context) {
+      axios({
+        method: 'get',
+        url: '/wishlist',
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .then(({ data }) => {
+          context.commit('setWishlists', data)
+        })
+        .catch(err => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Show Wishlists Failed!',
+            text: err.response.data.message,
+            showConfirmButton: false,
+            timer: 1500
+          })
+        })
+    },
+    addWishlist (context, payload) {
+      axios({
+        method: 'post',
+        url: '/wishlist/' + payload,
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .then(({ data }) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Add to Wishlist Success!',
+            text: data.message,
+            showConfirmButton: false,
+            timer: 1500
+          })
+        })
+        .catch(err => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Add to Wishlist Failed!',
+            text: err.response.data.message,
+            showConfirmButton: false,
+            timer: 1500
+          })
+        })
+    },
+    delWishlist (context, id) {
+      axios({
+        method: 'delete',
+        url: '/wishlist/' + id,
+        headers: {
+          access_token: localStorage.getItem('access_token')
+        }
+      })
+        .then(({ data }) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Delete Wishlist Success!',
+            text: data.message,
+            showConfirmButton: false,
+            timer: 1500
+          })
+          context.dispatch('fetchWishlists')
+        })
+        .catch(err => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Delete Wishlists Failed!',
             text: err.response.data.message,
             showConfirmButton: false,
             timer: 1500

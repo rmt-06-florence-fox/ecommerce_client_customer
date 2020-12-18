@@ -20,6 +20,18 @@
             class="nav-link">Cart
             </router-link>
         </li>
+        <li class="nav-item">
+          <router-link
+            to="/history"
+            class="nav-link">History
+            </router-link>
+        </li>
+        <li class="nav-item">
+          <router-link
+            to="/wishlist"
+            class="nav-link">Wishlist
+            </router-link>
+        </li>
         <li v-if="!authenticated" class="nav-item">
           <router-link
             to="/login"
