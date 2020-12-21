@@ -14,7 +14,7 @@
             Home
         </b-nav-item>
       </b-navbar-nav>
-      <b-navbar-nav>
+      <b-navbar-nav v-if="$route.name === 'Home'">
         <b-nav-item v-b-toggle.sidebar><img src="../assets/category.svg" style="position:relative;top:-0.2rem" width="30" height="30" alt="list icon">
             Categories
         </b-nav-item>
@@ -24,14 +24,14 @@
           <option value="name" selected>Name</option>
           <option value="category">Category</option>
         </select>
-        <input v-model="searchKey.words" @keyup="setSearchKey" class="form-control search border-light" type="text" placeholder="search ...">
+        <input v-model="searchKey.words" @keyup="setSearchKey" class="form-control" id="search" type="text" placeholder="search ...">
       </div>
       <!-- Right aligned nav items -->
       <b-navbar-nav v-if="isAuthenticated" class="ml-auto">
-        <!-- <b-nav-item :to="{ name: 'Home' }">
+        <b-nav-item :to="{ name: 'Wishlist' }">
           <img src="../assets/star.svg"  style="position:relative;top:-0.2rem" width="30" height="30" alt="star icon">
             Favorites
-        </b-nav-item> -->
+        </b-nav-item>
         <b-nav-item :to="{ name: 'Cart' }">
           <img src="../assets/cart.svg"  style="position:relative;top:-0.2rem" width="30" height="30" alt="shopping cart">
             Cart
@@ -42,20 +42,26 @@
         </b-nav-item>
         <b-nav-item-dropdown right>
           <!-- Using 'button-content' slot -->
-          <template #button-content>
-            <em>{{ fullName }}</em>
+          <template #button-content >
+            <em>{{ username }}</em>
           </template>
-          <b-dropdown-item @click="logout">Log Out</b-dropdown-item>
+          <b-dropdown-item id="btn-logout" @click="logout">Sign Out</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
       <b-navbar-nav v-if="!isAuthenticated" class="ml-auto">
-        <b-dropdown-item @click="goLogin">Log In</b-dropdown-item>
+        <b-dropdown-item variant="light" id="btn-login" @click="goLogin">Sign In</b-dropdown-item>
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
 </div>
 </template>
 <script>
+import Vue from 'vue'
+import Swal from 'sweetalert2'
+import { LoaderPlugin } from 'vue-google-login'
+Vue.use(LoaderPlugin, {
+  client_id: '861795519447-17vmd84rog7jj1k0q31k1j1n10nbj6sm.apps.googleusercontent.com'
+})
 export default {
   name: 'NavBar',
   data () {
@@ -73,8 +79,17 @@ export default {
     },
     logout () {
       localStorage.clear()
+      Vue.GoogleAuth.then((auth2) => {
+        auth2.signOut().then(function () {
+          console.log('User signed out.')
+        })
+      })
+      Swal.fire(
+        'Signed Out!',
+        'See you soon!',
+        'success'
+      )
       this.$store.commit('SET_IS_AUTHENTICATED', false)
-      this.$router.push('/')
     },
     setSearchKey () {
       if (this.searchKey.words !== '') {
@@ -85,31 +100,13 @@ export default {
   computed: {
     isAuthenticated () {
       return this.$store.state.isAuthenticated
+    },
+    username () {
+      return this.$store.state.username
     }
   }
 }
 </script>
 <style>
-  .search-container {
-   display: flex;
-   justify-content: center;
-   margin-top: 0.7rem;
-}
 
-.search-by {
-   min-width: 5rem;
-   font-size: 0.8rem;
-   border-radius: 0.5rem;
-   border: solid gray 0.1rem;
-   margin-right: 1rem;
-   color: black;
-   font-weight: 500;
-}
-
-.search {
-   min-width: 10rem;
-   font-size: 0.8rem;
-   border-radius: 0.1rem;
-   border: solid gray 0.1rem !important;
-}
 </style>

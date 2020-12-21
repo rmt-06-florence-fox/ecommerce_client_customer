@@ -1,14 +1,16 @@
 <template>
-  <div class="justify-center">
-    <div class="home row row-cols-1 row-cols-md-4 g-4 ml-2 mr-2" v-if="histories.length">
+  <div>
+    <div class="layout-center row row-cols-1 row-cols-md-4 g-4 ml-2 mr-2" v-if="histories.length">
       <HistoryCard v-for="history in histories" :key="history.id" :history="history">
       </HistoryCard>
     </div>
-    <div class="col-sm col-md-4 ml-3 mr-2" v-if="!histories.length">
-      <div class="card mt-4">
-        <div class="card-body">
-          <h5 class="card-title">No transaction history.</h5>
-          <a href="" @click="goHome" class="btn btn-success">Let's shop</a>
+    <div class="row justify-center"  v-if="!histories.length">
+      <div class="col-sm col-md-4 ml-3 mr-2">
+        <div class="card mt-4">
+          <div class="card-body">
+            <h5 class="card-title">No transaction history.</h5>
+            <a href="" @click="goHome" class="btn btn-success">Let's shop</a>
+          </div>
         </div>
       </div>
     </div>
@@ -42,15 +44,6 @@ export default {
 </script>
 
 <style>
-  .card {
-   min-width: 15rem;
-  }
-
-  .home-container {
-    margin-left: 1rem;
-    margin-right: 1rem;
-  }
-
   .justify-center {
    padding: 1rem 1rem;
    padding-bottom: 3rem;

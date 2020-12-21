@@ -15,9 +15,10 @@ export default new Vuex.Store({
     histories: [],
     inStockWishlists: [],
     noStockWishlists: [],
-    arrProductId: [],
+    arrWishlistProductId: [],
     searchKey: {},
-    isAuthenticated: false
+    isAuthenticated: false,
+    username: ''
   },
   mutations: {
     SET_CATEGORY (state, payload) {
@@ -47,6 +48,9 @@ export default new Vuex.Store({
     SET_IS_AUTHENTICATED (state, payload) {
       state.isAuthenticated = payload
     },
+    SET_USERNAME (state, payload) {
+      state.username = payload
+    },
     SET_INSTOCK_WISHLISTS (state, payload) {
       state.inStockWishlists = payload
     },
@@ -54,7 +58,7 @@ export default new Vuex.Store({
       state.noStockWishlists = payload
     },
     SET_WISHLIST_PRODUCTS (state, payload) {
-      state.arrProductId = payload
+      state.arrWishlistProductId = payload
     }
   },
   actions: {
@@ -87,8 +91,8 @@ export default new Vuex.Store({
         .get('/carts', { headers: { access_token: localStorage.getItem('access_token') } })
         .then(({ data }) => {
           let total = 0
-          let inStockCarts = []
-          let noStockCarts = []
+          const inStockCarts = []
+          const noStockCarts = []
           data.map((cart) => {
             if (cart.Product.stock === 0) {
               noStockCarts.push(cart)
@@ -154,13 +158,13 @@ export default new Vuex.Store({
     },
     deleteWishlist (context, payload) {
       return axios
-        .delete(`/wishlists/${payload}`, {}, {
+        .delete(`/wishlists/${payload}`, {
           headers: { access_token: localStorage.getItem('access_token') }
         })
     },
     deleteWishlistFromProduct (context, payload) {
       return axios
-        .delete(`/wishlists/ProductId/${payload}`, {}, {
+        .delete(`/wishlists/ProductId/${payload}`, {
           headers: { access_token: localStorage.getItem('access_token') }
         })
     },
@@ -177,7 +181,6 @@ export default new Vuex.Store({
         })
     },
     deleteHistory (context, payload) {
-      console.log(payload)
       return axios
         .delete(`/histories/${payload}`, {
           headers: { access_token: localStorage.getItem('access_token') }
@@ -186,15 +189,15 @@ export default new Vuex.Store({
     checkout (context, payload) {
       const results = []
       const promises = []
-      for (let i = 0; i < context.state.carts.length; i++) {
-        const ProductId = context.state.carts[i].Product.id
-        const quantity = context.state.carts[i].quantity
-        const CartId = context.state.carts[i].id
+      for (let i = 0; i < context.state.inStockCarts.length; i++) {
+        const ProductId = context.state.inStockCarts[i].Product.id
+        const quantity = context.state.inStockCarts[i].quantity
+        const CartId = context.state.inStockCarts[i].id
         const historyData = {
-          name: context.state.carts[i].Product.name,
-          image_url: context.state.carts[i].Product.image_url,
-          price: context.state.carts[i].Product.price,
-          quantity: context.state.carts[i].quantity
+          name: context.state.inStockCarts[i].Product.name,
+          image_url: context.state.inStockCarts[i].Product.image_url,
+          price: context.state.inStockCarts[i].Product.price,
+          quantity: context.state.inStockCarts[i].quantity
         }
         const accessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbkBtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTYwODE3MDU3OX0.ZY60r3QOeoq_RaJxRs1j70upDOAgpjzQbRMvVoWGkVA'
         promises.push(

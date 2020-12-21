@@ -1,7 +1,7 @@
 <template>
   <div class="col mt-2">
     <div class="card">
-      <img :src="history.image_url" class="card-img-top" alt="">
+      <img :src="history.image_url" class="card-img-top" :alt="history.name">
       <div class="card-body">
         <h5 class="card-title">{{ history.name }}</h5>
         <p class="card-text border-secondary border border-5 border-left-0 border-right-0">{{ formatRupiah(history.price) }}</p>
@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2'
 export default {
   name: 'HistoryCard',
   props: ['history'],
@@ -31,14 +32,43 @@ export default {
       return time
     },
     deleteHistory (HistoryId) {
-      this.$store.dispatch('deleteHistory', HistoryId)
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'You won\'t be able to revert this!',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      })
+        .then((result) => {
+          if (result.isConfirmed) {
+            return this.$store.dispatch('deleteHistory', HistoryId)
+          }
+        })
         .then(({ data }) => {
+          if (data) {
           // Swal.fire (
           //     "Added",
           //     "A new category has been added.",
           //     "success"
           // )
-          this.$store.dispatch('fetchHistories')
+            Swal.fire({
+              toast: true,
+              icon: 'success',
+              title: data.message,
+              animation: true,
+              position: 'top',
+              showConfirmButton: false,
+              timer: 3000,
+              timerProgressBar: false,
+              didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+              }
+            })
+            this.$store.dispatch('fetchHistories')
+          }
         })
         .catch((err) => {
           console.log(err)

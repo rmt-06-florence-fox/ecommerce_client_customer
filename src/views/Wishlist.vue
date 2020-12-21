@@ -1,20 +1,22 @@
 <template>
-  <div class="justify-center">
-    <div class="home row row-cols-1 row-cols-md-4 g-4 ml-2 mr-2" v-if="histories.length">
+  <div>
+    <div class="layout-center row row-cols-1 row-cols-md-4 g-4 ml-2 mr-2" v-if="inStockWishlists.length">
       <WishlistCard v-for="wishlist in inStockWishlists" :key="wishlist.id" :wishlist="wishlist">
       </WishlistCard>
-      <div v-if="noStockCarts.length">
-        <h5 v-if="noStockCarts.length === 1">The following product is out of stock.</h5>
+      <div v-if="noStockWishlists.length">
+        <h5 v-if="noStockWishlists.length === 1">The following product is out of stock.</h5>
         <h5 v-else>The following products are out of stock.</h5>
         <WishlistCard v-for="wishlist in noStockWishlists" :key="wishlist.id" :wishlist="wishlist">
         </WishlistCard>
       </div>
     </div>
-    <div class="col-sm col-md-4 ml-3 mr-2" v-if="!histories.length">
-      <div class="card mt-4">
-        <div class="card-body">
-          <h5 class="card-title">No transaction history.</h5>
-          <a href="" @click="goHome" class="btn btn-success">Let's shop</a>
+    <div class="justify-center" v-if="!inStockWishlists.length && !noStockWishlists.length">
+      <div class="col-sm col-md-4 ml-3 mr-2">
+        <div class="card mt-4">
+          <div class="card-body">
+            <h5 class="card-title">No items in your wishlist.</h5>
+            <a href="" @click="goHome" class="btn btn-success">Let's shop</a>
+          </div>
         </div>
       </div>
     </div>
@@ -36,7 +38,7 @@ export default {
     },
     noStockWishlists () {
       return this.$store.state.noStockWishlists
-    },
+    }
   },
   created () {
     this.$store.dispatch('fetchWishlists')
@@ -53,11 +55,6 @@ export default {
 <style>
   .card {
    min-width: 15rem;
-  }
-
-  .home-container {
-    margin-left: 1rem;
-    margin-right: 1rem;
   }
 
   .justify-center {

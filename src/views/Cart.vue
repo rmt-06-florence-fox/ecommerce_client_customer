@@ -1,8 +1,10 @@
 <template>
   <div class="row justify-center">
-    <div class="col-sm col-md-4" v-if="inStockCarts.length">
-      <CartCard v-for="cart in inStockCarts" :key="cart.id" :cart="cart">
-      </CartCard>
+    <div class="col-sm col-md-4" v-if="inStockCarts.length || noStockCarts.length" >
+      <div>
+        <CartCard v-for="cart in inStockCarts" :key="cart.id" :cart="cart">
+        </CartCard>
+      </div>
       <div v-if="noStockCarts.length">
         <h5 v-if="noStockCarts.length === 1">The following product is out of stock.</h5>
         <h5 v-else>The following products are out of stock.</h5>
@@ -18,12 +20,14 @@
         </div>
       </div>
     </div>
-    <div class="col-sm col-md-4 ml-3 mr-2" v-if="inStockCarts.length">
-      <div class="card mt-4">
-        <div class="card-body">
-          <h5 class="card-title">TOTAL</h5>
-          <p class="card-text">{{ formatRupiah(total) }}</p>
-          <a href="" v-if="carts.length" @click.prevent="checkout" class="btn btn-success">Check Out</a>
+    <div class="col-sm col-md-4" v-if="inStockCarts.length">
+      <div class="col mt-4">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">TOTAL</h5>
+            <p class="card-text">{{ formatRupiah(total) }}</p>
+            <a href="" v-if="inStockCarts.length" @click.prevent="checkout" class="btn btn-success">Check Out</a>
+          </div>
         </div>
       </div>
     </div>
@@ -31,6 +35,7 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2'
 import CartCard from '../components/CartCard'
 export default {
   name: 'Cart',
@@ -39,7 +44,25 @@ export default {
       return `Rp. ${price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.')},00`
     },
     checkout () {
-      this.$store.dispatch('checkout')
+      Swal.fire({
+        title: 'Are you sure?',
+        text: 'Please review your order before checking out.',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes'
+      })
+        .then((result) => {
+          if (result.isConfirmed) {
+            Swal.fire(
+              'Thank you!',
+              'Your order is being processed.',
+              'success'
+            )
+            return this.$store.dispatch('checkout')
+          }
+        })
         .then(() => {
           this.$store.dispatch('fetchProducts')
           this.$store.dispatch('fetchCarts')
@@ -80,7 +103,7 @@ export default {
 <style>
   .justify-center {
    padding: 1rem 1rem;
-   padding-bottom: 3rem;
+   padding-bottom: rem;
    display: flex;
    justify-content: center;
    height: 82vh;

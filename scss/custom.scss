@@ -9,7 +9,7 @@ $navbar-light-color:  black;
   font-weight: 400;
 }
 
-.btn {
+.btn, .btn-sm {
   font-weight: 700;
 }
 
@@ -34,8 +34,8 @@ $navbar-light-color:  black;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 30rem;
-  min-height: 28rem;
+  width: 27rem;
+  min-height: 35rem;
   background-color: #563d7c;
   border-radius: 0.5rem;
 }
@@ -44,8 +44,8 @@ $navbar-light-color:  black;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 95%;
-  min-height: 25rem;
+  width: 94%;
+  min-height: 32rem;
   background-color: #41B883;
   border-radius: 0.5rem;
 }
@@ -55,7 +55,7 @@ $navbar-light-color:  black;
   border-radius: 0.8rem;
 }
 
-.home {
+.layout-center {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
@@ -63,7 +63,8 @@ $navbar-light-color:  black;
   // flex-wrap: space;
   margin-left: 0;
   margin-right:0;
-  height: 83.5vh;
+  // height: 80vh;
+  padding-bottom: 5rem;
   overflow-x: hidden;
   overflow-y: auto;
 }
@@ -204,3 +205,71 @@ input[type=text], input[type=email], input[type=password], input[type=date], inp
   border: solid black 0.1rem;
 }
 
+.search-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 0.7rem;
+}
+
+.search-by {
+  min-width: 5rem;
+  font-size: 0.8rem;
+  border-radius: 0.5rem;
+  border: solid #d9d9d9 0.1rem;
+  margin-right: 1rem;
+  color: black;
+  font-weight: 500;
+}
+
+#search {
+  min-width: 10rem;
+  font-size: 0.8rem;
+  border-radius: 0.5rem;
+  border: solid #d9d9d9 0.1rem;
+}
+
+.error {
+  text-align: center;
+}
+
+#btn-login {
+  font-weight: 700;
+  background-color: #6f42c1; 
+  border: solid black 0.1rem;
+  border-radius: 0.3rem;
+}
+
+#btn-login:hover {
+  background-color: darken(#6f42c1 , 15%);
+}
+
+#btn-logout {
+  font-weight: 500;
+  text-align: center;
+}
+
+#login-btn-login {
+  width: 100%;
+  background-color: #6f42c1;
+}
+
+#login-btn-reg {
+  width: 50%;
+}
+
+#login-btn-cancel {
+  width: 50%;
+}
+
+#btn-google-container {
+ display: flex;
+ justify-content: center;
+}
+
+#register-btn-reg {
+  width: 50%;
+}
+
+#register-btn-cancel {
+  width: 50%;
+}
