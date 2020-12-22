@@ -8,7 +8,8 @@ export default new Vuex.Store({
   state: {
     category: null,
     categories: [],
-    products: [],
+    inStockProducts: [],
+    noStockProducts: [],
     inStockCarts: [],
     noStockCarts: [],
     total: 0,
@@ -27,8 +28,11 @@ export default new Vuex.Store({
     SET_CATEGORIES (state, payload) {
       state.categories = payload
     },
-    SET_PRODUCTS (state, payload) {
-      state.products = payload
+    SET_INSTOCK_PRODUCTS (state, payload) {
+      state.inStockProducts = payload
+    },
+    SET_NOSTOCK_PRODUCTS (state, payload) {
+      state.noStockProducts = payload
     },
     SET_INSTOCK_CARTS (state, payload) {
       state.inStockCarts = payload
@@ -80,7 +84,17 @@ export default new Vuex.Store({
         .get('/products', {
         })
         .then(({ data }) => {
-          commit('SET_PRODUCTS', data)
+          const inStockProducts = []
+          const noStockProducts = []
+          data.map((product) => {
+            if (product.stock === 0) {
+              noStockProducts.push(product)
+            } else if (product.stock > 0) {
+              inStockProducts.push(product)
+            }
+          })
+          commit('SET_INSTOCK_PRODUCTS', inStockProducts)
+          commit('SET_NOSTOCK_PRODUCTS', noStockProducts)
         })
         .catch((err) => {
           console.log(err)
@@ -222,9 +236,9 @@ export default new Vuex.Store({
     }
   },
   getters: {
-    filteredProducts: (state) => {
+    inStockProductsFiltered: (state) => {
       if (state.searchKey.words && state.searchKey.by) {
-        return state.products.filter((product) => {
+        return state.inStockProducts.filter((product) => {
           if (state.searchKey.by === 'name') {
             if (product.name.toLowerCase().includes(state.searchKey.words.toLowerCase())) {
               return product
@@ -234,7 +248,22 @@ export default new Vuex.Store({
           }
         })
       } else {
-        return state.products
+        return state.inStockProducts
+      }
+    },
+    noStockProductsFiltered: (state) => {
+      if (state.searchKey.words && state.searchKey.by) {
+        return state.noStockProducts.filter((product) => {
+          if (state.searchKey.by === 'name') {
+            if (product.name.toLowerCase().includes(state.searchKey.words.toLowerCase())) {
+              return product
+            }
+          } else if (state.searchKey.by === 'category') {
+            return product.Category.name.toLowerCase().includes(state.searchKey.words.toLowerCase())
+          }
+        })
+      } else {
+        return state.noStockProducts
       }
     }
   }

@@ -13,11 +13,11 @@
           <b-form-input v-model="quantity" @click="updateQuantity" @keyup="updateQuantity" :disabled="!cart.Product.stock" type="number" style="border:solid gray 0.1rem" class="text-center" :min="1" :max="cart.Product.stock"></b-form-input>
         </div>
         <p v-if="quantity <= cart.Product.stock" class="card-text border-secondary border border-5 border-left-0 border-right-0">Subtotal: {{ formatRupiah(subtotal) }}</p>
-        <div v-else>
+        <div class="mb-2" v-else>
           <p class="card-text border-secondary border border-5 border-left-0 border-right-0 text-danger">Quantity exceeds stock.</p>
           <p class="card-text border-secondary border border-5 border-left-0 border-right-0 text-danger">This item will not be checked out.</p>
         </div>
-        <a href="" @click.prevent="deleteCart(cart.id)" class="btn-sm btn-danger mt-2">Remove from Cart</a>
+        <a href="" @click.prevent="deleteCart(cart.id)" class="btn-sm btn-danger">Remove from Cart</a>
       </div>
     </div>
   </div>

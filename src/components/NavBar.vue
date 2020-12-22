@@ -90,6 +90,9 @@ export default {
         'success'
       )
       this.$store.commit('SET_IS_AUTHENTICATED', false)
+      if (this.$route.name !== 'Home') {
+        this.$router.push({ name: 'Home' })
+      }
     },
     setSearchKey () {
       if (this.searchKey.words !== '') {

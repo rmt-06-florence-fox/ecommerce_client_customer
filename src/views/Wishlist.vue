@@ -3,12 +3,14 @@
     <div class="layout-center row row-cols-1 row-cols-md-4 g-4 ml-2 mr-2" v-if="inStockWishlists.length">
       <WishlistCard v-for="wishlist in inStockWishlists" :key="wishlist.id" :wishlist="wishlist">
       </WishlistCard>
-      <div v-if="noStockWishlists.length">
-        <h5 v-if="noStockWishlists.length === 1">The following product is out of stock.</h5>
-        <h5 v-else>The following products are out of stock.</h5>
-        <WishlistCard v-for="wishlist in noStockWishlists" :key="wishlist.id" :wishlist="wishlist">
-        </WishlistCard>
-      </div>
+    </div>
+    <div class="mt-2 ml-4 mr-4" v-if="noStockWishlists.length">
+      <h5 class="bg-warning border rounded" v-if="noStockWishlists.length === 1">The following product is out of stock.</h5>
+      <h5 class="bg-warning border rounded" v-else>The following products are out of stock.</h5>
+    </div>
+    <div class="layout-center row row-cols-1 row-cols-md-4 g-4 ml-2 mr-2" v-if="noStockWishlists.length">
+      <WishlistCard v-for="wishlist in noStockWishlists" :key="wishlist.id" :wishlist="wishlist">
+      </WishlistCard>
     </div>
     <div class="justify-center" v-if="!inStockWishlists.length && !noStockWishlists.length">
       <div class="col-sm col-md-4 ml-3 mr-2">

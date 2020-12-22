@@ -1,35 +1,39 @@
 <template>
-  <div class="row justify-center">
-    <div class="col-sm col-md-4" v-if="inStockCarts.length || noStockCarts.length" >
-      <div>
-        <CartCard v-for="cart in inStockCarts" :key="cart.id" :cart="cart">
-        </CartCard>
-      </div>
-      <div v-if="noStockCarts.length">
-        <h5 v-if="noStockCarts.length === 1">The following product is out of stock.</h5>
-        <h5 v-else>The following products are out of stock.</h5>
-        <CartCard v-for="cart in noStockCarts" :key="cart.id" :cart="cart">
-        </CartCard>
-      </div>
-    </div>
-    <div class="col-sm col-md-4 ml-3 mr-2" v-if="!inStockCarts.length && !noStockCarts.length">
-      <div class="card mt-4">
-        <div class="card-body">
-          <h5 class="card-title">No items in your cart.</h5>
-          <a href="" @click="goHome" class="btn btn-success">Let's shop</a>
+  <div>
+    <div class="row justify-center">
+      <div class="col-sm col-md-4" v-if="inStockCarts.length">
+        <div>
+          <CartCard v-for="cart in inStockCarts" :key="cart.id" :cart="cart">
+          </CartCard>
         </div>
       </div>
-    </div>
-    <div class="col-sm col-md-4" v-if="inStockCarts.length">
-      <div class="col mt-4">
-        <div class="card">
+      <div class="col-sm col-md-4 ml-3 mr-2" v-if="!inStockCarts.length && !noStockCarts.length">
+        <div class="card mt-4">
           <div class="card-body">
-            <h5 class="card-title">TOTAL</h5>
-            <p class="card-text">{{ formatRupiah(total) }}</p>
-            <a href="" v-if="inStockCarts.length" @click.prevent="checkout" class="btn btn-success">Check Out</a>
+            <h5 class="card-title">No items in your cart.</h5>
+            <a href="" @click="goHome" class="btn btn-success">Let's shop</a>
           </div>
         </div>
       </div>
+      <div class="col-sm col-md-4" v-if="inStockCarts.length">
+        <div class="col mt-4">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">TOTAL</h5>
+              <p class="card-text">{{ formatRupiah(total) }}</p>
+              <a href="" v-if="inStockCarts.length" @click.prevent="checkout" class="btn btn-success">Check Out</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-2 ml-4 mr-4" v-if="noStockCarts.length">
+      <h5 class="bg-warning border rounded" v-if="noStockCarts.length === 1">The following product is out of stock.</h5>
+      <h5 class="bg-warning border rounded" v-else>The following products are out of stock.</h5>
+    </div>
+    <div class="layout-center row row-cols-1 row-cols-md-4 g-4 ml-2 mr-2" v-if="noStockCarts.length">
+      <CartCard v-for="cart in noStockCarts" :key="cart.id" :cart="cart">
+      </CartCard>
     </div>
   </div>
 </template>
