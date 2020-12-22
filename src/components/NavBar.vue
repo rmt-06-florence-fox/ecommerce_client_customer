@@ -66,7 +66,6 @@ export default {
   name: 'NavBar',
   data () {
     return {
-      fullName: localStorage.getItem('fullName'),
       searchKey: {
         by: 'name',
         words: ''
@@ -106,6 +105,11 @@ export default {
     },
     username () {
       return this.$store.state.username
+    }
+  },
+  created () {
+    if (this.isAuthenticated) {
+      this.$store.dispatch('fetchProfile')
     }
   }
 }

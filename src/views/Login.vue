@@ -86,16 +86,13 @@ export default {
         .post('/customer/login', this.form)
         .then(({ data }) => {
           localStorage.setItem('access_token', data.access_token)
-          return axios.get('/customer/profile', { headers: { access_token: localStorage.getItem('access_token') } })
-        })
-        .then(({ data }) => {
           Swal.fire(
             'Signed In!',
             'Welcome!',
             'success'
           )
           this.$store.commit('SET_IS_AUTHENTICATED', true)
-          this.$store.commit('SET_USERNAME', data.fullName)
+          this.$store.dispatch('fetchProfile')
           this.$router.push('/')
         })
         .catch((err) => {
@@ -113,16 +110,13 @@ export default {
         .post('/customer/googleLogin', { googleToken })
         .then(({ data }) => {
           localStorage.setItem('access_token', data.access_token)
-          return axios.get('/customer/profile', { headers: { access_token: localStorage.getItem('access_token') } })
-        })
-        .then(({ data }) => {
           Swal.fire(
             'Logged In!',
             'Welcome!',
             'success'
           )
           this.$store.commit('SET_IS_AUTHENTICATED', true)
-          this.$store.commit('SET_USERNAME', data.fullName)
+          this.$store.dispatch('fetchProfile')
           this.$router.push('/')
         })
         .catch((err) => {

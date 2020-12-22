@@ -67,7 +67,7 @@ export default new Vuex.Store({
   },
   actions: {
     fetchCategories ({ commit }) {
-      return axios
+      axios
         .get('/categories', {
           headers: { access_token: localStorage.getItem('access_token') }
         })
@@ -80,7 +80,7 @@ export default new Vuex.Store({
         })
     },
     fetchProducts ({ commit }) {
-      return axios
+      axios
         .get('/products', {
         })
         .then(({ data }) => {
@@ -101,7 +101,7 @@ export default new Vuex.Store({
         })
     },
     fetchCarts ({ commit }) {
-      return axios
+      axios
         .get('/carts', { headers: { access_token: localStorage.getItem('access_token') } })
         .then(({ data }) => {
           let total = 0
@@ -126,7 +126,7 @@ export default new Vuex.Store({
         })
     },
     fetchHistories ({ commit }) {
-      return axios
+      axios
         .get('/histories', { headers: { access_token: localStorage.getItem('access_token') } })
         .then(({ data }) => {
           commit('SET_HISTORIES', data)
@@ -136,7 +136,7 @@ export default new Vuex.Store({
         })
     },
     fetchWishlists ({ commit }) {
-      return axios
+      axios
         .get('/wishlists', { headers: { access_token: localStorage.getItem('access_token') } })
         .then(({ data }) => {
           const arrProductId = []
@@ -153,6 +153,18 @@ export default new Vuex.Store({
           commit('SET_INSTOCK_WISHLISTS', inStockWishlists)
           commit('SET_NOSTOCK_WISHLISTS', noStockWishlists)
           commit('SET_WISHLIST_PRODUCTS', arrProductId)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
+    fetchProfile ({ commit }) {
+      axios
+        .get('/customer/profile', {
+          headers: { access_token: localStorage.getItem('access_token') }
+        })
+        .then(({ data }) => {
+          commit('SET_USERNAME', data.fullName)
         })
         .catch((err) => {
           console.log(err)

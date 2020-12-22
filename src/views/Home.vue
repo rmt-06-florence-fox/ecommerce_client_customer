@@ -31,7 +31,6 @@ export default {
     }
   },
   created () {
-    this.$store.dispatch('fetchWishlists')
     this.$store.dispatch('fetchCategories')
     this.$store.dispatch('fetchProducts')
     if (localStorage.access_token) {

@@ -17,6 +17,8 @@ export default {
     if (localStorage.access_token) {
       this.$store.commit('SET_IS_AUTHENTICATED', true)
     }
+    this.$store.dispatch('fetchCategories')
+    this.$store.dispatch('fetchProducts')
   },
   components: {
     NavBar,
