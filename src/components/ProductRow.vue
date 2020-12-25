@@ -20,7 +20,7 @@
                   </div>
                   <div class="cart_item_price cart_info_col">
                       <div class="cart_item_title">Harga</div>
-                      <div class="cart_item_text">Rp {{ product.price }}</div>
+                      <div class="cart_item_text">Rp {{ productPrice}}</div>
                   </div>
               </div>
           </li>
@@ -32,6 +32,20 @@
 <script>
 export default {
   props: ['product'],
+  computed: {
+    productPrice () {
+      const harga = `${this.product.price}`
+      console.log(harga)
+      const reversed = harga.split('').reverse()
+      for (let i = 0; i < reversed.length; i++) {
+        if (i % 4 === 0) {
+          reversed.splice(i, 0, '.')
+        }
+      }
+      reversed.shift()
+      return reversed.reverse().join('')
+    }
+  },
   methods: {
     goDetail (id) {
       console.log(id)

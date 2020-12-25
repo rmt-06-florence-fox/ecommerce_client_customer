@@ -1,17 +1,36 @@
 <template>
   <div class="loginBox" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); background-color: white;">
     <div class="row justify-content-center my-auto">
-        <div class="row justify-content-center px-3 mb-3">
+        <div class="row col-12 justify-content-center px-3 mb-3">
             <img id="logos" src="../assets/logo.png">
         </div>
-        <div class="col-md-8 col-10 my-5">
+        <div class="col-md-8 col-10 mt-1">
             <form @submit.prevent="register">
+              <div class="form-group">
+                    <label class="form-control-label text-muted">Nama Lengkap</label>
+                    <input v-model="name" type="text" id="email" name="email" placeholder="ex: Ucup Pamungkas" class="form-control"> </div>
                 <div class="form-group">
                     <label class="form-control-label text-muted">Email</label>
-                    <input v-model="email" type="text" id="email" name="email" placeholder="Enter your email" class="form-control"> </div>
+                    <input v-model="email" type="text" id="email" name="email" placeholder="email mana email" class="form-control"> </div>
                 <div class="form-group">
                     <label class="form-control-label text-muted">Password</label>
-                    <input v-model="password" type="password" id="psw" name="psw" placeholder="Enter your password" class="form-control"> </div>
+                    <input v-model="password" type="password" id="psw" name="psw" placeholder="123456" class="form-control"> </div>
+                <div class="form-group">
+                    <label class="form-control-label text-muted">Mendaftar sebagai:</label> <br>
+                    <!-- radio siswa -->
+                    <input v-model="role" class="col-1" type="radio" id="student" name="gender" value="student">
+                    <label class="mr-3" for="student">Siswa</label>
+                    <!-- radio guru -->
+                    <input v-model="role" class="col-1" type="radio" id="teacher" name="gender" value="teacher">
+                    <label for="teacher">Guru</label></div>
+                  <!-- v-if -->
+                  <div v-if="role=='teacher'" class="form-group">
+                    <label class="form-control-label text-muted">Mau ngajar apa nich?</label>
+                    <input v-model="subject" type="text" id="subject" name="subject" placeholder="ex: Ilmu Buzzer" class="form-control"> </div>
+                  <div v-if="role=='teacher'" class="form-group">
+                    <label class="form-control-label text-muted">Motivasi</label>
+                    <input v-model="motive" type="text" id="motive" name="motive" placeholder="ingin hidup bermanfaat *cielah" class="form-control"> </div>
+                    <!-- tombol -->
                 <div class="row justify-content-center my-3 px-3">
                     <button class="btn-block btn-color">Join us!</button>
                 </div>
@@ -23,27 +42,46 @@
 </template>
 
 <script>
+import Swal from 'sweetalert2'
 export default {
   data () {
     return {
       email: '',
-      password: ''
+      password: '',
+      name: '',
+      role: '',
+      subject: '',
+      motive: ''
     }
   },
   methods: {
     register () {
       const obj = {
         email: this.email,
-        password: this.password
+        password: this.password,
+        name: this.name,
+        role: this.role,
+        subject: this.subject,
+        motive: this.motive
       }
       this.$store.dispatch('register', obj)
         .then(response => {
           // console.log(response.data.access_token)
           localStorage.setItem('access_token', response.data.access_token)
+          Swal.fire({
+            title: 'Awas nyesel!',
+            icon: 'success'
+          })
           this.$router.push('/')
         })
         .catch(err => {
           console.log(err)
+          const message = err.response.data
+          console.log(message)
+          Swal.fire({
+            title: message,
+            icon: 'error'
+          })
         })
     }
   }
@@ -52,25 +90,18 @@ export default {
 
 <style>
 #logos {
-  position: absolute;
-  top: -130px;
-  left: 60px;
-  width: 250px;
+  /* position: absolute; */
+  /* top: 1px; */
+  /* left: 60px; */
+  padding-top: 30px;
+  max-width: 120px;
+  height: auto;
   /* margin-bottom: 50px; */
 }
 
-  .loginBox {
-    min-width: 250px !important;
-    margin-top: 10px;
-}
-
-@media screen and (max-width: 600px;
-
-) {
-    body {
-        background-size: cover;
-        : fixed
-    }
+.loginBox {
+    min-width: 50px !important;
+    /* margin-bottom: -100px; */
 }
 
 .buah:hover {
@@ -88,10 +119,10 @@ export default {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 350px;
-    min-height: 200px;
+    height: auto;
     background: #ffffff;
     border-radius: 10px;
-    padding-top: 80px;
+    padding-top: 50px;
     box-sizing: border-box
 }
 

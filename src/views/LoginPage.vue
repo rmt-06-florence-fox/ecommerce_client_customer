@@ -6,31 +6,32 @@
                 <div class="row justify-content-center my-auto">
                     <div class="col-md-8 col-10 my-5">
                         <div class="row justify-content-center px-3 mb-3"> <img id="logo" src="../assets/logo.png"> </div>
-                        <h3 class="mb-5 text-center heading"><strong>Tadika Mesra Store</strong></h3>
-                        <h6 class="msg-info">Login dulu baru mesen!</h6>
+                        <h3 class="mb-5 text-center heading"><strong>TADIKA MESRA</strong></h3>
+                        <!-- <h6 class="msg-info">Login dulu baru mesen!</h6> -->
                         <form @submit.prevent="login">
                             <div class="form-group">
                                 <label class="form-control-label text-muted">Email</label>
-                                <input v-model="email" type="text" id="email" name="email" placeholder="Enter your email" class="form-control">
+                                <input v-model="email" type="text" id="email" name="email" placeholder="Mana coba emailnya" class="form-control">
                             </div>
                             <div class="form-group">
                                 <label class="form-control-label text-muted">Password</label>
-                                <input v-model="password" type="password" id="psw" name="psw" placeholder="Enter your password" class="form-control">
+                                <input v-model="password" type="password" id="psw" name="psw" placeholder="Sini sini password" class="form-control">
                             </div>
                             <div class="row justify-content-center my-3 px-3">
-                                <button type="submit" class="btn-block btn-color">Sign in</button>
+                                <button type="submit" class="btn-block btn-color">Masok</button>
                             </div>
                         </form>
                     </div>
                     <!-- <GoogleLogin class="row justify-content-center" :params="params" :renderParams="renderParams" :onSuccess="onSuccess" :onFailure="onFailure"></GoogleLogin> -->
                 </div>
                 <div class="bottom text-center mb-5">
-                    <p href="#" class="sm-text mx-auto mb-3">Don't have an account?<button class="btn btn-white ml-2" @click.prevent="goToRegister">Join us</button></p>
+                    <p href="#" class="sm-text mx-auto mb-3">Bukan warga sini?<button class="btn btn-white ml-2" @click.prevent="goToRegister">Join dulss</button></p>
                 </div>
             </div>
             <div class="card card2">
                 <div class="my-auto mx-md-5 px-md-5 right">
-                    <h3 class="text-white"><strong>No more messy desk and all those sticky notes!</strong></h3> <br><small class="text-white">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</small>
+                    <h3 class="text-white"><strong>DICARI</strong></h3> <br><small class="text-white" style="display: block; text-align: left !important;">Halo ges, Tadika Mesra lagi kekurangan guru neh. Ya gimana ya namanya juga sekolah boongan. Kamu daripada maen instagram mulu mending daftar.</small>
+                    <button class="btn btn-white mt-5" @click.prevent="goToRegister">Daftar</button>
                 </div>
             </div>
         </div>
@@ -39,7 +40,8 @@
 </template>
 
 <script>
-import axios from '../config/axiosInstance'
+// import axios from '../config/axiosInstance'
+import Swal from 'sweetalert2'
 
 export default {
   data () {
@@ -57,17 +59,23 @@ export default {
         email: this.email,
         password: this.password
       }
-      axios({
-        method: 'post',
-        url: '/login',
-        data: obj
-      })
+      //   axios({
+      //     method: 'post',
+      //     url: '/login',
+      //     data: obj
+      //   })
+      this.$store.dispatch('login', obj)
         .then(response => {
           localStorage.setItem('access_token', response.data.access_token)
           this.$router.push('/home')
         })
         .catch(error => {
-          console.log(error)
+          const message = error.response.data
+          console.log(message)
+          Swal.fire({
+            title: message,
+            icon: 'error'
+          })
         })
     }
   }
@@ -75,15 +83,40 @@ export default {
 </script>
 
 <style>
-.loginPage {
-    position: relative;
+#app {
     display: flex;
-    align-items: center;
+    /* align-items: center; */
+    /* display: flex; */
+    /* flex-wrap: wrap; */
+    min-width: 100%;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+}
+
+@media only screen and (min-width: 950px) {
+   .loginPage {
+      padding-left: 10%;
+      padding-right: 10%;
+      position: relative;
+      transform: translate(-50%, 5%);
+      top: 50%;
+      left: 50%;
+   }
+}
+.loginPage {
+    @padding-large-vertical:         10px;
+    @padding-large-horizontal:       16px;
+    /* background-color: red; */
+    /* padding: 2vmin; */
+    /* position: relative; */
+    /* display: flex; */
+    /* align-items: center; */
     /* justify-content: center; */
     /* top: 50%; */
-    left: 50%;
-    transform: translate(-50%, 5%);
-    padding: 25px 300px 0px 300px;
+    /* left: 50%; */
+    /* transform: translate(-50%, 5%); */
+    /* padding: 25px 300px 0px 300px; */
     /* margin-bottom: 100px */
 }
 
@@ -156,7 +189,7 @@ button:focus {
 
 .form-control-label {
     font-size: 12px;
-    margin-left: 15px
+    margin-left: 0
 }
 
 .msg-info {

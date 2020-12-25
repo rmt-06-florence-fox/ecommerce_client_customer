@@ -23,6 +23,13 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    login (context, obj) {
+      return axios({
+        method: 'post',
+        url: '/login',
+        data: obj
+      })
+    },
     decrement (context, id) {
       return axios({
         method: 'patch',
@@ -41,7 +48,7 @@ export default new Vuex.Store({
         }
       })
         .then(response => {
-          location.reload()
+          console.log('hiha')
         })
         .catch(error => {
           console.log(error)
@@ -86,8 +93,8 @@ export default new Vuex.Store({
     },
     updateCart (context, id) {
       return axios({
-        method: 'PATCH',
-        url: '/products/' + id,
+        method: 'POST',
+        url: '/carts/' + id,
         headers: {
           access_token: localStorage.getItem('access_token')
         }
@@ -97,6 +104,7 @@ export default new Vuex.Store({
           context.commit('setIncrement', response.data.increment)
           console.log('added to cart')
           // this.$router.push('/cart')
+          // console.log(response)
         })
         .catch(err => {
           console.log(err)

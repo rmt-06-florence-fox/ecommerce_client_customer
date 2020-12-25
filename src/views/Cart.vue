@@ -38,7 +38,7 @@
                     <CartRow v-for="product in allProducts" :key="product.id" :product="product"></CartRow>
                     <div v-if="allProducts.length !== 0" class="cart_item_price cart_info_col mt-4 mr-3">
                       <div class="cart_item_title">Total harga:</div>
-                      <div class="cart_item_text mt-0">Rp {{ price }}</div>
+                      <div class="cart_item_text mt-0">Rp {{ fullPrice }}</div>
                       <button @click="checkout" class="btn btn-primary mt-2">Checkout</button>
                   </div>
                 </div>
@@ -52,10 +52,26 @@
 <script>
 import CartRow from '../components/CartRow'
 import { mapState } from 'vuex'
+import Swal from 'sweetalert2'
 export default {
   data () {
     return {
       totalPrice: 100
+    }
+  },
+  computed: {
+    ...mapState(['allProducts', 'price']),
+    fullPrice () {
+      const harga = `${this.price}`
+      console.log(harga)
+      const reversed = harga.split('').reverse()
+      for (let i = 0; i < reversed.length; i++) {
+        if (i % 4 === 0) {
+          reversed.splice(i, 0, '.')
+        }
+      }
+      reversed.shift()
+      return reversed.reverse().join('')
     }
   },
   methods: {
@@ -75,13 +91,32 @@ export default {
           image_url: product.Product.image_url
         }
         console.log(obj.id)
+        // buat roue baru di server untuk checkout
         this.$store.dispatch('updateProduct', obj)
         this.$store.dispatch('deleteCart', product.id)
+          .then(response => {
+            Swal.fire({
+              title: 'Belanja lagi ya!',
+              // text: 'Modal with a custom image.',
+              imageUrl: 'https://media1.giphy.com/media/fxI1G5PNC5esyNlIUs/giphy.gif',
+              // imageWidth: 400,
+              // imageHeight: 200,
+              imageAlt: 'Custom image',
+              showConfirmButton: false,
+              // confirmButtonText: 'Ok',
+              timer: 3000
+            }).then((result) => {
+              if (result.isConfirmed) {
+                location.reload()
+              } else {
+                location.reload()
+              }
+            }).catch((error) => {
+              console.log(error)
+            })
+          })
       }
     }
-  },
-  computed: {
-    ...mapState(['allProducts', 'price'])
   },
   components: {
     CartRow

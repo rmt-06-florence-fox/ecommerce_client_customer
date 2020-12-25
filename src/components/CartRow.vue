@@ -25,11 +25,11 @@
                   </div>
                   <div class="cart_item_price cart_info_col">
                       <div class="cart_item_title" style="opacity:0">Harga</div>
-                      <div class="cart_item_text">{{ product.Product.price }}</div>
+                      <div class="cart_item_text">{{ realPrice }}</div>
                   </div>
                   <div class="cart_item_price cart_info_col">
                       <div class="cart_item_title">Harga</div>
-                      <div class="cart_item_text">Rp {{ product.Product.price * product.count }}</div>
+                      <div class="cart_item_text">Rp {{ countedPrice }}</div>
                   </div>
                   <div class="cart_item_price cart_info_col row align-items-center">
                       <div>
@@ -48,6 +48,31 @@ export default {
   props: ['product'],
   created () {
     this.$store.dispatch('getCarts')
+  },
+  computed: {
+    countedPrice () {
+      const harga = `${this.product.Product.price * this.product.count}`
+      console.log(harga)
+      const reversed = harga.split('').reverse()
+      for (let i = 0; i < reversed.length; i++) {
+        if (i % 4 === 0) {
+          reversed.splice(i, 0, '.')
+        }
+      }
+      reversed.shift()
+      return reversed.reverse().join('')
+    },
+    realPrice () {
+      const harga = `${this.product.Product.price}`
+      const reversed = harga.split('').reverse()
+      for (let i = 0; i < reversed.length; i++) {
+        if (i % 4 === 0) {
+          reversed.splice(i, 0, '.')
+        }
+      }
+      reversed.shift()
+      return reversed.reverse().join('')
+    }
   },
   methods: {
     decrement (id) {

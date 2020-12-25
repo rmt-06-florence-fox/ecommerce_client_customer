@@ -10,16 +10,18 @@
          <div class="row justify-content-center">
              <div class="col-lg-10">
                  <div class="cart_container">
-                     <Banner style="max-height:300px;"/>
-                     <div class="col-12 mt-1" style="background-color: black; color: white; font-size: 16px;">
-                       <ul class="row align-items-center" style="justify-content: space-around;">
-                         <li @click="changeCategory('')">Semua Produk</li>
-                         <li @click="changeCategory('Aksesoris')">Aksesoris</li>
-                         <li @click="changeCategory('Pria')">Pria</li>
-                         <li @click="changeCategory('Wanita')">Wanita</li>
-                       </ul>
-                     </div>
-                     <ProductRow v-for="product in filteredProducts" :key="product.id" :product="product"></ProductRow>
+                      <Banner style="max-height:300px;"/>
+                      <div class="col-12" style="background-color: #e7a52a; color: black; font-size: 16px;">
+                        <ul class="mt-2 mb-3 row" style="text-align: left; justify-content:space-around">
+                          <li class="category" @click="changeCategory('')">Semua Produk</li>
+                          <li class="category" @click="changeCategory('Aksesoris')">Aksesoris</li>
+                          <li class="category" @click="changeCategory('Seragam')">Seragam</li>
+                          <li class="category" @click="changeCategory('Wanita')">Wanita</li>
+                          <li class="category" @click="changeCategory('Localpret')">Sepatu</li>
+                          <li class="category" @click="changeCategory('Teman belajar')">Teman Belajar</li>
+                        </ul>
+                      </div>
+                      <ProductRow v-for="product in filteredProducts" :key="product.id" :product="product"></ProductRow>
                  </div>
              </div>
          </div>
@@ -113,6 +115,19 @@ export default {
 
 li {
   cursor: pointer;
+  font-size: 16px;
+}
+
+.category-header {
+  /* text-align: left; */
+}
+
+.category {
+  margin: 10px;
+}
+
+.category:hover {
+  /* transform: translateY(3px); */
 }
 
 p:hover {

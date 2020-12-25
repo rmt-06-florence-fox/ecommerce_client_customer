@@ -20,7 +20,7 @@
                     </li>
                     <li class="list-group-item">
                       Harga <br>
-                      <small class="text-muted">Rp {{ productDetails.price }}</small>
+                      <small class="text-muted">Rp {{ productPrice }}</small>
                     </li>
                   </ul>
                   <h6 class="mt-3">Jumlah produk dalam keranjang:</h6>
@@ -61,6 +61,20 @@
 // import { mapState } from 'vuex'
 export default {
   name: 'Detail',
+  computed: {
+    productPrice () {
+      const harga = `${this.productDetails.price}`
+      console.log(harga)
+      const reversed = harga.split('').reverse()
+      for (let i = 0; i < reversed.length; i++) {
+        if (i % 4 === 0) {
+          reversed.splice(i, 0, '.')
+        }
+      }
+      reversed.shift()
+      return reversed.reverse().join('')
+    }
+  },
   data () {
     return {
       productDetails: {},
@@ -79,8 +93,15 @@ export default {
       this.sold = true
     },
     updateCart (id) {
-      // console.log(id)
+      this.getProductById()
+      this.getProductById()
+      console.log(id)
       this.$store.dispatch('updateCart', id)
+      console.log('hahahihi')
+      this.getProductById()
+      this.getProductById()
+      this.getProductById()
+      this.getProductById()
       this.getProductById()
     },
     updateStatus () {
@@ -96,10 +117,10 @@ export default {
       }
       this.$store.dispatch('updateProduct', obj)
         .then((response) => {
-          console.log(response)
+          // console.log(response)
           this.updateForm = false
           this.getProductById()
-          // this.$router.push('/products/' + id)
+          // this.$router.push('/products/' + obj.id)
         })
         .catch(err => {
           console.log(err)
@@ -109,7 +130,7 @@ export default {
       const id = this.$route.params.id
       this.$store.dispatch('getProductById', id)
         .then((data) => {
-          console.log(data)
+          // console.log(data)
           const product = data.data.product.Product
           if (product) {
             this.productDetails = product

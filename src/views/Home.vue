@@ -4,12 +4,12 @@
         <div class="circle"></div>
         <div class="content">
             <div class="textBox">
-                <h2>Koperasi <br>STM <span>{{ title }}</span></h2>
-                <p>Memudahkan siswa dalam memenuhi kebutuhan perlengkapan belajar dan atribut sekolahnya selama belajar dari rumah.</p>
+                <h2>STM <span>{{ title }}</span></h2>
+                <p>Merata untuk semua golongan proletar. Semoga kelak naik kasta jadi kapitalis yang hebat!</p>
                 <!-- <router-link to="/login">Login</router-link> -->
             </div>
             <div class="imgBox">
-                <img src="../assets/thumb5.png" class="starbucks">
+                <img src="../assets/shoe.png" class="starbucks">
             </div>
         </div>
         <!-- <ul class="thumb">
@@ -20,7 +20,7 @@
         <ul class="sci">
             <li><a href="#"><img src="../assets/facebook.png"></a></li>
             <li><a href="#"><img src="../assets/twitter.png"></a></li>
-            <li><a href="#"><img src="../assets/instagram.png"></a></li>
+            <li><a href="https://www.instagram.com/pranotoism/"><img src="../assets/instagram.png"></a></li>
         </ul>
     </section>
 </template>
@@ -31,6 +31,9 @@
 
 // import Navbar from '../components/Navbar'
 import { mapState } from 'vuex'
+import Vue from 'vue'
+import { NavbarPlugin } from 'bootstrap-vue'
+Vue.use(NavbarPlugin)
 export default {
   name: 'Home',
   components: {
@@ -56,13 +59,14 @@ section
 {
     z-index: 0;
     position: relative;
-    top: -100px;
+    /* top: -100px; */
     width: 100%;
     min-height: 100vh;
     padding: 100px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    justify-content: center;
     background: #fff;
 }
 
@@ -77,7 +81,7 @@ section
 .content .textBox
 {
     position: relative;
-    max-width: 700px;
+    max-width: 600px;
 }
 .content .textBox h2
 {
@@ -110,18 +114,37 @@ section
 }
 .content .imgBox
 {
-    position: relative;
-    z-index: 1;
+    width: 600px;
     display: flex;
     justify-content: flex-end;
-    right: -5%;
-    margin-bottom: -200px;
+    padding-right: 50px;
+    margin-top: 50px;
+    z-index: 1;
+    /* position: relative; */
+    /* right: -5%; */
+    /* margin-bottom: -200px; */
 }
 .content .imgBox img
 {
-    width: 780px;
-    min-width: 200px;
+    width: 800px;
+    /* min-width: 200px; */
 }
+
+/* @media (max-width:950px) {
+ .content .imgBox {
+    display: none;
+  }
+  .circle {
+      display: none;
+  }
+  .sci img {
+      display: none;
+  }
+  #app {
+      text-align: left;
+  }
+} */
+
 .thumb
 {
     position: absolute;
@@ -150,7 +173,7 @@ section
 {
     position: absolute;
     top: 50%;
-    right: 50px;
+    right: 30px;
     transform: translateY(-50%);
     display: flex;
     justify-content: center;
@@ -177,5 +200,55 @@ section
     height: 100%;
     background: #e7a52a;
     clip-path: circle(600px at right 800px);
+}
+@media (max-width: 950px)
+{
+    header
+    {
+        padding: 20px;
+    }
+    header .logo
+    {
+        max-width: 60px;
+    }
+    header ul li {
+        display: none
+    }
+    section {
+        /* padding: 20px 20px 120px */
+    }
+    .content {
+        flex-direction: column;
+        margin-top: 100px;
+    }
+    .content .textBox h2 {
+        /* color: #333; */
+        font-size:2.5em;
+        margin-bottom: 15px;
+    }
+    .content .textBox h3 {
+        max-width: 100%
+    }
+    .content .imgBox {
+        max-width: 100%;
+        justify-content: center;
+    }
+    .content .imgBox img {
+        display: none;
+        /* position: relative;
+        max-width: 350px; */
+        /* top: 50px; */
+    }
+    .circle {
+    clip-path: circle(300px at bottom);
+    }
+    .sci {
+        background: #e7a52a;
+        /* top:35%; */
+        right: 0;
+        width: 40px;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+    }
 }
 </style>
