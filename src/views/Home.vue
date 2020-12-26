@@ -8,8 +8,7 @@
             v-for="banner in activebanner"
             :key="banner.id"
             :style="'background-image: url('+ banner.image_url +')'"
-            >
-            </slide>
+            />
           </carousel>
           <b-skeleton-img no-aspect height="50vh" v-else></b-skeleton-img>
         </div>
@@ -33,13 +32,15 @@
         <div class="col-sm-10">
             <h3 class="text-success">Products</h3>
             <hr>
-          <b-card-group columns class="text-center" v-if="filteredProduct">
-            <CardProduct
-            v-for="product in filteredProduct"
-            :key="product.id"
-            :product="product"
-            />
-          </b-card-group>
+          <div class="container" v-if="filteredProduct">
+            <div class="row">
+              <CardProduct
+              v-for="product in filteredProduct"
+              :key="product.id"
+              :product="product"
+              />
+            </div>
+          </div>
           <b-skeleton-img v-else no-aspect height="150px"></b-skeleton-img>
         </div>
       </div>

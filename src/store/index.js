@@ -375,6 +375,36 @@ export default new Vuex.Store({
           text: err.response.data.message
         })
       })
+    },
+    GOOGLELOGIN (context, payload) {
+      const token = payload.token
+      axios({
+        method: 'post',
+        url: '/login/google',
+        data: {
+          google_token: token
+        }
+      }).then(({ data }) => {
+        Vue.swal({
+          icon: 'success',
+          title: 'Success Logging In',
+          showConfirmButton: false,
+          timer: 1500
+        })
+        localStorage.setItem('access_token', data.access_token)
+        context.dispatch('GETUSER')
+        context.dispatch('GETWISHLISTS')
+        context.dispatch('GETHISTORY')
+        context.dispatch('GETCART')
+        context.commit('FILTERINGCATEGORIES', [])
+        router.push('/').catch(() => { })
+      }).catch(err => {
+        Vue.swal({
+          icon: 'error',
+          title: 'Oops...',
+          text: err.response.data.message
+        })
+      })
     }
   },
   modules: {

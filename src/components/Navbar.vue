@@ -24,7 +24,8 @@
             </template>
             <b-dropdown-item class="navbar-eco" @click="toWishlist">Wishlist</b-dropdown-item>
             <b-dropdown-item class="navbar-eco" @click="toHistory">History Transaction</b-dropdown-item>
-            <b-dropdown-item class="navbar-eco" @click="logout">Sign Out</b-dropdown-item>
+            <!-- <b-dropdown-item class="navbar-eco" @click="logout">Sign Out</b-dropdown-item> -->
+            <b-dropdown-item class="navbar-eco" @click="logout"><GoogleLogin class="btn p-0" :params="params" :logoutButton=true>Logout</GoogleLogin></b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
       </b-collapse>
@@ -33,9 +34,20 @@
 </template>
 
 <script>
-
+import GoogleLogin from 'vue-google-login'
 export default {
   name: 'Navbar',
+  components: {
+    GoogleLogin
+  },
+  data () {
+    return {
+      // client_id is the only required property but you can add several more params, full list down bellow on the Auth api section
+      params: {
+        client_id: '1067495165024-hh81b6hotacbg58epk8kfk4ahg9oa09e.apps.googleusercontent.com'
+      }
+    }
+  },
   computed: {
     profile () {
       return this.$store.state.profile
@@ -61,9 +73,15 @@ export default {
       this.$router.push({ name: 'History' }).catch(() => { })
     },
     logout () {
+      this.$swal({
+        icon: 'success',
+        title: 'Success Logging Out',
+        showConfirmButton: false,
+        timer: 1500
+      })
       localStorage.removeItem('access_token')
       this.$store.commit('GETUSER', null)
-      if (this.$route.name === 'History' || this.$route.name === 'Wishlist') {
+      if (this.$route.name === 'History' || this.$route.name === 'Wishlist' || this.$route.name === 'Cart') {
         this.$router.push('/').catch(() => { })
       }
     }

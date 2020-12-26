@@ -22,8 +22,9 @@
 
           <input type="submit" class="btn btn-success" value="Register">
         </form>
-        <!-- <hr> -->
-        <!-- Register Using Google -->
+        <hr>
+        Login Using <br>
+        <GoogleLogin :params="params" class="btn btn-success mt-1" :onSuccess="onSuccess"><i class="fab fa-google text-white"></i></GoogleLogin>
       </div>
       <div class="col-sm-4"></div>
     </div>
@@ -32,13 +33,21 @@
 
 <script>
 import axios from '../config/axios'
+import GoogleLogin from 'vue-google-login'
 export default {
   name: 'Register',
   data () {
     return {
       email: '',
-      password: ''
+      password: '',
+      // client_id is the only required property but you can add several more params, full list down bellow on the Auth api section
+      params: {
+        client_id: '1067495165024-hh81b6hotacbg58epk8kfk4ahg9oa09e.apps.googleusercontent.com'
+      }
     }
+  },
+  components: {
+    GoogleLogin
   },
   methods: {
     register () {
@@ -64,6 +73,10 @@ export default {
           text: err.response.data.message
         })
       })
+    },
+    onSuccess (googleUser) {
+      const token = googleUser.getAuthResponse().id_token
+      this.$store.dispatch('GOOGLELOGIN', { token })
     }
   }
 }

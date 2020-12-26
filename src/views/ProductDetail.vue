@@ -26,14 +26,15 @@
         <hr>
         <h3 class="text-success">Similar Products</h3>
         <hr>
-          <b-card-group columns
-          class="text-center" v-if="similarProduct">
-            <CardProduct
+          <div class="container" v-if="similarProduct">
+            <div class="row">
+              <CardProduct
             v-for="similar in similarProduct"
             :key="similar.id"
             :product="similar"
             />
-          </b-card-group>
+            </div>
+          </div>
           <b-skeleton-img v-else no-aspect height="150px"></b-skeleton-img>
       </div>
     </div>
