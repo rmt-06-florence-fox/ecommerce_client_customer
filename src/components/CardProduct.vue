@@ -1,23 +1,25 @@
 <template>
-    <b-card
-      :title="product.name"
-      :img-src="product.image_url"
-      img-alt="Image"
-      img-top
-      style="max-width: 100vw;"
-      class="mb-2 shadow-sm"
-    >
-    <hr>
-      <b-card-text>
-        Price Rp. {{ price }},-<br>
-        Stock {{ stock }} pcs<br>
-        Category {{ product.Category.name}}
-      </b-card-text>
+    <div class="col-4 text-center">
+      <b-card
+        :title="product.name"
+        :img-src="product.image_url"
+        img-alt="Image"
+        img-top
+        style="max-width: 100vw;"
+        class="mb-2 shadow-sm"
+      >
       <hr>
-      <button class="btn ml-md-2 mb-1 btn-outline-success" @click="detail">Product Detail</button>
-      <button class="btn ml-2 mb-1 btn-outline-danger" style="back" v-if="profile" @click="addwishlist">Add To Wishlist</button>
-      <button class="btn btn-outline-info ml-2 mb-1" v-if="profile && product.stock > 0" @click="addtocart">Add To Cart</button>
-    </b-card>
+        <b-card-text>
+          Price Rp. {{ price }},-<br>
+          Stock {{ stock }} pcs<br>
+          Category {{ product.Category.name}}
+        </b-card-text>
+        <hr>
+        <button class="btn ml-md-2 mb-1 btn-outline-success" @click="detail">Product Detail</button>
+        <button class="btn ml-2 mb-1 btn-outline-danger" style="back" v-if="profile" @click="addwishlist">Add To Wishlist</button>
+        <button class="btn btn-outline-info ml-2 mb-1" v-if="profile && product.stock > 0" @click="addtocart">Add To Cart</button>
+      </b-card>
+    </div>
 </template>
 
 <script>
